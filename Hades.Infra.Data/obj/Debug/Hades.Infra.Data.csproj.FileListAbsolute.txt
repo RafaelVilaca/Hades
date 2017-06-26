@@ -1,0 +1,12 @@
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\Hades.Infra.Data.dll.config
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\Hades.Infra.Data.dll
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\Hades.Infra.Data.pdb
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\EntityFramework.dll
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\Hades.Domain.dll
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\Hades.Domain.pdb
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\EntityFramework.xml
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\obj\Debug\Hades.Infra.Data.csprojResolveAssemblyReference.cache
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\obj\Debug\Hades.Infra.Data.dll
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Infra.Data\obj\Debug\Hades.Infra.Data.pdb

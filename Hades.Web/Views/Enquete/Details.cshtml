@@ -1,0 +1,51 @@
+﻿@model Hades.Web.ViewModels.EnqueteViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalhes</h2>
+
+<div>
+    <h4>Enquete</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Assunto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Assunto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataEnquete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataEnquete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

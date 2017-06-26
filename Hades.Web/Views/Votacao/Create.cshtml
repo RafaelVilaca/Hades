@@ -1,0 +1,53 @@
+﻿@model Hades.Web.ViewModels.VotacaoViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Votação</h2>
+
+@using (Html.BeginForm("CreateConfirmed", "Votacao")) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div>Lista de Enquetes</div>
+        <div class="col-lg-10 col-md-10">
+            @Html.DropDownList("listaEnquetes", Model.Bunda)
+        </div>
+    </div>
+
+    <div class="form-horizontal">
+        <h4>Votacao</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Justificativa, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Justificativa, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Justificativa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoVoto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.TipoVoto)
+                    @Html.ValidationMessageFor(model => model.TipoVoto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Votar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

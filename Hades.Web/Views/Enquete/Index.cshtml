@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Hades.Web.ViewModels.EnqueteViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Enquetes</h2>
+
+@Html.ActionLink("Nova Enquete", "Create", null, new { @class = "btn btn-success" })
+
+<table class="striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assunto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataEnquete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var enquete in Model)
+    {
+        <tr @(enquete.Ativo == false ? "style=color:#f00" : "")>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.Assunto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.DataEnquete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = enquete.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = enquete.Id }) |
+                @if (@enquete.Ativo == false)
+                {
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                    @Html.ActionLink("Desativar", "DesativarEnquete", new { id = @enquete.Id }, new { onclick = "javascript: return confirm('Deseja realmente Desativar esta Enquete?')" })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

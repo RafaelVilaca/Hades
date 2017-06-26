@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Hades.Web.ViewModels.UsuarioViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Usuarios</h2>
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new { @class = "col s12" }))
+    {
+        <div class="row">
+            <div class="input-field col s6">
+                <input placeholder="Placeholder" id="first_name" type="text" class="validate" maxlength="50">
+                <label for="first_name" class="active">Nome Usuário</label>
+            </div>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit" name="action">
+            Pesquisar
+            <i class="material-icons right">send</i>
+        </button>
+    }
+</div>
+
+
+
+@Html.ActionLink("Novo Usuário", "Create", null, new { @class = "btn btn-success" })
+<table class="striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Administrador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var usuario in Model)
+    {
+        <tr @(usuario.Ativo == false ? "style=color:#f00" : "")>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.DataCadastro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.Administrador)
+            </td>
+            @if (@usuario.Ativo)
+            {
+                <td>Sim</td>
+            }
+            else
+            {
+                <td>Não</td>
+            }
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = usuario.Id }) |
+                @Html.ActionLink("Detalhes", "Details", new { id = usuario.Id }) |
+                @if (@usuario.Ativo == false)
+                {
+                    <span class="glyphicon glyphicon-ok-sign"></span>
+                    @Html.ActionLink("Ativar", "AtivarUsuario", new { id = @usuario.Id }, new { onclick = "javascript: return confirm('Deseja realmente Ativar este Usuário?')" })
+                }
+                else
+                {
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                    @Html.ActionLink("Desativar", "DesativarUsuario", new { id = @usuario.Id }, new { onclick = "javascript: return confirm('Deseja realmente Desativar este Usuário?')" })
+                }
+            </td>
+        </tr>
+    }
+</table>
