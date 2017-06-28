@@ -54,7 +54,7 @@ namespace Hades.WebApi.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("sorteio")]
         public IHttpActionResult Put(Sorteio sorteio)
         {

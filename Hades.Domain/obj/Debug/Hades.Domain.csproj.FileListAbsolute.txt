@@ -2,3 +2,4 @@ C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Domain\bin\Debug\Hades.Domain.d
 C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Domain\bin\Debug\Hades.Domain.pdb
 C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Domain\obj\Debug\Hades.Domain.dll
 C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Domain\obj\Debug\Hades.Domain.pdb
+C:\Users\usuario\Desktop\ENG-Sistema\Hades\Hades.Domain\obj\Debug\Hades.Domain.csprojResolveAssemblyReference.cache

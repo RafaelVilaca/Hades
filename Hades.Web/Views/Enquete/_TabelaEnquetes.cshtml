@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Hades.Web.ViewModels.EnqueteViewModel>
+
+@{
+    Layout = null;
+}
+
+<table class="striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assunto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataEnquete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var enquete in Model)
+    {
+        <tr @(enquete.Ativo == false ? "style=color:#f00" : "")>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.Assunto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.DataEnquete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => enquete.Ativo)
+            </td>
+            <td style="padding: 0">
+                <div style="float: right">
+                    <ul>
+                        <li>
+                            <a class="btn-floating red"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
+                            <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@enquete.Id')">description</i></a>
+                            <a class="btn-floating green"><i class="material-icons" onclick="deletar('@enquete.Id')">delete</i></a>
+                            <a class="btn-floating green"><i class="material-icons" onclick="votar('@enquete.Id')">note_add</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

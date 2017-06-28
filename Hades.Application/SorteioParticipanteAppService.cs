@@ -22,7 +22,7 @@ namespace Hades.Application
 
         public HttpResponseMessage GetAll(int id)
         {
-            return _httpClient.GetAsync("http://localhost:10000/api/sorteioParticipante").Result;
+            return _httpClient.GetAsync("http://localhost:10000/api/sorteioParticipante?id="+id).Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

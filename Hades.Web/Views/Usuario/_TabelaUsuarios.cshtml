@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Hades.Web.ViewModels.UsuarioViewModel>
+
+@{
+    Layout = null;
+}
+
+<table class="striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Administrador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var usuario in Model)
+    {
+        <tr @(usuario.Ativo == false ? "style=color:#f00" : "")>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.DataCadastro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => usuario.Administrador)
+            </td>
+            @if (@usuario.Ativo)
+                {
+                <td>Sim</td>
+            }
+            else
+            {
+                <td>Não</td>
+            }
+            <td style="padding: 0">
+                <div style="float: right">
+                    <ul>
+                        <li>
+                            <a class="btn-floating red"><i class="material-icons" onclick="editar('@usuario.Id')">mode_edit</i></a>
+                            <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@usuario.Id')">description</i></a>
+                            @if (@usuario.Ativo == false)
+                            {
+                                <a class="btn-floating green"><i class="material-icons" onclick="ativar('@usuario.Id')">perm_identity</i></a>
+                            }
+                            else
+                            {
+                                <a class="btn-floating red"><i class="material-icons" onclick="desativar('@usuario.Id')">perm_identity</i></a>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

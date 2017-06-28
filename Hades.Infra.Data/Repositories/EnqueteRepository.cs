@@ -32,7 +32,7 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@Id", id);
             using (var r = ExecuteReader())
                 if (r.Read())
-                    return new Enquete()
+                    return new Enquete
                     {
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
                         Assunto = r.GetString(r.GetOrdinal("Assunto")),
@@ -40,6 +40,7 @@ namespace Hades.Infra.Data.Repositories
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
                         Usuario = new Usuario { Nome = r.GetString(r.GetOrdinal("Nome")) }
                     };
+
             return null;
         }
 

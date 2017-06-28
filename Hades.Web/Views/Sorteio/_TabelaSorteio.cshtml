@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Hades.Web.ViewModels.SorteioViewModel>
+
+@{
+    Layout = null;
+}
+
+<table class="table striped bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QtdParticipantes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var sorteio in Model)
+        {
+            <tr>
+                <td style="padding: 0">
+                    @Html.DisplayFor(modelItem => sorteio.Nome)
+                </td>
+                <td style="color: grey">
+                    @Html.DisplayFor(modelItem => sorteio.QtdParticipantes)
+                </td>
+                <td style="padding: 0">
+                    <div style="float: right">
+                        <ul>
+                            <li>
+                                <a class="btn-floating red"><i class="material-icons" onclick="editar('@sorteio.Id')">mode_edit</i></a>
+                                <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@sorteio.Id')">description</i></a>
+                                <a class="btn-floating green"><i class="material-icons" onclick="deletar('@sorteio.Id')">delete</i></a>
+                                <a class="btn-floating blue"><i class="material-icons" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

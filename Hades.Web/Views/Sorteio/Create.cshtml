@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<h2>Create</h2>
+<h3>Novo Sorteio </h3>
 
 
 @using (Html.BeginForm("CreateConfirmed", "Sorteio", FormMethod.Post, new { @class = "well" })) 
@@ -13,7 +13,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>SorteioViewModel</h4>
+        <h4>Sorteio</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -26,12 +26,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Criar" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
+<br/>
 <div>
     @Html.ActionLink("Voltar", "Index")
 </div>

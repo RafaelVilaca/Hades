@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public Usuario Usuario { get; set; }
         public Sorteio Sorteio { get; set; }
+        public string NomeUsuario { get; set; }
 
         public SorteioParticipante()
         {

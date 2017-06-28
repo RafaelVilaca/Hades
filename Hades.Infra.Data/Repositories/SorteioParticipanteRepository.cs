@@ -26,13 +26,13 @@ namespace Hades.Infra.Data.Repositories
         public IEnumerable<SorteioParticipante> GetAll(int id)
         {
             ExecuteProcedure(Procedures.sp_GetParticipantes);
+            AddParameter("@Id", id);
             var sorteios = new List<SorteioParticipante>();
             using (var r = ExecuteReader())
                 while (r.Read())
                     sorteios.Add(new SorteioParticipante
                     {
-                        Usuario = new Usuario { Nome = r.GetString(r.GetOrdinal("NomeUsuario")) },
-                        Sorteio = new Sorteio { Nome = r.GetString(r.GetOrdinal("NomeSorteio")) }
+                        NomeUsuario = r.GetString(r.GetOrdinal("NomeUsuario"))
                     });
             return sorteios;
         }

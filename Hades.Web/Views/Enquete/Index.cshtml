@@ -5,52 +5,71 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lista de Enquetes</h2>
+<div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
+    <h3>Lista de Enquetes</h3>
 
-@Html.ActionLink("Nova Enquete", "Create", null, new { @class = "btn btn-success" })
+    <div id="Acoes" style="border-style: inset; padding: 2%;" ></div>
 
-<table class="striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Assunto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataEnquete)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        <ul>
+            <li>
+                <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
+            </li>
+        </ul>
+    </p>
 
-    @foreach (var enquete in Model)
-    {
-        <tr @(enquete.Ativo == false ? "style=color:#f00" : "")>
-            <td>
-                @Html.DisplayFor(modelItem => enquete.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => enquete.Assunto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => enquete.DataEnquete)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => enquete.Ativo)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = enquete.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = enquete.Id }) |
-                @if (@enquete.Ativo == false)
-                {
-                    <span class="glyphicon glyphicon-remove-sign"></span>
-                    @Html.ActionLink("Desativar", "DesativarEnquete", new { id = @enquete.Id }, new { onclick = "javascript: return confirm('Deseja realmente Desativar esta Enquete?')" })
-                }
-            </td>
-        </tr>
+    <div id="tabela">
+        @Html.Partial("_TabelaEnquetes", Model)
+    </div>
+</div>
+
+<script>
+    var urlsSorteio = {
+        Edit: '@Url.Action("Edit", "Enquete")',
+        Details: '@Url.Action("Details", "Enquete")',
+        Delete: '@Url.Action("DesativarEnquete", "Enquete")',
+        Create: '@Url.Action("Create", "Enquete")'
+        Votar: '@Url.Action("", "Enquete")'
     }
 
-</table>
+    function criar() {
+        $.post(urlsSorteio.Create)
+            .done(function (data) {
+                $("#Acoes").html(data);
+            }).fail(function (xhr) {
+                $("#Acoes").html(xhr.responseText);
+            });
+    };
+
+    function editar(id) {
+        $.post(urlsSorteio.Edit, {
+            id: id
+        }).done(function (data) {
+            $("#Acoes").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function detalhar(id) {
+        $.get(urlsSorteio.Details, {
+            id: id
+        }).done(function (data) {
+            $("#Acoes").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function deletar(id) {
+        if (!confirm("Deseja realmente Excluir essa Enquete?")) return;
+
+        $.get(urlsSorteio.Delete, {
+            id: id
+        }).done(function (data) {
+            $("#tabela").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+</script>

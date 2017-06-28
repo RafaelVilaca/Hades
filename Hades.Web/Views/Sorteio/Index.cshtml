@@ -1,34 +1,89 @@
-﻿@model IEnumerable<Hades.Domain.Entities.Sorteio>
+﻿@model IEnumerable<Hades.Web.ViewModels.SorteioViewModel>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lista de Sorteios</h2>
+<div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
+    <h3>Lista de Sorteios</h3>
 
-<p>
-    @Html.ActionLink("Nono Sorteio", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th></th>
-    </tr>
+    <div id="Acoes" style="border-style: inset; padding: 2%; font-size: x-large;"></div>
 
-@foreach (var sorteio in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => sorteio.Nome)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=sorteio.Id }) |
-            @Html.ActionLink("Detalhes", "Details", new { id=sorteio.Id }) |
-            @Html.ActionLink("Deletar", "Delete", new { id=sorteio.Id }, new { onclick = "javascript: return confirm('Deseja realmente Excluir esse sorteio?')" }) 
-        </td>
-    </tr>
-}
+    <p>
+        <ul>
+            <li>
+                <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
+            </li>
+        </ul>
+    </p>
 
-</table>
+    <div id="tabela">
+        @Html.Partial("_TabelaSorteio", Model)
+    </div>
+</div>
+
+<script>
+
+    var urlsSorteio = {
+        Edit: '@Url.Action("Edit", "Sorteio")',
+        Details: '@Url.Action("Details", "Sorteio")',
+        Delete: '@Url.Action("Delete", "Sorteio")',
+        Drawlots: '@Url.Action("Drawlots", "Sorteio")',
+        Create: '@Url.Action("Create", "Sorteio")'
+    }
+
+    function criar() {
+        $.post(urlsSorteio.Create)
+            .done(function (data) {
+                $("#Acoes").html(data);
+            }).fail(function (xhr) {
+                $("#Acoes").html(xhr.responseText);
+            });
+    };
+
+    function editar(id) {
+        $.post(urlsSorteio.Edit, {
+            id: id
+        }).done(function (data) {
+            $("#Acoes").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function detalhar(id) {
+        $.get(urlsSorteio.Details, {
+            id: id
+        }).done(function (data) {
+            $("#Acoes").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function deletar(id) {
+        if (!confirm("Deseja realmente Excluir esse sorteio?")) return;
+
+        $.get(urlsSorteio.Delete, {
+            id: id
+        }).done(function (data) {
+            $("#tabela").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function sortear(id) {
+        debugger;
+        $.get(urlsSorteio.Drawlots, {
+            id: id
+        }).done(function (data) {
+            debugger;
+            $("#Acoes").html(data.message);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+</script>

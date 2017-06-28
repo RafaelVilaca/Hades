@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using Hades.Application.Interface;
 using Hades.Domain.Entities;
+using Hades.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Hades.Web.Controllers
 {
@@ -37,18 +39,21 @@ namespace Hades.Web.Controllers
         // GET: Votacao/Edit/5
         public ActionResult Edit(int id)
         {
+            var response = _votacaoAppService.GetById(id);
+            if (!response.IsSuccessStatusCode)
+                return View("Error");
+            var votacao = JsonConvert.DeserializeObject<VotacaoViewModel>(response.Content.ReadAsStringAsync().Result);
             return View();
         }
 
         // POST: Votacao/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Votacao votacao)
         {
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                _votacaoAppService.Put(votacao);
+                return RedirectToAction("Index", "Sorteio");
             }
             catch
             {

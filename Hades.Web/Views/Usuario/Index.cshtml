@@ -5,84 +5,98 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Usuarios</h2>
+<div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
 
-<div class="row">
-    @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new { @class = "col s12" }))
-    {
-        <div class="row">
-            <div class="input-field col s6">
-                <input placeholder="Placeholder" id="first_name" type="text" class="validate" maxlength="50">
-                <label for="first_name" class="active">Nome Usuário</label>
+    <h3>Usuarios</h3>
+
+    <div id="Acoes" style="border-style: inset; padding: 2%; font-size: x-large;"></div>
+
+    <div class="row">
+        @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new { @class = "col s12" }))
+        {
+            <div class="row">
+                <div class="input-field col s6">
+                    <input placeholder="Placeholder" id="first_name" type="text" class="validate" maxlength="50">
+                    <label for="first_name" class="active">Nome Usuário</label>
+                </div>
             </div>
-        </div>
-        <button class="btn waves-effect waves-light" type="submit" name="action">
-            Pesquisar
-            <i class="material-icons right">send</i>
-        </button>
-    }
+            <button class="btn waves-effect waves-light" type="submit" name="action">Pesquisar<i class="material-icons right">send</i></button>
+        }
+    </div>
+
+    <p>
+        <ul>
+            <li>
+                <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
+            </li>
+        </ul>
+    </p>
+    <div id="tabela">
+        @Html.Partial("_TabelaUsuarios", Model)
+    </div>
 </div>
 
+<script>
 
-
-@Html.ActionLink("Novo Usuário", "Create", null, new { @class = "btn btn-success" })
-<table class="striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nome)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataCadastro)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Administrador)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var usuario in Model)
-    {
-        <tr @(usuario.Ativo == false ? "style=color:#f00" : "")>
-            <td>
-                @Html.DisplayFor(modelItem => usuario.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => usuario.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => usuario.DataCadastro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => usuario.Administrador)
-            </td>
-            @if (@usuario.Ativo)
-            {
-                <td>Sim</td>
-            }
-            else
-            {
-                <td>Não</td>
-            }
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = usuario.Id }) |
-                @Html.ActionLink("Detalhes", "Details", new { id = usuario.Id }) |
-                @if (@usuario.Ativo == false)
-                {
-                    <span class="glyphicon glyphicon-ok-sign"></span>
-                    @Html.ActionLink("Ativar", "AtivarUsuario", new { id = @usuario.Id }, new { onclick = "javascript: return confirm('Deseja realmente Ativar este Usuário?')" })
-                }
-                else
-                {
-                    <span class="glyphicon glyphicon-remove-sign"></span>
-                    @Html.ActionLink("Desativar", "DesativarUsuario", new { id = @usuario.Id }, new { onclick = "javascript: return confirm('Deseja realmente Desativar este Usuário?')" })
-                }
-            </td>
-        </tr>
+    var urlsSorteio = {
+        Edit: '@Url.Action("Edit", "Usuario")',
+        Details: '@Url.Action("Details", "Usuario")',
+        Ativar: '@Url.Action("AtivarUsuario", "Usuario")',
+        Desativar: '@Url.Action("DesativarUsuario", "Usuario")',
+        Create: '@Url.Action("Create", "Usuario")'
     }
-</table>
+
+    function criar() {
+        $.post(urlsSorteio.Create)
+            .done(function (data) {
+                $("#Acoes").html(data);
+            }).fail(function (xhr) {
+                $("#Acoes").html(xhr.responseText);
+            });
+    };
+
+    function editar(id) {
+        $.post(urlsSorteio.Edit, {
+            id: id
+        }).done(function (data) {
+            $("#Acoes").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function detalhar(id) {
+        $.get(urlsSorteio.Details, {
+            id: id
+        }).done(function (data) {
+            $("#Acoes").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function desativar(id) {
+        if (!confirm("Deseja realmente Desativar esse Usuario?")) return;
+
+        $.get(urlsSorteio.Delete, {
+            id: id
+        }).done(function (data) {
+            $("#tabela").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function ativar(id) {
+        if (!confirm("Deseja realmente Ativar esse Usuario?")) return;
+
+        $.get(urlsSorteio.Delete, {
+            id: id
+        }).done(function (data) {
+            $("#tabela").html(data);
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+</script>

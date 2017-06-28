@@ -9,6 +9,6 @@ namespace Hades.Application.Interface
         HttpResponseMessage GetById(int id);
         HttpResponseMessage GetAll();
         HttpResponseMessage Put(Sorteio sorteio);
-        void Delete(int id);
+        HttpResponseMessage Delete(int id);
     }
 }

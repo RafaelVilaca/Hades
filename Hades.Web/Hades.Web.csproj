@@ -173,6 +173,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorContainer.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EnqueteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SorteioController.cs" />
@@ -198,6 +199,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\black-background-red-color-paint-explosion-burst.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -241,10 +243,13 @@
     <Content Include="Views\Sorteio\Edit.cshtml" />
     <Content Include="Views\Sorteio\Create.cshtml" />
     <Content Include="Views\Votacao\Create.cshtml" />
+    <Content Include="Views\Sorteio\_TabelaSorteio.cshtml" />
+    <Content Include="Views\Enquete\_TabelaEnquetes.cshtml" />
+    <Content Include="Views\Usuario\_TabelaUsuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SorteioParticipantes\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

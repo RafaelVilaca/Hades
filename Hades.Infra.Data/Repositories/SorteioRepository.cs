@@ -41,7 +41,9 @@ namespace Hades.Infra.Data.Repositories
                 while (r.Read())
                     sorteios.Add(new Sorteio
                     {
-                        Nome = r.GetString(r.GetOrdinal("Nome"))
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
+                        Nome = r.GetString(r.GetOrdinal("Nome")),
+                        QtdParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes"))
                     });
             return sorteios;
         }

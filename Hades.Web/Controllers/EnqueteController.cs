@@ -10,10 +10,12 @@ namespace Hades.Web.Controllers
     public class EnqueteController : Controller
     {
         private readonly IEnqueteAppService _enqueteAppService;
+        private readonly IVotacaoAppService _votacaoAppService;
 
-        public EnqueteController(IEnqueteAppService enqueteAppService)
+        public EnqueteController(IEnqueteAppService enqueteAppService, IVotacaoAppService votacaoAppService)
         {
             _enqueteAppService = enqueteAppService;
+            _votacaoAppService = votacaoAppService;
         }
 
         // GET: Enquete
@@ -102,6 +104,12 @@ namespace Hades.Web.Controllers
                 return RedirectToAction("Index");
 
             return View("Error");
+        }
+
+        public ActionResult Votar()
+        {
+
+            return View("");
         }
     }
 }

@@ -35,9 +35,9 @@ namespace Hades.Application
             return _httpClient.PutAsync("http://localhost:10000/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
         }
 
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
-            _httpClient.DeleteAsync($"http://localhost:10000/api/sorteio/{id}");
+           return _httpClient.DeleteAsync($"http://localhost:10000/api/sorteio/{id}").Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter
