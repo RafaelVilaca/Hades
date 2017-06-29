@@ -15,11 +15,6 @@ namespace Hades.Application
             _httpClient = new HttpClient();
         }
 
-        public HttpResponseMessage Put(Votacao votacao)
-        {
-            return _httpClient.PutAsync("http://localhost:10000/api/votacao", votacao, JsonMediaTypeFormatter).Result;
-        }
-
         public HttpResponseMessage Post(Votacao votacao)
         {
             return _httpClient.PostAsync("http://localhost:10000/api/votacao", votacao, JsonMediaTypeFormatter).Result;

@@ -13,21 +13,12 @@ namespace Hades.Domain.Services
             _votacaoRepository = votacaoRepository;
         }
 
-        public string Put(Votacao votacao)
-        {
-            if (votacao.IsValid() != 0)
-                return "Em caso de voto contra, a Justificativa é obrigatório ter de 10 à 200 caracteres";
-
-            _votacaoRepository.Post(votacao);
-            return string.Empty;
-        }
-
         public string Post(Votacao votacao)
         {
             if (votacao.IsValid() != 0)
                 return "Em caso de voto contra, a Justificativa é obrigatório ter de 10 à 200 caracteres";
 
-            _votacaoRepository.Put(votacao);
+            _votacaoRepository.Post(votacao);
             return string.Empty;
         }
     }

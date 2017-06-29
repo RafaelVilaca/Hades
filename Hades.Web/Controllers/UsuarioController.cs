@@ -7,7 +7,7 @@ using Hades.Domain.Entities;
 
 namespace Hades.Web.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuarioController : BaseController
     {
         private readonly IUsuarioAppService _usuarioAppService;
 
@@ -19,13 +19,7 @@ namespace Hades.Web.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
-            var usuarioViewModel = _usuarioAppService.GetAll();
-            if (!usuarioViewModel.IsSuccessStatusCode)
-                return View("Error");
-            var usuarios = 
-                JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
-            
-            return View(usuarios);
+            return View();
         }
 
         // GET: Usuario/Details/5
@@ -47,17 +41,12 @@ namespace Hades.Web.Controllers
         }
 
         // POST: Usuario/Create
-        [HttpPost]
         public ActionResult CreateConfirmed(Usuario usuario)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    _usuarioAppService.Post(usuario);
-                    return RedirectToAction("Index");
-                }
-                return View("Error");
+                _usuarioAppService.Post(usuario);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -75,17 +64,25 @@ namespace Hades.Web.Controllers
             return View(usuario);
         }
 
+        public ActionResult BuscaGridUsuario()
+        {
+            var usuarioViewModel = _usuarioAppService.GetAll();
+            if (!usuarioViewModel.IsSuccessStatusCode)
+                return View("Error");
+            var usuarios =
+                JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
+
+            return View("_TabelaUsuarios", usuarios);
+        }
+
         // POST: Usuario/Edit/5
-        [HttpPut]
         public ActionResult EditConfirmed(Usuario usuario)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    _usuarioAppService.Put(usuario);
-                    return RedirectToAction("Index");
-                }
+                var response = _usuarioAppService.Put(usuario);
+                if (response.IsSuccessStatusCode)
+                    return Json("OK", JsonRequestBehavior.AllowGet);
                 return View("Error");
             }
             catch
@@ -96,13 +93,17 @@ namespace Hades.Web.Controllers
 
         public ActionResult AtivarUsuario(int id)
         {
-            _usuarioAppService.StatusUsuario(id, true);
+            var response = _usuarioAppService.StatusUsuario(id, true);
+            if (!response.IsSuccessStatusCode)
+                return View("Error");
             return RedirectToAction("Index");
         }
 
         public ActionResult DesativarUsuario(int id)
         {
-            _usuarioAppService.StatusUsuario(id, false);
+            var response = _usuarioAppService.StatusUsuario(id, false);
+            if (!response.IsSuccessStatusCode)
+                return View("Error");
             return RedirectToAction("Index");
         }
     }

@@ -26,7 +26,7 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("usuario/{id}")]
+        [Route("usuario")]
         // GET: api/UsuarioApi/5
         public IHttpActionResult GetById(int id)
         {

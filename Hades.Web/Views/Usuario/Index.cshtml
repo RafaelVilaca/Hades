@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Hades.Web.ViewModels.UsuarioViewModel>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,31 +6,31 @@
 <div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
 
     <h3>Usuarios</h3>
-
     <div id="Acoes" style="border-style: inset; padding: 2%; font-size: x-large;"></div>
-
-    <div class="row">
-        @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new { @class = "col s12" }))
-        {
-            <div class="row">
-                <div class="input-field col s6">
-                    <input placeholder="Placeholder" id="first_name" type="text" class="validate" maxlength="50">
-                    <label for="first_name" class="active">Nome Usuário</label>
-                </div>
-            </div>
-            <button class="btn waves-effect waves-light" type="submit" name="action">Pesquisar<i class="material-icons right">send</i></button>
-        }
-    </div>
-
-    <p>
-        <ul>
-            <li>
-                <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
-            </li>
-        </ul>
-    </p>
     <div id="tabela">
-        @Html.Partial("_TabelaUsuarios", Model)
+        <div class="row">
+            @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new { @class = "col s12" }))
+            {
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="NomeUsuario" type="text" class="validate" maxlength="50">
+                        <label for="NomeUsuario" class="active">Nome Usuário</label>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Pesquisar<i class="material-icons right">send</i></button>
+            }
+        </div>
+        <p>
+            <ul>
+                <li>
+                    <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
+                </li>
+            </ul>
+        </p>
+
+        <div id="divContentUsuario" >
+
+        </div>
     </div>
 </div>
 
@@ -43,23 +41,43 @@
         Details: '@Url.Action("Details", "Usuario")',
         Ativar: '@Url.Action("AtivarUsuario", "Usuario")',
         Desativar: '@Url.Action("DesativarUsuario", "Usuario")',
-        Create: '@Url.Action("Create", "Usuario")'
+        Create: '@Url.Action("Create", "Usuario")',
+        BuscaTabelaUsuario: '@Url.Action("BuscaGridUsuario", "Usuario")'
     }
+
+
 
     function criar() {
         $.post(urlsSorteio.Create)
             .done(function (data) {
+                $("#tabela").hide();
+                $("#Acoes").show();
                 $("#Acoes").html(data);
             }).fail(function (xhr) {
                 $("#Acoes").html(xhr.responseText);
             });
     };
 
+    function buscaTabelaUsuario() {
+        $.get(urlsSorteio.BuscaTabelaUsuario)
+            .done(function (data) {
+                $("#divContentUsuario").slideUp(100, function () {
+                    $("#divContentUsuario").html(data).slideDown(200);
+                });
+            }).fail(function (xhr) {
+                $("#Acoes").html(xhr.responseText);
+            });
+    };
+
+    buscaTabelaUsuario();
+
     function editar(id) {
         $.post(urlsSorteio.Edit, {
             id: id
         }).done(function (data) {
-            $("#Acoes").html(data);
+            $("#divContentUsuario").fadeOut(100, function () {
+                $("#divContentUsuario").html(data).fadeIn(100);
+            });
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });
@@ -69,7 +87,9 @@
         $.get(urlsSorteio.Details, {
             id: id
         }).done(function (data) {
-            $("#Acoes").html(data);
+            $("#divContentUsuario").fadeOut(100, function () {
+                $("#divContentUsuario").html(data).fadeIn(100);
+            });
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });
@@ -94,6 +114,7 @@
             id: id
         }).done(function (data) {
             $("#tabela").html(data);
+            $("#tabela").refresh();
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });

@@ -246,10 +246,10 @@
     <Content Include="Views\Sorteio\_TabelaSorteio.cshtml" />
     <Content Include="Views\Enquete\_TabelaEnquetes.cshtml" />
     <Content Include="Views\Usuario\_TabelaUsuarios.cshtml" />
+    <Content Include="Views\Base\_Sucesso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

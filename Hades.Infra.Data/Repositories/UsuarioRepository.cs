@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
@@ -21,7 +22,7 @@ namespace Hades.Infra.Data.Repositories
             ExecuteProcedure(Procedures.sp_AddUsuario);
             AddParameter("@Nome", usuario.Nome);
             AddParameter("@Email", usuario.Email);
-            AddParameter("@DataCadastro", usuario.DataCadastro);
+            AddParameter("@DataCadastro", DateTime.Now);
             AddParameter("@Senha", usuario.Senha);
             ExecuteNonQuery();
         }
@@ -38,7 +39,8 @@ namespace Hades.Infra.Data.Repositories
                         Email = r.GetString(r.GetOrdinal("Email")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         Administrador = r.GetBoolean(r.GetOrdinal("Administrador")),
-                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro"))
+                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro")),
+                        Senha = r.GetString(r.GetOrdinal("Senha"))
                     };
             return null;
         }
@@ -51,11 +53,13 @@ namespace Hades.Infra.Data.Repositories
                 while (r.Read())
                     usuarios.Add(new Usuario
                     {
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
                         Nome = r.GetString(r.GetOrdinal("Nome")),
                         Email = r.GetString(r.GetOrdinal("Email")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         Administrador = r.GetBoolean(r.GetOrdinal("Administrador")),
-                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro"))
+                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro")),
+                        Senha = r.GetString(r.GetOrdinal("Senha"))
                     });
             return usuarios;
         }

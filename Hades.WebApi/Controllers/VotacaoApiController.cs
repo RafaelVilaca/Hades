@@ -21,13 +21,5 @@ namespace Hades.WebApi.Controllers
         {
             _votacaoService.Post(votacao);
         }
-
-        [HttpPut]
-        [Route("voto")]
-        // PUT: api/UsuarioApi/5
-        public void Put(Votacao votacao)
-        {
-            _votacaoService.Put(votacao);
-        }
     }
 }

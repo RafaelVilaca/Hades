@@ -8,24 +8,14 @@ namespace Hades.Infra.Data.Repositories
     {
         private enum Procedures
         {
-            sp_AddVoto,
-            sp_UpdateVoto
-        }
-
-        public void Put(Votacao votacao)
-        {
-            ExecuteProcedure(Procedures.sp_UpdateVoto);
-            AddParameter("@UsuarioId", votacao.Usuarios.Id);
-            AddParameter("@EnqueteId", votacao.Enquetes.Id);
-            AddParameter("@Justificativa", votacao.Justificativa);
-            AddParameter("@TipoVoto", votacao.TipoVoto);
-            ExecuteNonQuery();
+            sp_AddVoto
         }
 
         public void Post(Votacao votacao)
         {
             ExecuteProcedure(Procedures.sp_AddVoto);
-            AddParameter("@Id", votacao.Id);
+            AddParameter("@UsuarioId", votacao.Usuarios.Id);
+            AddParameter("@EnqueteId", votacao.Enquetes.Id);
             AddParameter("@Justificativa", votacao.Justificativa);
             AddParameter("@TipoVoto", votacao.TipoVoto);
             ExecuteNonQuery();

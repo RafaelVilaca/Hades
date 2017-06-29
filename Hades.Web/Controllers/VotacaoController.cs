@@ -35,30 +35,5 @@ namespace Hades.Web.Controllers
                 return View("Error");
             }
         }
-
-        // GET: Votacao/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var response = _votacaoAppService.GetById(id);
-            if (!response.IsSuccessStatusCode)
-                return View("Error");
-            var votacao = JsonConvert.DeserializeObject<VotacaoViewModel>(response.Content.ReadAsStringAsync().Result);
-            return View();
-        }
-
-        // POST: Votacao/Edit/5
-        [HttpPost]
-        public ActionResult Edit(Votacao votacao)
-        {
-            try
-            {
-                _votacaoAppService.Put(votacao);
-                return RedirectToAction("Index", "Sorteio");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
