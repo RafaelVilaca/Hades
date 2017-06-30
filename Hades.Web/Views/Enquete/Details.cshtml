@@ -11,41 +11,45 @@
     <h4>Enquete</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
-
+        <dt>Titulo: </dt>
         <dd>
             @Html.DisplayFor(model => model.Titulo)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Assunto)
-        </dt>
-
+        <dt>Assunto:</dt>
         <dd>
             @Html.DisplayFor(model => model.Assunto)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DataEnquete)
-        </dt>
-
+        <dt>Data Enquete:</dt>
         <dd>
             @Html.DisplayFor(model => model.DataEnquete)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ativo)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Voltar", "Index")
+    <button value="Editar" class="btn btn-default" onclick="editar(model.Id)"></button>
+    <button value="Cancelar" class="btn btn-default" onclick="cancelar()"></button>
 </p>
+
+<script>
+    var urlsSorteio = {
+        Edit: '@Url.Action("Edit", "Sorteio")'
+    }
+
+    function editar(id) {
+        $.post(urlsSorteio.Edit, {
+            id: id
+        }).done(function (data) {
+            $("#divContentEnquete").fadeOut(100, function () {
+                $("#divContentEnquete").html(data).fadeIn(100);
+            });
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function cancelar() {
+        buscaTabelaEnquete();
+    }
+</script>

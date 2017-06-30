@@ -1,8 +1,6 @@
 ﻿using System.Web.Mvc;
 using Hades.Application.Interface;
 using Hades.Domain.Entities;
-using Hades.Web.ViewModels;
-using Newtonsoft.Json;
 
 namespace Hades.Web.Controllers
 {

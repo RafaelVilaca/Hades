@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Hades.Application.Interface;
 using Hades.Web.ViewModels;
@@ -25,13 +26,22 @@ namespace Hades.Web.Controllers
         // GET: Usuario/Details/5
         public ActionResult Details(int id)
         {
-            var usuario = _usuarioAppService.GetById(id);
-            if (!usuario.IsSuccessStatusCode)
-                return View("Error");
-            var mostraUsuario =
-                JsonConvert.DeserializeObject<UsuarioViewModel>(usuario.Content.ReadAsStringAsync().Result);
+            try
+            {
+                var usuario = _usuarioAppService.GetById(id);
+                if (!usuario.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao trazer Usuario");
+                var mostraUsuario =
+                    JsonConvert.DeserializeObject<UsuarioViewModel>(usuario.Content.ReadAsStringAsync().Result);
 
-            return View(mostraUsuario);
+                return View(mostraUsuario);
+            }
+            catch (Exception e)
+            {
+
+                return ErrorMessage("Erro ao trazer Usuario, " + e.Message);
+            }
+
         }
 
         // GET: Usuario/Create
@@ -45,34 +55,53 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                _usuarioAppService.Post(usuario);
-                return RedirectToAction("Index");
+                var response = _usuarioAppService.Post(usuario);
+                if (response.IsSuccessStatusCode)
+                    //return Json("OK", JsonRequestBehavior.AllowGet);
+                    return View("Index");
+                return ErrorMessage("Erro ao criar usuario.");
             }
-            catch
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorMessage("Erro ao criar usuario, " + e.Message);
             }
         }
 
         // GET: Usuario/Edit/5
         public ActionResult Edit(int id)
         {
-            var response = _usuarioAppService.GetById(id);
-            if (!response.IsSuccessStatusCode)
-                return View("Error");
-            var usuario = JsonConvert.DeserializeObject<UsuarioViewModel>(response.Content.ReadAsStringAsync().Result);
-            return View(usuario);
+            try
+            {
+                var response = _usuarioAppService.GetById(id);
+                if (!response.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao buscar usuario");
+                var usuario = JsonConvert.DeserializeObject<UsuarioViewModel>(response.Content.ReadAsStringAsync().Result);
+                return View(usuario);
+            }
+            catch (Exception e)
+            {
+
+                return ErrorMessage("Erro ao trazer Usuario, " + e.Message);
+            }
+
         }
 
         public ActionResult BuscaGridUsuario()
         {
-            var usuarioViewModel = _usuarioAppService.GetAll();
-            if (!usuarioViewModel.IsSuccessStatusCode)
-                return View("Error");
-            var usuarios =
-                JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
+            try
+            {
+                var usuarioViewModel = _usuarioAppService.GetAll();
+                if (!usuarioViewModel.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao buscar usuarios.");
+                var usuarios =
+                    JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
 
-            return View("_TabelaUsuarios", usuarios);
+                return View("_TabelaUsuarios", usuarios);
+            }
+            catch (Exception e)
+            {
+                return ErrorMessage("Erro ao montar tabela de usuarios, " + e.Message);
+            }
         }
 
         // POST: Usuario/Edit/5
@@ -82,29 +111,46 @@ namespace Hades.Web.Controllers
             {
                 var response = _usuarioAppService.Put(usuario);
                 if (response.IsSuccessStatusCode)
-                    return Json("OK", JsonRequestBehavior.AllowGet);
-                return View("Error");
+                    return RedirectToAction("BuscaGridUsuario");
+                return ErrorMessage("Erro ao editar Usuario");
             }
-            catch
+            catch (Exception e)
             {
-                return View("Error");
+                return ErrorMessage("Erro ao editar Usuario, " + e.Message);
             }
         }
 
         public ActionResult AtivarUsuario(int id)
         {
-            var response = _usuarioAppService.StatusUsuario(id, true);
-            if (!response.IsSuccessStatusCode)
-                return View("Error");
-            return RedirectToAction("Index");
+            try
+            {
+                var response = _usuarioAppService.StatusUsuario(id, true);
+                if (!response.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao alterar o usuario");
+                return RedirectToAction("BuscaGridUsuario");
+            }
+            catch (Exception e)
+            {
+
+                return ErrorMessage("Erro ao alterar o usuario, " + e.Message);
+            }
         }
 
         public ActionResult DesativarUsuario(int id)
         {
-            var response = _usuarioAppService.StatusUsuario(id, false);
-            if (!response.IsSuccessStatusCode)
-                return View("Error");
-            return RedirectToAction("Index");
+            try
+            {
+                var response = _usuarioAppService.StatusUsuario(id, false);
+                if (!response.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao alterar o usuario");
+                return RedirectToAction("BuscaGridUsuario");
+            }
+
+            catch (Exception e)
+            {
+
+                return ErrorMessage("Erro ao alterar o usuario, " + e.Message);
+            }
         }
     }
 }

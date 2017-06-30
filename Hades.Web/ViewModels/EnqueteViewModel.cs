@@ -10,6 +10,7 @@ namespace Hades.Web.ViewModels
         public DateTime DataEnquete { get; set; }
         public bool Ativo { get; set; }
         public UsuarioViewModel Usuario { get; set; }
+        public string Criador { get; set; }
 
         public EnqueteViewModel()
         {

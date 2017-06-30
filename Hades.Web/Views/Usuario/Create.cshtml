@@ -7,8 +7,13 @@
 
 <h4>Novo Usuário</h4>
 
+@using (Ajax.BeginForm("CreateConfirmed", "Usuario", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "buscaTabelaUsuario()",
+    OnFailure = "erro(xhr)"
+}))
 
-@using (Html.BeginForm("CreateConfirmed", "Usuario", FormMethod.Post, new { @class = "well" }))
 {
     @Html.AntiForgeryToken()
 
@@ -37,17 +42,35 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" class="btn btn-default" />
+                <input type="submit" value="Criar" id="btnSalvar" class="btn btn-default"/>
+            </div>
+            <div style="margin-left: 110px; margin-top: -35px;">
+                <button class="btn btn-default" onclick="buscaTabelaUsuario()">Cancelar</button>
             </div>
         </div>
     </div>
 }
-<p>
-    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
-</p>
+
+
 <script>
-    function cancelar() {
-        $("#Acoes").hide();
-        $("#tabela").show();
-    }
+$("#btnSalvar").click(function (e) {
+        e.preventDefault();
+
+        var usuario =
+        {
+            Senha: $("#Senha").val(),
+            Ativo: $("#Ativo").prop("checked"),
+            Administrador: $("#Administrador").prop("checked"),
+            Nome: $("#Nome").val(),
+            Email: $("#Email").val(),
+            DataCadastro: $("#DataCadastro").val()
+        };
+        console.log(usuario);
+        $.post('@Url.Action("EditConfirmed", "Usuario")', {usuario: usuario })
+        .done(function () {
+        buscaTabelaUsuario();
+        }).fail(function (xhr) {
+        $("#Acoes").html(xhr.responseText);
+        });
+});
 </script>

@@ -10,6 +10,7 @@ namespace Hades.Domain.Entities
         public DateTime DataEnquete { get; set; }
         public bool Ativo { get; set; }
         public Usuario Usuario { get; set; }
+        public string Criador { get; set; }
 
         public Enquete()
         {

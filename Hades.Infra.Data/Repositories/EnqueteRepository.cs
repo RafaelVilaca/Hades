@@ -38,7 +38,7 @@ namespace Hades.Infra.Data.Repositories
                         Assunto = r.GetString(r.GetOrdinal("Assunto")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
-                        Usuario = new Usuario { Nome = r.GetString(r.GetOrdinal("Nome")) }
+                        Criador = r.GetString(r.GetOrdinal("Criador"))
                     };
 
             return null;
@@ -57,7 +57,7 @@ namespace Hades.Infra.Data.Repositories
                         Assunto = r.GetString(r.GetOrdinal("Assunto")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
-                        Usuario = new Usuario { Nome = r.GetString(r.GetOrdinal("Nome")) }
+                        Criador = r.GetString(r.GetOrdinal("Criador"))
                     });
             }
             return enquetes;

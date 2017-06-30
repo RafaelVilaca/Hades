@@ -10,61 +10,48 @@
 <div>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-
+        <dt>Nome:</dt>
         <dd>
             @Html.DisplayFor(model => model.Nome)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
+        <dt>Email:</dt>
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DataCadastro)
-        </dt>
-
+        <dt>Data Cadastro:</dt>
         <dd>
             @Html.DisplayFor(model => model.DataCadastro)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Senha)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Senha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Administrador)
-        </dt>
-
+        <dt>Administrador:</dt>
         <dd>
             @Html.DisplayFor(model => model.Administrador)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ativo)
-        </dd>
-
+        <dt>Ativo:</dt>
+        @if (@Model.Ativo)
+        {
+            <dd>Sim</dd>
+        }
+        else
+        {
+            <dd>Não</dd>
+        }
+        @if (@Model.Administrador)
+        {
+            <dd>Sim</dd>
+        }
+        else
+        {
+            <dd>Não</dd>
+        }
     </dl>
 </div>
 <p>
     <button value="Editar" class="btn btn-default" onclick="editar(model.Id)"></button>
     <button value="Cancelar" class="btn btn-default" onclick="cancelar()"></button>
-    @*@Html.ActionLink("Editar", "Edit", new {id = Model.Id}) |
-    @Html.ActionLink("Voltar", "Index")*@
 </p>
 
 <script>
@@ -76,14 +63,15 @@
         $.post(urlsSorteio.Edit, {
             id: id
         }).done(function (data) {
-            $("#Acoes").html(data);
+            $("#divContentUsuario").fadeOut(100, function () {
+                $("#divContentUsuario").html(data).fadeIn(100);
+            });
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });
     };
 
     function cancelar() {
-        $("#Acoes").hide();
-        $("#tabela").show();
+        buscaTabelaUsuario();
     }
 </script>

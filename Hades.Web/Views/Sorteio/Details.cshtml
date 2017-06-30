@@ -4,13 +4,13 @@
     ViewBag.Title = "Details";
     Layout = null;
 }
-<hr/>
+<hr />
 <div>
     <h3>Detalhes Sorteio</h3>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nome)
+            Nome:
         </dt>
 
         <dd>
@@ -22,53 +22,33 @@
 <p>
     <ul>
         <li>
-            @*<a class="btn-floating red"><i class="material-icons" onclick="editar('@Model.Id')">mode_edit</i></a>
-            <a class="btn-floating green"><i class="material-icons" onclick="deletar('@Model.Id')">delete</i></a>
-            <a class="btn-floating blue"><i class="material-icons" onclick="sortear('@Model.Id')">play_arrow</i></a>*@
-            @Html.ActionLink("Voltar", "Index")
+            <button value="Editar" class="btn btn-default" onclick="editar(model.Id)"></button>
+        </li>
+        <li>
+            <button value="Cancelar" class="btn btn-default" onclick="cancelar()"></button>
         </li>
     </ul>
 </p>
-<hr/>
+<hr />
 
-@*<script>
-
+<script>
     var urlsSorteio = {
-        Edit: '@Url.Action("Edit", "Sorteio")',
-        Delete: '@Url.Action("Delete", "Sorteio")',
-        Drawlots: '@Url.Action("Drawlots", "Sorteio")'
+        Edit: '@Url.Action("Edit", "Sorteio")'
     }
 
     function editar(id) {
         $.post(urlsSorteio.Edit, {
             id: id
         }).done(function (data) {
-            $("#Acoes").html(data);
+            $("#divContentSorteio").fadeOut(100, function () {
+                $("#divContentSorteio").html(data).fadeIn(100);
+            });
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });
     };
 
-    function deletar(id) {
-        if (!confirm("Deseja realmente Excluir esse sorteio?")) return;
-
-        $.get(urlsSorteio.Delete, {
-            id: id
-        }).done(function (data) {
-            $("#Acoes").html(data);
-        }).fail(function (xhr) {
-            $("#Acoes").html(xhr.responseText);
-        });
-    };
-
-    function sortear(id) {
-        $.get(urlsSorteio.Drawlots, {
-            id: id
-        }).done(function (data) {
-            $("#Sorteado").html(data);
-        }).fail(function (xhr) {
-            $("#Sorteado").html(xhr.responseText);
-        });
-    };
-
-</script>*@
+    function cancelar() {
+        buscaTabelaSorteio();
+    }
+</script>

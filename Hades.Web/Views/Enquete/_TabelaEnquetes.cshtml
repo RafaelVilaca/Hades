@@ -6,19 +6,11 @@
 
 <table class="striped">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Assunto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DataEnquete)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ativo)
-        </th>
-        <th></th>
+        <th>Titulo:</th>
+        <th>Assunto:</th>
+        <th>Criador:</th>
+        <th>Data Enquete:</th>
+        <th>Ações:</th>
     </tr>
 
     @foreach (var enquete in Model)
@@ -30,11 +22,11 @@
             <td>
                 @Html.DisplayFor(modelItem => enquete.Assunto)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => enquete.DataEnquete)
+            <td style="color: gray">
+                @Html.DisplayFor(modelItem => enquete.Criador)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => enquete.Ativo)
+                @Html.DisplayFor(modelItem => enquete.DataEnquete)
             </td>
             <td style="padding: 0">
                 <div style="float: right">
@@ -50,5 +42,4 @@
             </td>
         </tr>
     }
-
 </table>

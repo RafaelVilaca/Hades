@@ -18,56 +18,76 @@
         </ul>
     </p>
 
-    <div id="tabela">
-        @Html.Partial("_TabelaEnquetes", Model)
+    <div id="divContentEnquete">
+
     </div>
 </div>
 
 <script>
-    var urlsSorteio = {
+    var urlsEnquete = {
         Edit: '@Url.Action("Edit", "Enquete")',
         Details: '@Url.Action("Details", "Enquete")',
         Delete: '@Url.Action("DesativarEnquete", "Enquete")',
-        Create: '@Url.Action("Create", "Enquete")'
-        Votar: '@Url.Action("", "Enquete")'
+        Create: '@Url.Action("Create", "Enquete")',
+        Votar: '@Url.Action("Create", "Votacao")',
+        BuscaTabelaEnquete: '@Url.Action("BuscaGridEnquetes", "Enquete")'
     }
 
     function criar() {
-        $.post(urlsSorteio.Create)
+        $.post(urlsEnquete.Create)
             .done(function (data) {
-                $("#Acoes").html(data);
+                $("#divContentEnquete").slideUp(100, function () {
+                    $("#divContentEnquete").html(data).slideDown(200);
+                });
             }).fail(function (xhr) {
                 $("#Acoes").html(xhr.responseText);
             });
     };
 
+    function buscaTabelaEnquete() {
+        $.get(urlsEnquete.BuscaTabelaEnquete)
+            .done(function (data) {
+                $("#divContentEnquete").slideUp(100, function () {
+                    $("#divContentEnquete").html(data).slideDown(200);
+                });
+            }).fail(function (xhr) {
+                $("#Acoes").html(xhr.responseText);
+            });
+    };
+
+    buscaTabelaEnquete();
+
     function editar(id) {
-        $.post(urlsSorteio.Edit, {
+        $.post(urlsEnquete.Edit, {
             id: id
         }).done(function (data) {
-            $("#Acoes").html(data);
+            $("#divContentEnquete").fadeOut(100, function () {
+                $("#divContentEnquete").html(data).fadeIn(100);
+            });
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });
     };
 
     function detalhar(id) {
-        $.get(urlsSorteio.Details, {
+        $.get(urlsEnquete.Details, {
             id: id
         }).done(function (data) {
-            $("#Acoes").html(data);
+            $("#divContentEnquete").fadeOut(100, function () {
+                $("#divContentEnquete").html(data).fadeIn(100);
+            });
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });
     };
 
-    function deletar(id) {
-        if (!confirm("Deseja realmente Excluir essa Enquete?")) return;
+    function desativar(id) {
+        if (!confirm("Deseja realmente Desativar essa Enquete?")) return;
 
-        $.get(urlsSorteio.Delete, {
+        $.get(urlsEnquete.Delete, {
             id: id
-        }).done(function (data) {
-            $("#tabela").html(data);
+        }).done(function () {
+            buscaTabelaEnquete();
         }).fail(function (xhr) {
             $("#Acoes").html(xhr.responseText);
         });

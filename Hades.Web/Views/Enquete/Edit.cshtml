@@ -2,68 +2,83 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<h2>Edit</h2>
+<h2>Editar</h2>
 
 
 @using (Html.BeginForm("EditConfirmed", "Enquete", FormMethod.Post, new { @class = "col s12" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>EnqueteViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+
+        @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Titulo</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", @id = "Titulo" } })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Assunto, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Assunto</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Assunto, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Assunto, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Assunto, new { htmlAttributes = new { @class = "form-control", @id = "Assunto" } })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DataEnquete, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Enquete</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DataEnquete, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DataEnquete, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.DataEnquete, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Ativo, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Ativo)
-                    @Html.ValidationMessageFor(model => model.Ativo, "", new {@class = "text-danger"})
-                </div>
-            </div>
+            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Ativo</label>
+            <p>
+                <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
+                <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
+            </p>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Salvar" id="btnSalvar" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<p>
+    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
+</p>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script>
+    function cancelar() {
+        buscaTabelaEnquete();
+    }
+
+    $("#btnSalvar").click(function (e) {
+        e.preventDefault();
+
+        var enquete =
+        {
+            Id: $("#Id").val(),
+            Titulo: $("#Titulo").val(),
+            Ativo: $("#Ativo").prop("checked"),
+            Assunto: $("#Assunto").val(),
+            DataCadastro: $("#DataCadastro").val()
+        };
+        console.log(usuario);
+        $.post('@Url.Action("EditConfirmed", "Enquete")', { enquete: enquete })
+        .done(function () {
+            buscaTabelaEnquete();
+        }).fail(function (xhr) {
+            $("#Acoes").html(xhr.responseText);
+        });
+    });
+
+</script>
