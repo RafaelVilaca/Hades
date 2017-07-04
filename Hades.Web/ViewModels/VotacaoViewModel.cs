@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 
 namespace Hades.Web.ViewModels
 {
@@ -11,10 +10,11 @@ namespace Hades.Web.ViewModels
         public UsuarioViewModel Usuarios { get; set; }
         public string Justificativa { get; set; }
         public bool TipoVoto { get; set; }
+        public string Votador { get; set; }
 
         public List<EnqueteViewModel> ListaDropDown;
 
-        public SelectList Bunda => new SelectList(ListaDropDown,"Id","Titulo");
+        public SelectList ListaParaVotacao => new SelectList(ListaDropDown,"Id","Titulo");
         
         public int IsValid()
         {

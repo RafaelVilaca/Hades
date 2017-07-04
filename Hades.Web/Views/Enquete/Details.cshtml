@@ -1,8 +1,7 @@
-﻿@model Hades.Web.ViewModels.EnqueteViewModel
-
+﻿@model  Hades.Web.ViewModels.EnqueteViewModel
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
 <h2>Detalhes</h2>
@@ -11,34 +10,54 @@
     <h4>Enquete</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>Titulo: </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
+        <dt><b>Titulo:</b> @Html.DisplayFor(model => model.Titulo)</dt>
 
-        <dt>Assunto:</dt>
-        <dd>
-            @Html.DisplayFor(model => model.Assunto)
-        </dd>
+        <dt><b>Assunto:</b> @Html.DisplayFor(model => model.Assunto)</dt>
 
-        <dt>Data Enquete:</dt>
-        <dd>
-            @Html.DisplayFor(model => model.DataEnquete)
-        </dd>
+        <dt><b>Data Enquete:</b> @Html.DisplayFor(model => model.DataEnquete)</dt>
     </dl>
 </div>
 <p>
-    <button value="Editar" class="btn btn-default" onclick="editar(model.Id)"></button>
-    <button value="Cancelar" class="btn btn-default" onclick="cancelar()"></button>
+    <button class="btn btn-default" onclick="editar(@Model.Id)">Editar</button>
+    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
 </p>
 
+@*Votos*@
+<div>
+    <h4>Tabela de Votos</h4>
+    <table class="striped">
+        <tr>
+            <th>Nome Usuario</th>
+            <th>Tipo Voto</th>
+            <th>Justificativa</th>
+        </tr>
+        @foreach (var voto in Model.ListaVotacao)
+        {
+            <tr @(voto.TipoVoto == false ? "style=color:#f00" : "")>
+                <td>@Html.DisplayFor(modelItem => voto.Votador)</td>
+                @if (voto.TipoVoto)
+                {
+                    <td>Favor</td>
+                }
+                else
+                {
+                    <td>Contra</td>
+                }
+                <td>@Html.DisplayFor(modelItem => voto.Justificativa)</td>
+            </tr>
+        }
+
+    </table>
+</div>
+@*Votos*@
+
 <script>
-    var urlsSorteio = {
-        Edit: '@Url.Action("Edit", "Sorteio")'
+    var urlsEnquete = {
+        Edit: '@Url.Action("Edit", "Enquete")'
     }
 
     function editar(id) {
-        $.post(urlsSorteio.Edit, {
+        $.post(urlsEnquete.Edit, {
             id: id
         }).done(function (data) {
             $("#divContentEnquete").fadeOut(100, function () {

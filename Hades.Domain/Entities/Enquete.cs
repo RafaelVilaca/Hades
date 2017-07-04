@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Entities
 {
@@ -12,9 +13,17 @@ namespace Hades.Domain.Entities
         public Usuario Usuario { get; set; }
         public string Criador { get; set; }
 
+        //Votos
+        public int VotoFavor { get; set; }
+        public int VotoContra { get; set; }
+
+        public List<Votacao> ListaVotacao { get; set; }
+        //Votos
+
         public Enquete()
         {
             Usuario = new Usuario();
+            ListaVotacao = new List<Votacao>();
         }
 
         public int IsValid()

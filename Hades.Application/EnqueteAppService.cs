@@ -35,11 +35,10 @@ namespace Hades.Application
             return _httpClient.PutAsync("http://localhost:10000/api/enquete", enquete, JsonMediaTypeFormatter).Result;
         }
 
-        public HttpResponseMessage StatusEnquete(int id, bool status)
+        public HttpResponseMessage StatusEnquete(int id)
         {
-            var url = $"http://localhost:10000/api/enquete/{id}/{status}";
-
-            return _httpClient.PutAsync(url, new { }, JsonMediaTypeFormatter).Result;
+            var url = $"http://localhost:10000/api/enquete/{id}";
+            return _httpClient.PutAsync(url, new {}, JsonMediaTypeFormatter).Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

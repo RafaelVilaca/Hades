@@ -8,12 +8,15 @@
 <div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
     <h3>Lista de Enquetes</h3>
 
-    <div id="Acoes" style="border-style: inset; padding: 2%;" ></div>
+    <div id="Acoes" style="border-style: inset; padding: 2%; display: none;" ></div>
 
     <p>
         <ul>
             <li>
                 <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
+            
+            
+                <a class="btn-floating blue"><i class="material-icons" onclick="votar()">input</i></a>
             </li>
         </ul>
     </p>
@@ -29,7 +32,7 @@
         Details: '@Url.Action("Details", "Enquete")',
         Delete: '@Url.Action("DesativarEnquete", "Enquete")',
         Create: '@Url.Action("Create", "Enquete")',
-        Votar: '@Url.Action("Create", "Votacao")',
+        Votar: '@Url.Action("Votar", "Enquete")',
         BuscaTabelaEnquete: '@Url.Action("BuscaGridEnquetes", "Enquete")'
     }
 
@@ -39,7 +42,9 @@
                 $("#divContentEnquete").slideUp(100, function () {
                     $("#divContentEnquete").html(data).slideDown(200);
                 });
+                $("#Acoes").hide();
             }).fail(function (xhr) {
+                $("#Acoes").show();
                 $("#Acoes").html(xhr.responseText);
             });
     };
@@ -50,7 +55,9 @@
                 $("#divContentEnquete").slideUp(100, function () {
                     $("#divContentEnquete").html(data).slideDown(200);
                 });
+                $("#Acoes").hide();
             }).fail(function (xhr) {
+                $("#Acoes").show();
                 $("#Acoes").html(xhr.responseText);
             });
     };
@@ -64,7 +71,9 @@
             $("#divContentEnquete").fadeOut(100, function () {
                 $("#divContentEnquete").html(data).fadeIn(100);
             });
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };
@@ -76,7 +85,9 @@
             $("#divContentEnquete").fadeOut(100, function () {
                 $("#divContentEnquete").html(data).fadeIn(100);
             });
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };
@@ -88,7 +99,23 @@
             id: id
         }).done(function () {
             buscaTabelaEnquete();
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
+            $("#Acoes").html(xhr.responseText);
+        });
+    };
+
+    function votar(id) {
+        $.get(urlsEnquete.Votar, {
+            id: id
+        }).done(function (data) {
+            $("#divContentEnquete").fadeOut(100, function () {
+                $("#divContentEnquete").html(data).fadeIn(100);
+            });
+            $("#Acoes").hide();
+        }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };

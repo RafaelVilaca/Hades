@@ -1,4 +1,5 @@
-﻿using Hades.Domain.Entities;
+﻿using System.Collections.Generic;
+using Hades.Domain.Entities;
 
 namespace Hades.Domain.Interfaces.Services
 {

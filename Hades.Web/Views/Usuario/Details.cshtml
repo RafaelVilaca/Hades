@@ -39,6 +39,8 @@
         {
             <dd>Não</dd>
         }
+
+        <dt>Administrador:</dt>
         @if (@Model.Administrador)
         {
             <dd>Sim</dd>
@@ -50,8 +52,8 @@
     </dl>
 </div>
 <p>
-    <button value="Editar" class="btn btn-default" onclick="editar(model.Id)"></button>
-    <button value="Cancelar" class="btn btn-default" onclick="cancelar()"></button>
+    <button class="btn btn-default" onclick="editar(@Model.Id)">Editar</button>
+    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
 </p>
 
 <script>

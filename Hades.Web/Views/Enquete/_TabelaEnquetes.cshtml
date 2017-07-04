@@ -9,8 +9,10 @@
         <th>Titulo:</th>
         <th>Assunto:</th>
         <th>Criador:</th>
-        <th>Data Enquete:</th>
-        <th>Ações:</th>
+        <th style="width: 155px;">Data Enquete:</th>
+        <th style="width: 110px;">Votos à Favor:</th>
+        <th style="width: 110px;">Votos Contra:</th>
+        <th style="width: 175px; text-align: center;">Ações:</th>
     </tr>
 
     @foreach (var enquete in Model)
@@ -28,13 +30,19 @@
             <td>
                 @Html.DisplayFor(modelItem => enquete.DataEnquete)
             </td>
+            <td style="color: blue; text-align: center;">
+                @Html.DisplayFor(modelItem => enquete.VotoFavor)
+            </td>
+            <td style="color: red; text-align: center;">
+                @Html.DisplayFor(modelItem => enquete.VotoContra)
+            </td>
             <td style="padding: 0">
                 <div style="float: right">
                     <ul>
                         <li>
                             <a class="btn-floating red"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
                             <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@enquete.Id')">description</i></a>
-                            <a class="btn-floating green"><i class="material-icons" onclick="deletar('@enquete.Id')">delete</i></a>
+                            <a class="btn-floating orange darken-4"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
                             <a class="btn-floating green"><i class="material-icons" onclick="votar('@enquete.Id')">note_add</i></a>
                         </li>
                     </ul>

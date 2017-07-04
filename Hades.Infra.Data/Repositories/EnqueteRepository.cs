@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
@@ -21,7 +22,7 @@ namespace Hades.Infra.Data.Repositories
             ExecuteProcedure(Procedures.sp_AddEnquete);
             AddParameter("@Titulo", enquete.Titulo);
             AddParameter("@Assunto", enquete.Assunto);
-            AddParameter("@DataEnquete", enquete.DataEnquete);
+            AddParameter("@DataEnquete", DateTime.Now);
             AddParameter("@UsuarioId", enquete.Usuario.Id);
             ExecuteNonQuery();
         }
@@ -30,18 +31,35 @@ namespace Hades.Infra.Data.Repositories
         {
             ExecuteProcedure(Procedures.sp_ListarEnquetePorId);
             AddParameter("@Id", id);
+            var enquete = new Enquete();
+
             using (var r = ExecuteReader())
+            {
                 if (r.Read())
-                    return new Enquete
+                {
+                    enquete = new Enquete
                     {
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
                         Assunto = r.GetString(r.GetOrdinal("Assunto")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
-                        Criador = r.GetString(r.GetOrdinal("Criador"))
+                        Criador = r.GetString(r.GetOrdinal("Criador")),
+                    };
+                }
+                if (r.NextResult())
+                    while (r.Read())
+                    {
+                        enquete.ListaVotacao.Add(new Votacao
+                        {
+                            Votador = r.GetString(r.GetOrdinal("NomeUsuario")),
+                            TipoVoto = r.GetBoolean(r.GetOrdinal("Voto")),
+                            Justificativa = r.GetString(r.GetOrdinal("Justificativa"))
+                        });
                     };
 
-            return null;
+                return enquete;
+            }
         }
 
         public IEnumerable<Enquete> GetAll()
@@ -53,11 +71,15 @@ namespace Hades.Infra.Data.Repositories
                 while (r.Read())
                     enquetes.Add(new Enquete()
                     {
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
                         Assunto = r.GetString(r.GetOrdinal("Assunto")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
-                        Criador = r.GetString(r.GetOrdinal("Criador"))
+                        Criador = r.GetString(r.GetOrdinal("Criador")),
+                        ////Votos
+                        VotoFavor = r.GetInt32(r.GetOrdinal("VotoFavor")),
+                        VotoContra = r.GetInt32(r.GetOrdinal("VotoContra"))
                     });
             }
             return enquetes;
@@ -73,11 +95,11 @@ namespace Hades.Infra.Data.Repositories
             ExecuteNonQuery();
         }
 
-        public void StatusEnquete(int id, bool status)
+        public void StatusEnquete(int id)
         {
             ExecuteProcedure(Procedures.sp_AlteraStatusEnquete);
             AddParameter("@Id", id);
-            AddParameter("@Ativo", status?1:0);
+            AddParameter("@Ativo", false);//status?1:0);
             ExecuteNonQuery();
         }
     }

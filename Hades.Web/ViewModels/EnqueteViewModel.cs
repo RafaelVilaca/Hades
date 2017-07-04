@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hades.Web.ViewModels
 {
@@ -11,6 +12,13 @@ namespace Hades.Web.ViewModels
         public bool Ativo { get; set; }
         public UsuarioViewModel Usuario { get; set; }
         public string Criador { get; set; }
+
+        //Votos
+        public int VotoFavor { get; set; }
+        public int VotoContra { get; set; }
+
+        public List<VotacaoViewModel> ListaVotacao { get; set; }
+        //Votos
 
         public EnqueteViewModel()
         {

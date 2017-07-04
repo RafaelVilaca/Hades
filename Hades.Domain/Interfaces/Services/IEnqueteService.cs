@@ -9,6 +9,6 @@ namespace Hades.Domain.Interfaces.Services
         Enquete GetById(int id);
         IEnumerable<Enquete> GetAll();
         string Put(Enquete enquete);
-        void StatusEnquete(int id, bool status);
+        void StatusEnquete(int id);
     }
 }

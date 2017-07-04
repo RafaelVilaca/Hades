@@ -1,10 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Hades.Application.Interface;
 using Hades.Domain.Entities;
 
 namespace Hades.Web.Controllers
 {
-    public class VotacaoController : Controller
+    public class VotacaoController : BaseController
     {
         private readonly IVotacaoAppService _votacaoAppService;
 
@@ -25,12 +26,15 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                _votacaoAppService.Post(votacao);
-                return RedirectToAction("Index", "Sorteio");
+                var voto = _votacaoAppService.Post(votacao);
+                if (!voto.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao trazer postar voto");
+
+                return RedirectToAction("Index", "Enquete");
             }
-            catch
+            catch(Exception e)
             {
-                return View("Error");
+                return ErrorMessage("Erro ao trazer postar voto, " + e.Message);
             }
         }
     }

@@ -9,6 +9,6 @@ namespace Hades.Application.Interface
         HttpResponseMessage GetById(int id);
         HttpResponseMessage GetAll();
         HttpResponseMessage Put(Enquete enquete);
-        HttpResponseMessage StatusEnquete(int id, bool status);
+        HttpResponseMessage StatusEnquete(int id);
     }
 }

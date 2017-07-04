@@ -15,23 +15,16 @@
     <div class="form-horizontal">
         <hr/>
         <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Titulo</label>
+            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Titulo (Deve conter até 20 caracteres)</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Titulo, new {htmlAttributes = new {@class = "form-control"}})
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Assunto</label>
+            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Assunto (Deve conter de 10 à 150 caracteres)</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Assunto, new {htmlAttributes = new {@class = "form-control"}})
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Enquete</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataEnquete, new {htmlAttributes = new {@class = "form-control"}})
             </div>
         </div>
 

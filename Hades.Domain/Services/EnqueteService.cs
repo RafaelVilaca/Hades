@@ -52,9 +52,9 @@ namespace Hades.Domain.Services
             return string.Empty;
         }
 
-        public void StatusEnquete(int id, bool status)
+        public void StatusEnquete(int id)
         {
-            _enqueteRepository.StatusEnquete(id, status);
+            _enqueteRepository.StatusEnquete(id);
         }
     }
 }

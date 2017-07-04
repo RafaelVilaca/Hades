@@ -36,7 +36,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" style="color: black; font-weight: bold;">Senha  (Deve conter de 5 à 20 caracteres)</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.PasswordFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
@@ -50,27 +50,3 @@
         </div>
     </div>
 }
-
-
-<script>
-$("#btnSalvar").click(function (e) {
-        e.preventDefault();
-
-        var usuario =
-        {
-            Senha: $("#Senha").val(),
-            Ativo: $("#Ativo").prop("checked"),
-            Administrador: $("#Administrador").prop("checked"),
-            Nome: $("#Nome").val(),
-            Email: $("#Email").val(),
-            DataCadastro: $("#DataCadastro").val()
-        };
-        console.log(usuario);
-        $.post('@Url.Action("EditConfirmed", "Usuario")', {usuario: usuario })
-        .done(function () {
-        buscaTabelaUsuario();
-        }).fail(function (xhr) {
-        $("#Acoes").html(xhr.responseText);
-        });
-});
-</script>

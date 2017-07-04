@@ -7,6 +7,7 @@
         public Usuario Usuarios { get; set; }
         public string Justificativa { get; set; }
         public bool TipoVoto { get; set; }
+        public string Votador { get; set; }
 
         public int IsValid()
         {

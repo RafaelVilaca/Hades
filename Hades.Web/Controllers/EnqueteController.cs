@@ -70,7 +70,6 @@ namespace Hades.Web.Controllers
         }
 
         // POST: Enquete/Create
-        [HttpPost]
         public ActionResult CreateConfirmed(Enquete enquete)
         {
             try
@@ -78,7 +77,7 @@ namespace Hades.Web.Controllers
                 var response = _enqueteAppService.Post(enquete);
                 if (!response.IsSuccessStatusCode)
                     ErrorMessage("Erro ao criar enquete");
-                return RedirectToAction("BuscaGridEnquetes");
+                return View("Index");
             }
             catch (Exception e)
             {
@@ -104,7 +103,6 @@ namespace Hades.Web.Controllers
         }
 
         // POST: Enquete/Edit/5
-        [HttpPost]
         public ActionResult EditConfirmed(Enquete enquete)
         {
             try
@@ -124,7 +122,7 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                var response = _enqueteAppService.StatusEnquete(id, false);
+                var response = _enqueteAppService.StatusEnquete(id);
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction("BuscaGridEnquetes");
                 return ErrorMessage("Erro ao desativar Enquete");
@@ -138,8 +136,7 @@ namespace Hades.Web.Controllers
 
         public ActionResult Votar()
         {
-
-            return View("");
+            return RedirectToAction("Create", "Votacao");
         }
     }
 }

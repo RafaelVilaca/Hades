@@ -6,9 +6,9 @@
 <div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
 
     <h3>Usuarios</h3>
-    <div id="Acoes" style="border-style: inset; padding: 2%; font-size: x-large;"></div>
+    <div id="Acoes" style="border-style: inset; padding: 2%; font-size: x-large; display: none;"></div>
     <div id="tabela">
-        <div class="row">
+        @*<div class="row">
             @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new {@class = "col s12"}))
             {
                 <div class="row">
@@ -19,7 +19,7 @@
                     <button class="btn waves-effect waves-light" type="submit" name="action">Pesquisar<i class="material-icons right">send</i></button>
                 </div>
             }
-        </div>
+        </div>*@
         <ul>
             <li>
                 <p>
@@ -50,7 +50,9 @@
                 $("#divContentUsuario").slideUp(100, function () {
                     $("#divContentUsuario").html(data).slideDown(200);
                 });
+                $("#Acoes").hide();
             }).fail(function (xhr) {
+                $("#Acoes").show();
                 $("#Acoes").html(xhr.responseText);
             });
     };
@@ -61,7 +63,9 @@
                 $("#divContentUsuario").slideUp(100, function () {
                     $("#divContentUsuario").html(data).slideDown(200);
                 });
+                $("#Acoes").hide();
             }).fail(function (xhr) {
+                $("#Acoes").show();
                 $("#Acoes").html(xhr.responseText);
             });
     };
@@ -69,6 +73,7 @@
     buscaTabelaUsuario();
 
     function erro(xhr) {
+        $("#Acoes").show();
         $("#Acoes").html(xhr.responseText);
     }
 
@@ -79,7 +84,9 @@
             $("#divContentUsuario").fadeOut(100, function () {
                 $("#divContentUsuario").html(data).fadeIn(100);
             });
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };
@@ -91,7 +98,9 @@
             $("#divContentUsuario").fadeOut(100, function () {
                 $("#divContentUsuario").html(data).fadeIn(100);
             });
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };
@@ -103,7 +112,9 @@
             id: id
         }).done(function () {
             buscaTabelaUsuario();
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };
@@ -115,7 +126,9 @@
             id: id
         }).done(function () {
             buscaTabelaUsuario();
+            $("#Acoes").hide();
         }).fail(function (xhr) {
+            $("#Acoes").show();
             $("#Acoes").html(xhr.responseText);
         });
     };
