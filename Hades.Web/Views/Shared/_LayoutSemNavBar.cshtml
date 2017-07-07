@@ -8,21 +8,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false) 
+    @RenderSection("scripts", required: false)
 </head>
 <body style="background-color: white;">
-    <nav>
-        <div class="nav-wrapper red accent-4">
-            <a href="#" class="brand-logo" style="margin-left: 15px; font-size: 50px;">HADES</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="@Url.Action("Index", "Home")">Página inicial</a></li>
-                <li><a href="@Url.Action("Index", "Usuario")">Usuário</a></li>
-                <li><a href="@Url.Action("Index", "Enquete")">Enquete</a></li>
-                <li><a href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container" >
+    <div class="container">
 
         @RenderBody()
         @*<hr style="color: black"/>*@

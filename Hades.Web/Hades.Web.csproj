@@ -176,6 +176,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EnqueteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SorteioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VotacaoController.cs" />
@@ -197,7 +198,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Images\black-background-red-color-paint-explosion-burst.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -244,6 +244,10 @@
     <Content Include="Views\Sorteio\_TabelaSorteio.cshtml" />
     <Content Include="Views\Enquete\_TabelaEnquetes.cshtml" />
     <Content Include="Views\Usuario\_TabelaUsuarios.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\_PartialLayout.cshtml" />
+    <Content Include="Views\Shared\_LayoutSemNavBar.cshtml" />
+    <Content Include="Views\Login\CreateUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

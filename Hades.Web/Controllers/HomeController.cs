@@ -7,7 +7,7 @@ namespace Hades.Web.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "HADES";
 
             return View();
         }

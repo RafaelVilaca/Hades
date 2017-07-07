@@ -2,12 +2,12 @@
 
 @{
     ViewBag.Title = "Create";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
 <h4>Novo Usuário</h4>
 
-@using (Ajax.BeginForm("CreateConfirmed", "Usuario", null, new AjaxOptions
+@using (Ajax.BeginForm("CreateConfirmed", "Login", null, new AjaxOptions
 {
     HttpMethod = "POST",
     OnSuccess = "buscaTabelaUsuario()",
@@ -42,11 +42,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" id="btnSalvar" style="border-radius: 20px;" class="btn btn-default"/>
+                <input type="submit" value="Criar" id="btnSalvar" class="btn btn-default" style="border-radius: 20px;"/>
             </div>
         </div>
     </div>
 }
 <div style="margin-left: 110px; margin-top: -36px;">
-    <button class="btn btn-default" onclick="buscaTabelaUsuario()" style="border-radius: 20px;">Cancelar</button>
+    <button class="btn btn-default" onclick="escondeCreate()" style="border-radius: 20px;">Cancelar</button>
 </div>

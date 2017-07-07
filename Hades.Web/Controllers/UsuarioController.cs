@@ -45,7 +45,7 @@ namespace Hades.Web.Controllers
         }
 
         // GET: Usuario/Create
-        public ActionResult Create()
+        public ActionResult Create(int i)
         {
             return View();
         }
