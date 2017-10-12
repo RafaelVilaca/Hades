@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
+using System.Collections.Generic;
 
 namespace Hades.Infra.Data.Repositories
 {
@@ -10,26 +9,25 @@ namespace Hades.Infra.Data.Repositories
     {
         private enum Procedures
         {
-            sp_ListarUsuarios,
-            sp_ListarUsuarioPorId,
-            sp_AddUsuario,
-            sp_UpdateUsuario,
-            sp_AlteraStatusUsuario
+            SP_ListarUsuarios,
+            SP_ListarUsuarioPorId,
+            SP_AddUsuario,
+            SP_UpdUsuario,
+            SP_AlteraStatusUsuario
         }
 
         public void Post(Usuario usuario)
         {
-            ExecuteProcedure(Procedures.sp_AddUsuario);
+            ExecuteProcedure(Procedures.SP_AddUsuario);
             AddParameter("@Nome", usuario.Nome);
             AddParameter("@Email", usuario.Email);
-            AddParameter("@DataCadastro", DateTime.Now);
             AddParameter("@Senha", usuario.Senha);
             ExecuteNonQuery();
         }
 
         public Usuario GetById(int id)
         {
-            ExecuteProcedure(Procedures.sp_ListarUsuarioPorId);
+            ExecuteProcedure(Procedures.SP_ListarUsuarioPorId);
             AddParameter("@Id", id);
             using (var r = ExecuteReader())
                 if (r.Read())
@@ -47,7 +45,7 @@ namespace Hades.Infra.Data.Repositories
 
         public IEnumerable<Usuario> GetAll()
         {
-            ExecuteProcedure(Procedures.sp_ListarUsuarios);
+            ExecuteProcedure(Procedures.SP_ListarUsuarios);
             var usuarios = new List<Usuario>();
             using (var r = ExecuteReader())
                 while (r.Read())
@@ -66,8 +64,8 @@ namespace Hades.Infra.Data.Repositories
 
         public void Put(Usuario usuario)
         {
-            ExecuteProcedure(Procedures.sp_UpdateUsuario);
-            AddParameter("@Id", usuario.Id);
+            ExecuteProcedure(Procedures.SP_UpdUsuario);
+            AddParameter("@IdUsua", usuario.Id);
             AddParameter("@Nome", usuario.Nome);
             AddParameter("@Email", usuario.Email);
             AddParameter("@Senha", usuario.Senha);
@@ -78,7 +76,7 @@ namespace Hades.Infra.Data.Repositories
 
         public void StatusUsuario(int id, bool status)
         {
-            ExecuteProcedure(Procedures.sp_AlteraStatusUsuario);
+            ExecuteProcedure(Procedures.SP_AlteraStatusUsuario);
             AddParameter("@Id", id);
             AddParameter("@Ativo", status ? 1 : 0);
             ExecuteNonQuery();

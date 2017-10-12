@@ -12,6 +12,8 @@ namespace Hades.Web.ViewModels
         public bool Ativo { get; set; }
         public UsuarioViewModel Usuario { get; set; }
         public string Criador { get; set; }
+        public string Nom_LocalCotado { get; set; }
+        public decimal Valor { get; set; }
 
         //Votos
         public int VotoFavor { get; set; }

@@ -1,6 +1,6 @@
-﻿using System.Web.Http;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Services;
+using System.Web.Http;
 
 namespace Hades.WebApi.Controllers
 {
@@ -15,7 +15,7 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("usuario")]
+        [Route("usuarios")]
         // GET: api/UsuarioApi
         public IHttpActionResult GetAll()
         {
@@ -26,7 +26,7 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("usuario")]
+        [Route("usuario/{id}")]
         // GET: api/UsuarioApi/5
         public IHttpActionResult GetById(int id)
         {

@@ -2,10 +2,10 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h2>Detalhes Usuario</h2>
+<h4>Detalhes Usuario</h4>
 
 <div>
     <hr />
@@ -51,10 +51,10 @@
         }
     </dl>
 </div>
-<p>
     <button class="btn btn-default" onclick="editar(@Model.Id)" style="border-radius: 20px;">Editar</button>
-    <button class="btn btn-default" onclick="cancelar()" style="border-radius: 20px;">Cancelar</button>
-</p>
+    <div style="margin-left: 110px; margin-top: -36px;">
+        <button class="btn btn-defauld" onclick="escondeModal()" style="border-radius: 20px; background-color: #b71c1c; margin-left: 30px; ">Cancelar</button>
+    </div>
 
 <script>
     var urlsSorteio = {
@@ -62,18 +62,12 @@
     }
 
     function editar(id) {
-        $.post(urlsSorteio.Edit, {
-            id: id
-        }).done(function (data) {
-            $("#divContentUsuario").fadeOut(100, function () {
-                $("#divContentUsuario").html(data).fadeIn(100);
-            });
-        }).fail(function (xhr) {
-            $("#Acoes").html(xhr.responseText);
-        });
+        $.get(urlsUsuario.Edit, { id: id })
+            .done(function (data) { $('#divContentUsuario').modal('open').html(data); })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
 
     function cancelar() {
-        buscaTabelaUsuario();
+        escondeModal();
     }
 </script>

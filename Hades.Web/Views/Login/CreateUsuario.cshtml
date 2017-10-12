@@ -1,52 +1,106 @@
-﻿@model Hades.Web.ViewModels.UsuarioViewModel
+﻿@*@model Hades.Web.ViewModels.UsuarioViewModel*@
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h4>Novo Usuário</h4>
 
-@using (Ajax.BeginForm("CreateConfirmed", "Login", null, new AjaxOptions
-{
-    HttpMethod = "POST",
-    OnSuccess = "buscaTabelaUsuario()",
-    OnFailure = "erro(xhr)"
-}))
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
+            <h4 style="text-align: center; font-family: Algerian; color: #b71c1c; ">Novo Usuário</h4>
 
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <hr />
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Nome</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Email</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Senha  (Deve conter de 5 à 20 caracteres)</label>
-            <div class="col-md-10">
-                @Html.PasswordFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" id="btnSalvar" class="btn btn-default" style="border-radius: 20px;"/>
+            @using (Ajax.BeginForm("CreateConfirmed", "Login", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "buscaTabelaUsuario()",
+                OnFailure = "erro(xhr)"
+            }, new { htmlAttributes = new { @id = "Formulario" } }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="input-field col s12">
+                        <input id="NomeUsuario" type="text" name="Nome" maxlength="100">
+                        <label for="NomeUsuario" data-error="wrong" data-success="right">Nome</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="Email" name="Email" type="email" class="validate" maxlength="100">
+                        <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="SenhaUsuario" type="password" maxlength="20">
+                        <label for="SenhaUsuario" data-error="wrong" data-success="right">Senha</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="ConfirmarSenha" type="password" maxlength="20">
+                        <label for="ConfirmarSenha" data-error="wrong" data-success="right">Confirmar Senha</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Criar" id="btnSalvar" class="btn btn-default" style="border-radius: 20px; background-color: #1976d2; width:135px; " />
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="margin-left: 110px; margin-top: -36px;">
+                <button class="btn btn-defauld" onclick="escondeCreate()" style="border-radius: 20px; background-color: #b71c1c; margin-left: 30px; ">Cancelar</button>
             </div>
         </div>
     </div>
-}
-<div style="margin-left: 110px; margin-top: -36px;">
-    <button class="btn btn-default" onclick="escondeCreate()" style="border-radius: 20px;">Cancelar</button>
 </div>
+
+<script>
+
+    var urls = {
+        createConfirmed: '@Url.Action("CreateConfirmed", "Login")'
+    }
+
+    $("#btnSalvar").click(function (e) {
+        e.preventDefault();//cancela o post
+
+        if ($("#NomeUsuario").val().length == 0) {
+            erro("Nome não pode ser vazio")
+            return false;
+        }
+
+        if ($("#Email").val() == "") {
+            erro("Email não pode ser vazio")
+            return false;
+        }
+
+        if ($("#SenhaUsuario").val() == "" || $("#SenhaUsuario").val().length < 5) {
+            erro("Senha deve conter de 5 até 20 caracteres")
+            return false;
+        }
+
+        if ($("#SenhaUsuario").val() != $("#ConfirmarSenha").val()) {
+            erro("Senhas não conferem")
+            return false;
+        }
+
+        //$("#Formulario").submit();
+        $.post(urls.createConfirmed, {
+            Nome: $("#NomeUsuario").val(),
+            Email: $("#Email").val(),
+            Senha: $("#SenhaUsuario").val()
+        }).done(function (data) {
+            $('#modalCreateCliente').modal('close');
+            sucesso(data);
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    });
+
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
+    }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
+    }
+
+</script>

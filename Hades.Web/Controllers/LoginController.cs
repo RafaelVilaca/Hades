@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using Hades.Application.Interface;
+﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
 using Hades.Web.ViewModels;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
 {
@@ -34,11 +34,18 @@ namespace Hades.Web.Controllers
                     if (!usuarioViewModel.IsSuccessStatusCode)
                         return ErrorMessage("Erro ao buscar usuarios.");
                     var mostraUsuario =
-                        JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result).First(x => x.Nome == nome && x.Senha == senha);
+                        JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync()
+                            .Result).First(x => x.Nome == nome);
 
                     if (mostraUsuario == null)
                     {
                         TempData["mensagem"] = "Usuario Inexistente!";
+                        return RedirectToAction("Index");
+                    }
+
+                    if (mostraUsuario.Senha != senha)
+                    {
+                        TempData["mensagem"] = "Senha não confere com o Usuário";
                         return RedirectToAction("Index");
                     }
 
@@ -47,8 +54,8 @@ namespace Hades.Web.Controllers
                         TempData["mensagem"] = "Usuario desativado, contate o Administrador!";
                         return RedirectToAction("Index");
                     }
-
-                    if (!string.IsNullOrEmpty(nome) || !string.IsNullOrEmpty(senha))
+                    
+                    if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(senha))
                     {
                         TempData["mensagem"] = "Usuario Inexistente!";
                         return RedirectToAction("Index");
@@ -83,13 +90,12 @@ namespace Hades.Web.Controllers
             {
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
-                    //return Json("OK", JsonRequestBehavior.AllowGet);
-                    return RedirectToAction("Index", "Home");
-                return ErrorMessage("Erro ao criar usuario.");
+                    return Json("Cadastro Efetuado com sucesso, faça o login!" );
+                return ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)
             {
-                return ErrorMessage("Erro ao criar usuario, " + e.Message);
+                return ErrorMessage($"Falha ao criar usuario: {e.Message}");
             }
         }
     }

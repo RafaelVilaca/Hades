@@ -6,15 +6,24 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false) 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    @RenderSection("scripts", required: false)
 </head>
 <body style="background-color: white;">
     <nav>
-        <div class="nav-wrapper red accent-4">
-            <a href="#" class="brand-logo" style="margin-left: 15px; font-size: 50px;">HADES</a>
+        <div class="nav-wrapper accent-4" style="background-color: #b71c1c;">
+            <a href="#" class="brand-logo" style="margin-left: 15px; font-size: 50px; font-family: Algerian;">HADES</a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="@Url.Action("Index", "Home")">Página inicial</a></li>
+                <li><a href="@Url.Action("Index", "Usuario")">Usuário</a></li>
+                <li><a href="@Url.Action("Index", "Enquete")">Enquete</a></li>
+                <li><a href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
                 <li><a href="@Url.Action("Index", "Home")">Página inicial</a></li>
                 <li><a href="@Url.Action("Index", "Usuario")">Usuário</a></li>
                 <li><a href="@Url.Action("Index", "Enquete")">Enquete</a></li>
@@ -25,10 +34,17 @@
     <div class="container" >
 
         @RenderBody()
-        @*<hr style="color: black"/>*@
         <footer>
             @*<p>&copy; @DateTime.Now.Year - HADES Application</p>*@
         </footer>
     </div>
 </body>
 </html>
+
+<script>
+
+    $(document).ready(function () {
+        $(".button-collapse").sideNav();
+    });
+
+</script>

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
+using System.Collections.Generic;
 
 namespace Hades.Infra.Data.Repositories
 {
@@ -10,26 +9,27 @@ namespace Hades.Infra.Data.Repositories
     {
         private enum Procedures
         {
-            sp_ListarEnquetes,
-            sp_ListarEnquetePorId,
-            sp_AddEnquete,
-            sp_UpdateEnquete,
-            sp_AlteraStatusEnquete
+            SP_ListarEnquetes,
+            SP_ListarEnquetePorId,
+            SP_AddEnquete,
+            SP_UpdEnquete,
+            SP_AlteraStatusEnquete
         }
 
         public void Post(Enquete enquete)
         {
-            ExecuteProcedure(Procedures.sp_AddEnquete);
+            ExecuteProcedure(Procedures.SP_AddEnquete);
             AddParameter("@Titulo", enquete.Titulo);
-            AddParameter("@Assunto", enquete.Assunto);
-            AddParameter("@DataEnquete", DateTime.Now);
-            AddParameter("@UsuarioId", enquete.Usuario.Id);
+            AddParameter("@Descricao", enquete.Assunto);
+            AddParameter("@Nom_LocalCotado", enquete.Nom_LocalCotado);
+            AddParameter("@Valor", enquete.Valor);
+            AddParameter("@UsuarioId", enquete.Usuario.Id);            
             ExecuteNonQuery();
         }
 
         public Enquete GetById(int id)
         {
-            ExecuteProcedure(Procedures.sp_ListarEnquetePorId);
+            ExecuteProcedure(Procedures.SP_ListarEnquetePorId);
             AddParameter("@Id", id);
             var enquete = new Enquete();
 
@@ -64,7 +64,7 @@ namespace Hades.Infra.Data.Repositories
 
         public IEnumerable<Enquete> GetAll()
         {
-            ExecuteProcedure(Procedures.sp_ListarEnquetes);
+            ExecuteProcedure(Procedures.SP_ListarEnquetes);
             var enquetes = new List<Enquete>();
             using (var r = ExecuteReader())
             {
@@ -87,7 +87,7 @@ namespace Hades.Infra.Data.Repositories
 
         public void Put(Enquete enquete)
         {
-            ExecuteProcedure(Procedures.sp_UpdateEnquete);
+            ExecuteProcedure(Procedures.SP_UpdEnquete);
             AddParameter("@Id", enquete.Id);
             AddParameter("@Titulo", enquete.Titulo);
             AddParameter("@Assunto", enquete.Assunto);
@@ -97,7 +97,7 @@ namespace Hades.Infra.Data.Repositories
 
         public void StatusEnquete(int id)
         {
-            ExecuteProcedure(Procedures.sp_AlteraStatusEnquete);
+            ExecuteProcedure(Procedures.SP_AlteraStatusEnquete);
             AddParameter("@Id", id);
             AddParameter("@Ativo", false);//status?1:0);
             ExecuteNonQuery();

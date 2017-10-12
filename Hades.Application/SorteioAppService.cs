@@ -1,8 +1,8 @@
-﻿using System.Net.Http;
-using System.Net.Http.Formatting;
-using Hades.Application.Interface;
+﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 
 namespace Hades.Application
 {
@@ -17,27 +17,27 @@ namespace Hades.Application
 
         public HttpResponseMessage Post(Sorteio sorteio)
         {
-            return _httpClient.PostAsync("http://localhost:10000/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
+            return _httpClient.PostAsync("http://localhost:5002/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage GetById(int id)
         {
-            return _httpClient.GetAsync("http://localhost:10000/api/sorteio?id=" + id).Result;
+            return _httpClient.GetAsync("http://localhost:5002/api/sorteio?id=" + id).Result;
         }
 
         public HttpResponseMessage GetAll()
         {
-            return _httpClient.GetAsync("http://localhost:10000/api/sorteio").Result;
+            return _httpClient.GetAsync("http://localhost:5002/api/sorteio").Result;
         }
 
         public HttpResponseMessage Put(Sorteio sorteio)
         {
-            return _httpClient.PutAsync("http://localhost:10000/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
+            return _httpClient.PutAsync("http://localhost:5002/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage Delete(int id)
         {
-           return _httpClient.DeleteAsync($"http://localhost:10000/api/sorteio/{id}").Result;
+           return _httpClient.DeleteAsync($"http://localhost:5002/api/sorteio/{id}").Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
+using System.Collections.Generic;
 
 namespace Hades.Infra.Data.Repositories
 {
@@ -10,14 +9,14 @@ namespace Hades.Infra.Data.Repositories
     {
         private enum Procedures
         {
-            sp_GetParticipantes,
-            sp_AddParticipante,
-            sp_DeletarParticipantesSorteio
+            SP_GetParticipantes,
+            SP_AddParticipante,
+            SP_DeletarParticipantesSorteio
         }
 
         public void Participar(SorteioParticipante sorteioParticipante)
         {
-            ExecuteProcedure(Procedures.sp_AddParticipante);
+            ExecuteProcedure(Procedures.SP_AddParticipante);
             AddParameter("@UsuarioId", sorteioParticipante.Usuario.Id);
             AddParameter("@SorteioId", sorteioParticipante.Sorteio.Id);
             ExecuteNonQuery();
@@ -25,7 +24,7 @@ namespace Hades.Infra.Data.Repositories
 
         public IEnumerable<SorteioParticipante> GetAll(int id)
         {
-            ExecuteProcedure(Procedures.sp_GetParticipantes);
+            ExecuteProcedure(Procedures.SP_GetParticipantes);
             AddParameter("@Id", id);
             var sorteios = new List<SorteioParticipante>();
             using (var r = ExecuteReader())
@@ -39,7 +38,7 @@ namespace Hades.Infra.Data.Repositories
 
         public void DeletarParticipantesSorteio(int id)
         {
-            ExecuteProcedure(Procedures.sp_DeletarParticipantesSorteio);
+            ExecuteProcedure(Procedures.SP_DeletarParticipantesSorteio);
             AddParameter("@Id", id);
             ExecuteNonQuery();
         }

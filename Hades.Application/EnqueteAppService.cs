@@ -1,8 +1,8 @@
-﻿using System.Net.Http;
-using System.Net.Http.Formatting;
-using Hades.Application.Interface;
+﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
 using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 
 namespace Hades.Application
 {
@@ -17,27 +17,27 @@ namespace Hades.Application
 
         public HttpResponseMessage Post(Enquete enquete)
         {
-            return _httpClient.PostAsync("http://localhost:10000/api/enquete", enquete, JsonMediaTypeFormatter).Result;
+            return _httpClient.PostAsync("http://localhost:5002/api/enquete", enquete, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage GetById(int id)
         {
-            return _httpClient.GetAsync("http://localhost:10000/api/enquete?id=" + id).Result;
+            return _httpClient.GetAsync("http://localhost:5002/api/enquete?id=" + id).Result;
         }
 
         public HttpResponseMessage GetAll()
         {
-            return _httpClient.GetAsync("http://localhost:10000/api/enquete").Result;
+            return _httpClient.GetAsync("http://localhost:5002/api/enquete").Result;
         }
 
         public HttpResponseMessage Put(Enquete enquete)
         {
-            return _httpClient.PutAsync("http://localhost:10000/api/enquete", enquete, JsonMediaTypeFormatter).Result;
+            return _httpClient.PutAsync("http://localhost:5002/api/enquete", enquete, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage StatusEnquete(int id)
         {
-            var url = $"http://localhost:10000/api/enquete/{id}";
+            var url = $"http://localhost:5002/api/enquete/{id}";
             return _httpClient.PutAsync(url, new {}, JsonMediaTypeFormatter).Result;
         }
 

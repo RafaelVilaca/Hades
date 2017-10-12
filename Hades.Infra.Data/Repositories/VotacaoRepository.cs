@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
 
@@ -9,12 +8,12 @@ namespace Hades.Infra.Data.Repositories
     {
         private enum Procedures
         {
-            sp_AddVoto
+            SP_AddVoto
         }
 
         public void Post(Votacao votacao)
         {
-            ExecuteProcedure(Procedures.sp_AddVoto);
+            ExecuteProcedure(Procedures.SP_AddVoto);
             AddParameter("@UsuarioId", votacao.Usuarios.Id);
             AddParameter("@EnqueteId", votacao.Enquetes.Id);
             AddParameter("@Justificativa", votacao.Justificativa);

@@ -10,10 +10,7 @@ namespace Hades.WebApi
     {
         public static Container RegisterContainer()
         {
-            var container = new Container();
-
-            container.Register<IUsuarioService, UsuarioService>();
-            container.Register<IUsuarioRepository, UsuarioRepository>();
+            var container = new Container();            
 
             container.Register<IEnqueteService, EnqueteService>();
             container.Register<IEnqueteRepository, EnqueteRepository>();
@@ -23,6 +20,9 @@ namespace Hades.WebApi
 
             container.Register<ISorteioParticipanteRepository, SorteioParticipanteRepository>();
             container.Register<ISorteioParticipanteService, SorteioParticipanteService>();
+
+            container.Register<IUsuarioService, UsuarioService>();
+            container.Register<IUsuarioRepository, UsuarioRepository>();
 
             container.Register<IVotacaoRepository, VotacaoRepository>();
             container.Register<IVotacaoService, VotacaoService>();

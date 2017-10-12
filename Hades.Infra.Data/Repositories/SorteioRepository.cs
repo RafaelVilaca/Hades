@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
+using System.Collections.Generic;
 
 namespace Hades.Infra.Data.Repositories
 {
@@ -9,23 +9,23 @@ namespace Hades.Infra.Data.Repositories
     {
         private enum Procedures
         {
-            sp_AddSorteio,
-            sp_UpdateSorteio,
-            sp_ListarSorteio,
-            sp_ListarSorteioPorId,
-            sp_DeletarSorteio
+            SP_AddSorteio,
+            SP_UpdSorteio,
+            SP_ListarSorteio,
+            SP_ListarSorteioPorId,
+            SP_DelSorteio
         }
 
         public void Post(Sorteio sorteio)
         {
-            ExecuteProcedure(Procedures.sp_AddSorteio);
+            ExecuteProcedure(Procedures.SP_AddSorteio);
             AddParameter("@Nome", sorteio.Nome);
             ExecuteNonQuery();
         }
 
         public Sorteio GetById(int id)
         {
-            ExecuteProcedure(Procedures.sp_ListarSorteioPorId);
+            ExecuteProcedure(Procedures.SP_ListarSorteioPorId);
             AddParameter("@Id", id);
             using (var r = ExecuteReader())
                 if (r.Read())
@@ -35,7 +35,7 @@ namespace Hades.Infra.Data.Repositories
 
         public IEnumerable<Sorteio> GetAll()
         {
-            ExecuteProcedure(Procedures.sp_ListarSorteio);
+            ExecuteProcedure(Procedures.SP_ListarSorteio);
             var sorteios = new List<Sorteio>();
             using (var r = ExecuteReader())
                 while (r.Read())
@@ -50,7 +50,7 @@ namespace Hades.Infra.Data.Repositories
 
         public void Put(Sorteio sorteio)
         {
-            ExecuteProcedure(Procedures.sp_UpdateSorteio);
+            ExecuteProcedure(Procedures.SP_UpdSorteio);
             AddParameter("@Id", sorteio.Id);
             AddParameter("@Nome", sorteio.Nome);
             ExecuteNonQuery();
@@ -58,7 +58,7 @@ namespace Hades.Infra.Data.Repositories
 
         public void Delete(int id)
         {
-            ExecuteProcedure(Procedures.sp_DeletarSorteio);
+            ExecuteProcedure(Procedures.SP_DelSorteio);
             AddParameter("@Id", id);
             ExecuteNonQuery();
         }

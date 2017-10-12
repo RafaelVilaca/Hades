@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
 <h4>Editar</h4>
@@ -44,31 +44,30 @@
         </div>
 
         <div class="form-group">
-            <p>
-                <input type="checkbox" id="Administrador" name="Administrador" @(Model.Administrador ? "checked" : string.Empty) />
-                <label for="Administrador" style="color: black; font-weight: bold;">Administrador</label>
+            <input type="checkbox" id="Administrador" name="Administrador" @(Model.Administrador ? "checked" : string.Empty) />
+            <label for="Administrador" style="color: black; font-weight: bold;">Administrador &nbsp;</label>
 
-                <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
-                <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
-            </p>
+            <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
+            <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" id="btnSalvar" style="border-radius: 20px;" class="btn btn-default" />
+                <input type="submit" value="Salvar" id="btnEditar" class="btn btn-default" style="border-radius: 20px; background-color: #1976d2; width:135px; " />
             </div>
         </div>
     </div>
 }
-<p>
-    <button class="btn btn-default" onclick="cancelar()" style="border-radius: 20px;">Cancelar</button>
-</p>
+<div style="margin-left: 110px; margin-top: -36px;">
+    <button class="btn btn-defauld" onclick="escondeModal()" style="border-radius: 20px; background-color: #b71c1c; margin-left: 30px; ">Cancelar</button>
+</div>
+<p></p>
 
 <script>
     function cancelar() {
-        buscaTabelaUsuario();
+        escondeModal();
     }
 
-    $("#btnSalvar").click(function (e) {
+    $("#btnEditar").click(function (e) {
         e.preventDefault();
 
         var usuario =
@@ -82,12 +81,24 @@
             DataCadastro: $("#DataCadastro").val()
         };
         console.log(usuario);
-        $.post('@Url.Action("EditConfirmed", "Usuario")', {usuario: usuario })
-        .done(function () {
-            buscaTabelaUsuario();
+        $.post('@Url.Action("EditConfirmed", "Usuario")', { usuario: usuario })
+        .done(function (data) {
+            $('#divContentUsuario').modal('close');
+            sucesso(data);
         }).fail(function (xhr) {
-            $("#Acoes").html(xhr.responseText);
+            erro(xhr.responseText);
         });
+    });
+
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
+    }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
+    }
     });
 
 </script>

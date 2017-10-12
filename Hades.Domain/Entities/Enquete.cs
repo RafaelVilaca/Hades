@@ -5,6 +5,12 @@ namespace Hades.Domain.Entities
 {
     public class Enquete
     {
+        public Enquete()
+        {
+            Usuario = new Usuario();
+            ListaVotacao = new List<Votacao>();
+        }
+
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string Assunto { get; set; }
@@ -12,19 +18,15 @@ namespace Hades.Domain.Entities
         public bool Ativo { get; set; }
         public Usuario Usuario { get; set; }
         public string Criador { get; set; }
+        public string Nom_LocalCotado { get; set; }
+        public decimal Valor { get; set; }
 
         //Votos
         public int VotoFavor { get; set; }
         public int VotoContra { get; set; }
 
         public List<Votacao> ListaVotacao { get; set; }
-        //Votos
-
-        public Enquete()
-        {
-            Usuario = new Usuario();
-            ListaVotacao = new List<Votacao>();
-        }
+        //Votos        
 
         public int IsValid()
         {

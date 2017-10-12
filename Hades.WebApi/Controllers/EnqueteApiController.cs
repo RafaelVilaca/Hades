@@ -26,7 +26,7 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("enquete")]
+        [Route("enquete/{id}")]
         // GET: api/EnqueteApi/5
         public IHttpActionResult GetById(int id)
         {

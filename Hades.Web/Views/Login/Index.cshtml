@@ -5,75 +5,64 @@
     var mensagem = TempData["mensagem"]?.ToString() ?? "";
 }
 
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 400px; background-color: #eeeeee; border-radius: 60px; border-style: initial; margin-left: 34%; height: 410px; " }))
+    {
+        <div style="width: 244px; margin-left: 80px;">
+            <h1 style="text-align: center; font-family: Algerian; ">LOGIN:</h1>
 
-@using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 400px; background-color: #eeeeee; border-radius: 60px; border-style: initial; margin-left: 400px;" }))
-{
-    <div style="width: 244px; margin-left: 80px;">
-        <h1 style="text-align: center; ">LOGIN:</h1>
-        <div class="editor-label" style="text-align: center; text-transform: uppercase; ">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold; font-size: 20px;">Nome</label>
-        </div>
-        <div class="editor-field" style="position: inherit">
-            @Html.TextBoxFor(model => model.Nome, new { maxlength = 30, @class = "col-xs-6 col-sm-6 col-md-6 col-lg-6", @style = "width: 100%; height: 30px;" })
-        </div>
-        <br />
+            <div class="input-field col s12">
+                <input id="NomeLogin" type="text" name="Nome" maxlength="100">
+                <label for="NomeLogin" data-error="wrong" data-success="right">Nome</label>
+            </div>
 
-        <div class="editor-label" style="text-align: center; text-transform: uppercase;">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold; font-size: 20px;">Senha</label>
-        </div>
-        <div class="editor-field">
-            @Html.PasswordFor(model => model.Senha, new { maxlength = 15, @class = "col-xs-6 col-sm-6 col-md-6 col-lg-6", @style = "width: 100%; height: 30px;" })
-        </div>
+            <br />
 
-        <div style="margin-top: 20px; margin-bottom: 10px;">
-            <div>
-                <input type="submit" value="EFETUAR LOGIN" class="btn btn-success" style="height: 40px; margin-left: 30px; width: 75%; border-radius: 20px; font-size: 15px; "/>
-                <p></p>
-                @*@Html.ActionLink("NOVO USUARIO", null, null, new { @class = "btn btn-primary", @id = "Novo", @style = "width: 100%; height: 40px; font-size: 20px; font-family: Castellar, Helvetica, sans-serif;" })*@
-                <button type="button" id="Novo" class="btn btn-primary" style = "border-radius: 20px; margin-left: 30px; width: 75%; height: 40px; font-size: 15px;">NOVO USUARIO</button>
+            <div class="input-field col s12">
+                <input id="SenhaLogin" type="password" name="Senha" maxlength="20">
+                <label for="SenhaLogin" data-error="wrong" data-success="right">Senha</label>
+            </div>
+
+            <div style="margin-top: 20px; margin-bottom: 10px; align-items: center;">
+                <div>
+                    <input type="submit" value="EFETUAR LOGIN" class="btn btn-success" style="height: 40px; margin-left: 30px; width: 75%; border-radius: 20px; font-size: 15px; background-color: #1976d2; " />
+                    <p></p>
+                    <button type="button" id="Novo" class="btn btn-primary" style="border-radius: 20px; margin-left: 30px; width: 75%; height: 40px; font-size: 15px; background-color: #b71c1c; ">NOVO USUARIO</button>
+                </div>
             </div>
         </div>
-    </div>
-}
-<div style="margin-top: 10px;">
+    }
 
-    @*<button class="btn btn-success" style="height: 40px; font-size: 20px; font-family: Castellar, Helvetica, sans-serif;" onclick="mostraUsuario()">NOVO USUARIO</button>*@
+    <div id="modalCreateCliente" class="modal modal-fixed-footer"
+         style="display: none; height: auto; width: 367px; z-index: 1003; opacity: 1; transform: scaleX(1); border-radius: 15px; top:10%;">
+    </div>
 </div>
 
-<div id="divCriarUsuario" style="border-style: inset; padding: 2%; background-color: white; color: red; border-radius: 20px;"></div>
-
-<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
 <script>
     var urlsUsuario = {
         Create: '@Url.Action("CreateUsuario", "Login")'
     }
 
+    $(document).ready(function () {
+        
+        $('.modal').modal();
+
+        (function () {
+            var msg = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
+
+            if (msg != '') {
+                Materialize.toast('' + msg + '', 4000, 'rounded red')
+            }
+        })();
+    });
+
     $("#Novo").click(function () {
-        $.post(urlsUsuario.Create)
-            .done(function (data) {
-                $("#divCriarUsuario").show();
-                $("#divCriarUsuario").slideUp(100, function () {
-                    $("#divCriarUsuario").html(data).slideDown(200);
-                });
-            }).fail(function (xhr) {
-                $("#divCriarUsuario").show();
-                $("#divCriarUsuario").html(xhr.responseText);
-            });
+        $.get(urlsUsuario.Create)
+            .done(function (data) { $('#modalCreateCliente').modal('open').html(data); })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     });
 
     function escondeCreate() {
-        $("#divCriarUsuario").hide();
+        $("#modalCreateCliente").modal('close');
     }
-
-    escondeCreate();
-
-    (function () {
-        var msg = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
-
-        if (msg != '') {
-            $("#divCriarUsuario").show();
-            $("#divCriarUsuario").html(msg);
-        }
-    })();
 </script>

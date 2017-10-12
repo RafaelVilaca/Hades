@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Hades.Application.Interface;
+﻿using Hades.Application.Interface;
+using Hades.Domain.Entities;
 using Hades.Web.ViewModels;
 using Newtonsoft.Json;
-using Hades.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
 {
@@ -45,7 +45,7 @@ namespace Hades.Web.Controllers
         }
 
         // GET: Usuario/Create
-        public ActionResult Create(int i)
+        public ActionResult Create()
         {
             return View();
         }
@@ -57,13 +57,12 @@ namespace Hades.Web.Controllers
             {
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
-                    //return Json("OK", JsonRequestBehavior.AllowGet);
-                    return View("Index");
-                return ErrorMessage("Erro ao criar usuario.");
+                    return Json("Cadastro Efetuado com sucesso, faça o login!" );
+                return ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)
             {
-                return ErrorMessage("Erro ao criar usuario, " + e.Message);
+                return ErrorMessage($"Falha ao criar usuario: {e.Message}");
             }
         }
 

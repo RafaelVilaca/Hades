@@ -15,3 +15,27 @@ select,
 textarea {
     max-width: 280px;
 }
+
+table td .btn-floating {
+    width: 24px;
+    height: 24px;
+}
+
+table td .material-icons {
+    line-height: 25px;
+    display: block;
+    font-size: 1.1rem;
+}
+
+#toast-container {
+    top: auto !important;
+    right: auto !important;
+    bottom: 30%;
+    left: 40%;
+}
+
+h4 {
+    text-align: center; 
+    font-family: Algerian; 
+    color: #b71c1c;
+}

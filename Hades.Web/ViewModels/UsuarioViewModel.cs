@@ -1,10 +1,27 @@
-﻿using System;
+﻿using Hades.Domain.Entities;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Hades.Web.ViewModels
 {
     public class UsuarioViewModel
     {
+        public UsuarioViewModel()
+        {
+
+        }
+
+        public UsuarioViewModel(Usuario user)
+        {
+            Id = user.Id;
+            Nome = user.Nome;
+            Email = user.Email;
+            DataCadastro = user.DataCadastro;
+            Senha = user.Senha;
+            Administrador = user.Administrador;
+            Ativo = user.Ativo;
+        }
+
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }

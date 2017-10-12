@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<table class="striped">
+<table class="striped responsive-table">
     <tr>
         <th>Nome: </th>
         <th>Email: </th>
@@ -19,44 +19,52 @@
         foreach (var usuario in Model)
         {
             <tr @(usuario.Ativo == false ? "style=color:#f00" : "")>
-                <td>
+                <td style="width: 30%">
                     @Html.DisplayFor(modelItem => usuario.Nome)
                 </td>
-                <td>
+                <td style="width: 34%">
                     @Html.DisplayFor(modelItem => usuario.Email)
                 </td>
-                <td>
+                <td style="width: 15%">
                     @Html.DisplayFor(modelItem => usuario.DataCadastro)
                 </td>
                 @if (@usuario.Administrador)
                 {
-                    <td>Sim</td>
+                    <td style="width: 9%">Sim</td>
                 }
                 else
                 {
-                    <td>Não</td>
+                    <td style="width: 9%">Não</td>
                 }
                 @if (@usuario.Ativo)
                 {
-                    <td>Sim</td>
+                    <td style="width: 5%">Sim</td>
                 }
                 else
                 {
-                    <td>Não</td>
+                    <td style="width: 5%">Não</td>
                 }
-                <td style="padding: 0">
-                    <div style="float: right">
+                <td style="padding: 0; width: 7%;">
+                    <div style="float: right; align-items: center;">
                         <ul>
                             <li>
-                                <a class="btn-floating red"><i class="material-icons" onclick="editar('@usuario.Id')">mode_edit</i></a>
-                                <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@usuario.Id')">description</i></a>
+                                <a class="btn-floating red" style="width: 24px; height: 24px;">
+                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="editar('@usuario.Id')">mode_edit</i>
+                                </a>
+                                <a class="btn-floating grey darken-3" style="width: 24px; height: 24px;">
+                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="detalhar('@usuario.Id')">description</i>
+                                </a>
                                 @if (@usuario.Ativo == false)
                                 {
-                                    <a class="btn-floating green"><i class="material-icons" onclick="ativar('@usuario.Id')">perm_identity</i></a>
+                                    <a class="btn-floating green" style="width: 24px; height: 24px;">
+                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="ativar('@usuario.Id')">perm_identity</i>
+                                    </a>
                                 }
                                 else
                                 {
-                                    <a class="btn-floating red"><i class="material-icons" onclick="desativar('@usuario.Id')">perm_identity</i></a>
+                                    <a class="btn-floating red" style="width: 24px; height: 24px;">
+                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="desativar('@usuario.Id')">perm_identity</i>
+                                    </a>
                                 }
                             </li>
                         </ul>

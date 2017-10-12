@@ -1,39 +1,46 @@
 ﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var mensagem = TempData["mensagem"]?.ToString() ?? "";
 }
 
-<div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px #f44336; margin-top: 2%;">
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 80px black; margin-top: 2%;">
 
-    <h3>Usuarios</h3>
-    <div id="Acoes" style="border-style: inset; padding: 2%; font-size: x-large; display: none;"></div>
-    <div id="tabela">
-        @*<div class="row">
-            @using (Html.BeginForm("Index", "Usuario", FormMethod.Get, new {@class = "col s12"}))
-            {
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="NomeUsuario" type="text" class="validate" maxlength="50">
-                        <label for="NomeUsuario" class="active">Nome Usuário</label>
-                    </div>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Pesquisar<i class="material-icons right">send</i></button>
-                </div>
-            }
-        </div>*@
-        <ul>
-            <li>
-                <p>
-                    <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
-                </p>
-            </li>
-        </ul>
-        <div id="divContentUsuario" >
-
+        <h3>Usuarios</h3>
+        <div id="tabela">
+            <ul>
+                <li>
+                    <p>
+                        <a class="btn-floating red"><i class="material-icons" id="Novo">playlist_add</i></a>
+                    </p>
+                </li>
+            </ul>
+            <div id="tabelaUsuarios"></div>            
         </div>
-    </div>
+    </div>    
+</div>
+
+<div id="divContentUsuario" class="modal modal-fixed-footer"
+     style="display: none; height: auto; width: 367px; z-index: 1003; opacity: 1; transform: scaleX(1); border-radius: 15px; top:10%;">
 </div>
 
 <script>
+
+    $(document).ready(function () {
+
+        $('.modal').modal();
+
+        (function () {
+            var msg = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
+
+            if (msg != '') {
+                Materialize.toast('' + msg + '', 4000, 'rounded red')
+            }
+        })();
+
+        buscaTabelaUsuario();
+    });
 
     var urlsUsuario = {
         Edit: '@Url.Action("Edit", "Usuario")',
@@ -43,71 +50,30 @@
         Create: '@Url.Action("Create", "Usuario")',
         BuscaTabelaUsuario: '@Url.Action("BuscaGridUsuario", "Usuario")'
     }
-    
-    function criar() {
-        $.post(urlsUsuario.Create)
-            .done(function (data) {
-                $("#divContentUsuario").slideUp(100, function () {
-                    $("#divContentUsuario").html(data).slideDown(200);
-                });
-                $("#Acoes").hide();
-            }).fail(function (xhr) {
-                $("#Acoes").show();
-                $("#Acoes").html(xhr.responseText);
-            });
-    };
 
     function buscaTabelaUsuario() {
         $.get(urlsUsuario.BuscaTabelaUsuario)
-            .done(function (data) {
-                $("#divContentUsuario").slideUp(100, function () {
-                    $("#divContentUsuario").html(data).slideDown(200);
-                });
-                $("#Acoes").hide();
-            }).fail(function (xhr) {
-                $("#Acoes").show();
-                $("#Acoes").html(xhr.responseText);
-            });
-    };
-
-    buscaTabelaUsuario();
-
-    function erro(xhr) {
-        $("#Acoes").show();
-        $("#Acoes").html(xhr.responseText);
+            .done(function (data) { $('#tabelaUsuarios').slideUp(100, function () { $("#tabelaUsuarios").html(data).slideDown(200); }) })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') })
     }
 
+    function erro(xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red'); }
+
     function editar(id) {
-        $.post(urlsUsuario.Edit, {
-            id: id
-        }).done(function (data) {
-            $("#divContentUsuario").fadeOut(100, function () {
-                $("#divContentUsuario").html(data).fadeIn(100);
-            });
-            $("#Acoes").hide();
-        }).fail(function (xhr) {
-            $("#Acoes").show();
-            $("#Acoes").html(xhr.responseText);
-        });
+        $.get(urlsUsuario.Edit, { id: id })
+            .done(function (data) { $('#divContentUsuario').modal('open').html(data); })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
 
     function detalhar(id) {
-        $.get(urlsUsuario.Details, {
-            id: id
-        }).done(function (data) {
-            $("#divContentUsuario").fadeOut(100, function () {
-                $("#divContentUsuario").html(data).fadeIn(100);
-            });
-            $("#Acoes").hide();
-        }).fail(function (xhr) {
-            $("#Acoes").show();
-            $("#Acoes").html(xhr.responseText);
-        });
+        $.get(urlsUsuario.Details, { id: id })
+            .done(function (data) { $('#divContentUsuario').modal('open').html(data); })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
 
     function desativar(id) {
         if (!confirm("Deseja realmente Desativar esse Usuario?")) return;
-        
+
         $.get(urlsUsuario.Desativar, {
             id: id
         }).done(function () {
@@ -132,5 +98,15 @@
             $("#Acoes").html(xhr.responseText);
         });
     };
+
+    $("#Novo").click(function () {
+        $.get(urlsUsuario.Create)
+            .done(function (data) { $('#divContentUsuario').modal('open').html(data); })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+    });
+
+    function escondeModal() {
+        $("#divContentUsuario").modal('close');
+    }
 
 </script>
