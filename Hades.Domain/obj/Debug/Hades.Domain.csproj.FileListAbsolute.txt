@@ -8,3 +8,8 @@ C:\Users\user\Desktop\ENG-Sistema-HADES\Hades\Hades.Domain\bin\Debug\Hades.Domai
 C:\Users\user\Desktop\ENG-Sistema-HADES\Hades\Hades.Domain\obj\Debug\Hades.Domain.csprojResolveAssemblyReference.cache
 C:\Users\user\Desktop\ENG-Sistema-HADES\Hades\Hades.Domain\obj\Debug\Hades.Domain.dll
 C:\Users\user\Desktop\ENG-Sistema-HADES\Hades\Hades.Domain\obj\Debug\Hades.Domain.pdb
+C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Domain\bin\Debug\Hades.Domain.dll
+C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Domain\bin\Debug\Hades.Domain.pdb
+C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Domain\obj\Debug\Hades.Domain.csprojResolveAssemblyReference.cache
+C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Domain\obj\Debug\Hades.Domain.dll
+C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Domain\obj\Debug\Hades.Domain.pdb

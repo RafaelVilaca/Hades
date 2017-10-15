@@ -110,8 +110,8 @@ namespace Hades.Web.Controllers
             {
                 var response = _usuarioAppService.Put(usuario);
                 if (response.IsSuccessStatusCode)
-                    return RedirectToAction("BuscaGridUsuario");
-                return ErrorMessage("Erro ao editar Usuario");
+                    return Json("Cadastro Atualizado com sucesso, faça o login!");
+                return ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)
             {

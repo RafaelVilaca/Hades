@@ -6,11 +6,12 @@
 
 <table class="striped responsive-table">
     <tr>
+        <th></th>
         <th>Nome: </th>
         <th>Email: </th>
         <th>Data Cadastro: </th>
-        <th>Administrador: </th>
-        <th>Ativo: </th>
+        <th>ADM: </th>
+        @*<th>Ativo: </th>*@
         <th>Ações: </th>
     </tr>
 
@@ -19,32 +20,52 @@
         foreach (var usuario in Model)
         {
             <tr @(usuario.Ativo == false ? "style=color:#f00" : "")>
+                <td style="padding: 0; width: 1%;">
+                    <div style="float: right; align-items: center;">
+                        <ul>
+                            <li>                                
+                                @if (@usuario.Ativo == false)
+                                {
+                                    <a class="btn-floating red" style="width: 24px; height: 24px;">
+                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="ativar('@usuario.Id')">perm_identity</i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn-floating green" style="width: 24px; height: 24px;">
+                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="desativar('@usuario.Id')">perm_identity</i>
+                                    </a>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </td>
                 <td style="width: 30%">
                     @Html.DisplayFor(modelItem => usuario.Nome)
                 </td>
-                <td style="width: 34%">
+                <td style="width: 30%">
                     @Html.DisplayFor(modelItem => usuario.Email)
                 </td>
-                <td style="width: 15%">
+                <td style="width: 17%">
                     @Html.DisplayFor(modelItem => usuario.DataCadastro)
                 </td>
                 @if (@usuario.Administrador)
                 {
-                    <td style="width: 9%">Sim</td>
+                    <td style="width: 3%">Sim</td>
                 }
                 else
                 {
-                    <td style="width: 9%">Não</td>
+                    <td style="width: 3%">Não</td>
                 }
-                @if (@usuario.Ativo)
+                @*@if (@usuario.Ativo)
                 {
                     <td style="width: 5%">Sim</td>
                 }
                 else
                 {
                     <td style="width: 5%">Não</td>
-                }
-                <td style="padding: 0; width: 7%;">
+                }*@
+                <td style="padding: 0; width: 6%;">
                     <div style="float: right; align-items: center;">
                         <ul>
                             <li>
@@ -54,18 +75,6 @@
                                 <a class="btn-floating grey darken-3" style="width: 24px; height: 24px;">
                                     <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="detalhar('@usuario.Id')">description</i>
                                 </a>
-                                @if (@usuario.Ativo == false)
-                                {
-                                    <a class="btn-floating green" style="width: 24px; height: 24px;">
-                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="ativar('@usuario.Id')">perm_identity</i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="btn-floating red" style="width: 24px; height: 24px;">
-                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="desativar('@usuario.Id')">perm_identity</i>
-                                    </a>
-                                }
                             </li>
                         </ul>
                     </div>

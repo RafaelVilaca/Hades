@@ -15,18 +15,13 @@
         <hr />
         @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Nome</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @id = "Nome" } })
-            </div>
+        <div class="input-field col s12">
+            <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome">
+            <label for="Nome" data-error="wrong" data-success="right">Nome</label>
         </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Email</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "Email" } })
-            </div>
+        <div class="input-field col s12">
+            <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email">
+            <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
         </div>
 
         <div class="form-group">
@@ -36,11 +31,13 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Senha  (Deve conter de 5 à 20 caracteres)</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", @id = "Senha" } })
-            </div>
+        <div class="input-field col s12">
+            <input id="Senha" type="password" maxlength="20" value="@Model.Senha">
+            <label for="Senha" data-error="wrong" data-success="right">Senha</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="ConfirmarSenha" type="password" maxlength="20">
+            <label for="ConfirmarSenha" data-error="wrong" data-success="right">Confirmar Senha</label>
         </div>
 
         <div class="form-group">
@@ -63,12 +60,37 @@
 <p></p>
 
 <script>
+
     function cancelar() {
         escondeModal();
     }
 
+    var urlsUsuario = {
+        Editar: '@Url.Action("EditConfirmed", "Usuario")'
+    }
+    
     $("#btnEditar").click(function (e) {
         e.preventDefault();
+
+        if ($("#NomeEditado").val().length == 0) {
+            erro("Nome não pode ser vazio")
+            return false;
+        }
+
+        if ($("#EmailEditado").val() == "") {
+            erro("Email não pode ser vazio")
+            return false;
+        }
+
+        if ($("#SenhaEditada").val() == "" || $("#SenhaEditada").val().length < 5) {
+            erro("Senha deve conter de 5 até 20 caracteres")
+            return false;
+        }
+
+        if ($("#SenhaEditada").val() != $("#ConfirmarSenhaEditada").val()) {
+            erro("Senhas não conferem")
+            return false;
+        }
 
         var usuario =
         {
@@ -77,11 +99,10 @@
             Ativo: $("#Ativo").prop("checked"),
             Administrador: $("#Administrador").prop("checked"),
             Nome: $("#Nome").val(),
-            Email: $("#Email").val(),
-            DataCadastro: $("#DataCadastro").val()
+            Email: $("#Email").val()
         };
-        console.log(usuario);
-        $.post('@Url.Action("EditConfirmed", "Usuario")', { usuario: usuario })
+
+        $.post(urlsUsuario.Editar, { usuario: usuario })
         .done(function (data) {
             $('#divContentUsuario').modal('close');
             sucesso(data);
