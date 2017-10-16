@@ -6,10 +6,10 @@
 }
 
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 400px; background-color: #eeeeee; border-radius: 60px; border-style: initial; margin-left: 29%; height: 410px; " }))
+    @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 400px; border-radius: 60px; position: absolute; border-style: initial; margin-left: 22.1%; height: 410px; background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%; " }))
     {
         <div style="width: 244px; margin-left: 80px;">
-            <h1 style="text-align: center; font-family: Algerian; ">LOGIN:</h1>
+            <h4 style="text-align: center; font-family: Algerian; ">LOGIN:</h4>
 
             <div class="input-field col s12">
                 <input id="NomeLogin" type="text" name="Nome" maxlength="100">
@@ -31,7 +31,7 @@
         </div>
     }
 
-    <div id="modalCreateCliente" class="modal modal-fixed-footer"
+    <div id="modalCreateCliente" class="modal modal-formatada"
          style="display: none; height: auto; width: 367px; z-index: 1003; opacity: 1; transform: scaleX(1); border-radius: 15px; top:10%;">
     </div>
 </div>

@@ -8,7 +8,7 @@
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
         <div class="row">
-            <h4 style="text-align: center; font-family: Algerian; color: #b71c1c; ">Novo Usuário</h4>
+            <h4>Novo Usuário</h4>
 
             @using (Ajax.BeginForm("CreateConfirmed", "Usuario", null, new AjaxOptions
             {
@@ -37,18 +37,18 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Criar" id="btnSalvar" class="btn btn-default" style="border-radius: 20px; background-color: #1976d2; width:135px; " />
+                            <input type="submit" value="Criar" id="btnSalvar" class="btn btn-confirm"/>
                         </div>
                     </div>
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-defauld" onclick="escondeModal()" style="border-radius: 20px; background-color: #b71c1c; margin-left: 30px; ">Cancelar</button>
+                <button class="btn btn-default" onclick="escondeModal()">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
-
+<p></p>
 <script>
 
     var urls = {
@@ -84,8 +84,9 @@
             Email: $("#Email").val(),
             Senha: $("#SenhaUsuario").val()
         }).done(function (data) {
-            $('#divContentUsuario').modal('close');
+            escondeModal();
             sucesso(data);
+            buscaTabelaUsuario();
         }).fail(function (xhr) {
             erro(xhr.responseText);
         });

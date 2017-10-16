@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
+    Layout = null;
 }
 
 <h4>Editar</h4>
@@ -12,7 +12,6 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <hr />
         @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
         <div class="input-field col s12">
@@ -49,45 +48,37 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" id="btnEditar" class="btn btn-default" style="border-radius: 20px; background-color: #1976d2; width:135px; " />
+                <input type="button" value="Salvar" id="btnEditar" class="btn btn-confirm"/>
             </div>
-        </div>
+        </div>        
     </div>
 }
 <div style="margin-left: 110px; margin-top: -36px;">
-    <button class="btn btn-defauld" onclick="escondeModal()" style="border-radius: 20px; background-color: #b71c1c; margin-left: 30px; ">Cancelar</button>
+    <button class="btn btn-default" onclick="escondeModal()">Cancelar</button>
 </div>
 <p></p>
 
 <script>
 
-    function cancelar() {
-        escondeModal();
-    }
-
-    var urlsUsuario = {
-        Editar: '@Url.Action("EditConfirmed", "Usuario")'
-    }
-    
     $("#btnEditar").click(function (e) {
         e.preventDefault();
 
-        if ($("#NomeEditado").val().length == 0) {
+        if (!$("#Nome").val()) {
             erro("Nome não pode ser vazio")
             return false;
         }
 
-        if ($("#EmailEditado").val() == "") {
+        if (!$("#Email").val()) {
             erro("Email não pode ser vazio")
             return false;
         }
 
-        if ($("#SenhaEditada").val() == "" || $("#SenhaEditada").val().length < 5) {
+        if (!$("#Senha").val() || $("#Senha").val().length < 5) {
             erro("Senha deve conter de 5 até 20 caracteres")
             return false;
         }
 
-        if ($("#SenhaEditada").val() != $("#ConfirmarSenhaEditada").val()) {
+        if ($("#Senha").val() != $("#ConfirmarSenha").val()) {
             erro("Senhas não conferem")
             return false;
         }
@@ -102,10 +93,12 @@
             Email: $("#Email").val()
         };
 
-        $.post(urlsUsuario.Editar, { usuario: usuario })
-        .done(function (data) {
-            $('#divContentUsuario').modal('close');
+        $.post('@Url.Action("EditConfirmed", "Usuario")', {
+            usuario: usuario
+        }).done(function (data) {
+            escondeModal();
             sucesso(data);
+            buscaTabelaUsuario();
         }).fail(function (xhr) {
             erro(xhr.responseText);
         });
@@ -120,6 +113,5 @@
         Materialize.toast('' + message + '', 4000, 'rounded red');
         return true;
     }
-    });
 
 </script>

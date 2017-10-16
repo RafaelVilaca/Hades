@@ -5,15 +5,13 @@
     Layout = null;
 }
 
-<h3>Novo Sorteio </h3>
+<h4>Novo Sorteio </h4>
 
 @using (Html.BeginForm("CreateConfirmed", "Sorteio", FormMethod.Post, new { @class = "well" })) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Sorteio</h4>
-        <hr />
         <div class="form-group">
             <label class="control-label col-md-2" style="color: black; font-weight: bold;">Nome</label>
             <div class="col-md-10">

@@ -6,16 +6,12 @@
     Layout = null;
 }
 
-<h3>Editar Sorteio</h3>
-
-
 @using (Html.BeginForm("EditConfirmed", "Sorteio", FormMethod.Post, new { @class = "col s12" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Sorteio</h4>
-        <hr />
+        <h4>Editar Sorteio</h4>
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">

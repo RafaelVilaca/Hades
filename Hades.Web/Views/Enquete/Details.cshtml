@@ -4,11 +4,9 @@
     Layout = null;
 }
 
-<h2>Detalhes</h2>
+<h4>Detalhes Enquete</h4>
 
 <div>
-    <h4>Enquete</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt><b>Titulo:</b> @Html.DisplayFor(model => model.Titulo)</dt>
 
@@ -57,7 +55,7 @@
     }
 
     function editar(id) {
-        $.post(urlsEnquete.Edit, {
+        $.get(urlsEnquete.Edit, {
             id: id
         }).done(function (data) {
             $("#divContentEnquete").fadeOut(100, function () {

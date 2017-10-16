@@ -8,66 +8,61 @@
 <h4>Detalhes Usuario</h4>
 
 <div>
-    <hr />
+    @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
     <dl class="dl-horizontal">
-        <dt>Nome:</dt>
-        <dd>
+        <dt>
+            Nome: @*</dt><dd>*@
             @Html.DisplayFor(model => model.Nome)
-        </dd>
+        </dt>
 
-        <dt>Email:</dt>
-        <dd>
+        <dt>
+            Email: @*</dt><dd>*@
             @Html.DisplayFor(model => model.Email)
-        </dd>
+        </dt>
 
-        <dt>Data Cadastro:</dt>
-        <dd>
+        <dt>
+            Data Cadastro: @*</dt><dd>*@
             @Html.DisplayFor(model => model.DataCadastro)
-        </dd>
-
-        <dt>Administrador:</dt>
-        <dd>
-            @Html.DisplayFor(model => model.Administrador)
-        </dd>
-
-        <dt>Ativo:</dt>
+        </dt>
         @if (@Model.Ativo)
         {
-            <dd>Sim</dd>
+            <dt>Ativo: Sim</dt>
         }
         else
         {
-            <dd>Não</dd>
+            <dt>Ativo: Não</dt>
         }
 
-        <dt>Administrador:</dt>
         @if (@Model.Administrador)
         {
-            <dd>Sim</dd>
+            <dt>Administrador: Sim</dt>
         }
         else
         {
-            <dd>Não</dd>
+            <dt>Administrador: Não</dt>
         }
     </dl>
 </div>
-    <button class="btn btn-default" onclick="editar(@Model.Id)" style="border-radius: 20px;">Editar</button>
-    <div style="margin-left: 110px; margin-top: -36px;">
-        <button class="btn btn-defauld" onclick="escondeModal()" style="border-radius: 20px; background-color: #b71c1c; margin-left: 30px; ">Cancelar</button>
-    </div>
+<button class="btn btn-confirm" onclick="editar($('#Id').val())">Editar</button>
+<div style="margin-left: 110px; margin-top: -36px;">
+    <button class="btn btn-default" onclick="escondeModal()">Cancelar</button>
+</div>
+<p></p>
 
 <script>
+
     var urlsSorteio = {
         Edit: '@Url.Action("Edit", "Usuario")'
     }
 
     function editar(id) {
-        $.get(urlsUsuario.Edit, { id: id })
-            .done(function (data) { $('#divContentUsuario').modal('open').html(data); })
-            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+        $.get(urlsUsuario.Edit, {
+            id: id
+        }).done(function (data) {
+            escondeModal();
+            $('#divContentUsuario').modal('open').html(data);
+        }).fail(function (xhr) {
+            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red')
+        });
     };
-
-    function cancelar() {
-        escondeModal();
-    }
 </script>

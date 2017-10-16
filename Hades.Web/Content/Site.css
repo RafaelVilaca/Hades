@@ -30,7 +30,7 @@ table td .material-icons {
 #toast-container {
     top: auto !important;
     right: auto !important;
-    bottom: 30%;
+    bottom: 20%;
     left: 40%;
 }
 
@@ -38,4 +38,27 @@ h4 {
     text-align: center; 
     font-family: Algerian; 
     color: #b71c1c;
+}
+
+.btn-default{
+    border-radius: 20px; 
+    background-color: #b71c1c; 
+    margin-left: 30px;
+}
+
+.btn-confirm {
+    border-radius: 20px; 
+    background-color: #1976d2; 
+    width:135px;
+}
+
+.modal-formatada{
+    display: none; 
+    height: auto; 
+    width: 367px; 
+    z-index: 1003; 
+    opacity: 1; 
+    transform: scaleX(1); 
+    border-radius: 15px; 
+    top:10%;
 }

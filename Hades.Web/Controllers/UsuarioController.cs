@@ -57,7 +57,7 @@ namespace Hades.Web.Controllers
             {
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
-                    return Json("Cadastro Efetuado com sucesso, faça o login!" );
+                    return Json("Cadastro Efetuado com sucesso" );
                 return ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)
@@ -85,6 +85,22 @@ namespace Hades.Web.Controllers
 
         }
 
+        // PUT: Usuario/Edit/5
+        public ActionResult EditConfirmed(Usuario usuario)
+        {
+            try
+            {
+                var response = _usuarioAppService.Put(usuario);
+                if (response.IsSuccessStatusCode)
+                    return Json("Cadastro Atualizado com sucesso");
+                return ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
+            }
+            catch (Exception e)
+            {
+                return ErrorMessage($"Falha ao editar Usuario, " + e.Message);
+            }
+        }
+
         public ActionResult BuscaGridUsuario()
         {
             try
@@ -100,22 +116,6 @@ namespace Hades.Web.Controllers
             catch (Exception e)
             {
                 return ErrorMessage("Erro ao montar tabela de usuarios, " + e.Message);
-            }
-        }
-
-        // POST: Usuario/Edit/5
-        public ActionResult EditConfirmed(Usuario usuario)
-        {
-            try
-            {
-                var response = _usuarioAppService.Put(usuario);
-                if (response.IsSuccessStatusCode)
-                    return Json("Cadastro Atualizado com sucesso, faça o login!");
-                return ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
-            }
-            catch (Exception e)
-            {
-                return ErrorMessage("Erro ao editar Usuario, " + e.Message);
             }
         }
 
