@@ -6,18 +6,21 @@
 }
 
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-    @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 400px; border-radius: 60px; position: absolute; border-style: initial; margin-left: 22.1%; height: 410px; background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%; " }))
+    @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 22%; border-radius: 60px; position: absolute; border-style: initial; margin-left: 22.1%; height: 545px; background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%; " }))
     {
         <div style="width: 244px; margin-left: 80px;">
-            <h4 style="text-align: center; font-family: Algerian; ">LOGIN:</h4>
-
+            <!--<h4 style="text-align: center; font-family: Algerian; ">LOGIN:</h4>-->
+            <div class="card-image">
+                <img src="~/images/Bastet_CatScratch.png">
+                <h5><span class="card-title" style="left: 130px; text-align: center; font-family: Algerian; color: black;">HADES</span></h5>
+            </div>
             <div class="input-field col s12">
-                <input id="NomeLogin" type="text" name="Nome" maxlength="100">
+                <input id="NomeLogin" type="text" name="Nome" maxlength="100" class="text-box">
                 <label for="NomeLogin" data-error="wrong" data-success="right">Nome</label>
             </div>
 
             <div class="input-field col s12">
-                <input id="SenhaLogin" type="password" name="Senha" maxlength="20">
+                <input id="SenhaLogin" type="password" name="Senha" maxlength="20" class="text-box">
                 <label for="SenhaLogin" data-error="wrong" data-success="right">Senha</label>
             </div>
 
@@ -42,7 +45,7 @@
     }
 
     $(document).ready(function () {
-        
+
         $('.modal').modal();
 
         (function () {

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    @RenderSection("scripts", required: false)
+</head>
+<body style="background-color: white; padding-top: 0px;">
+    <nav style="height: 75px;">
+        <div class="nav-wrapper accent-4" style="background-color: azure;">
+            <img src="~/images/Bastet_CatScratch.png" style="margin-left: 20px; width: 75px;">
+            <span style="text-align: center; font-family: Algerian; color: #b71c1c; position: relative; top: -29px;">@ViewBag.NomeUsuario</span>
+            <a href="#" data-activates="mobile-demo" class="button-collapse">
+            <i class="reorder" style="background-color: brown;border-radius: 40px; width: 37px; height: 55px;">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-top: 10px;">
+                @*<li><a style="font-size: large; color: #8B0000" href="Url.Action("Index", "Home")">Página inicial</a></li>*@
+                <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Enquete")">Enquete</a></li>
+                <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
+                <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Login")">Sair</a></li>
+            </ul>
+            <ul class="side-nav" id="mobile-demo">
+                @*<li><a href="Url.Action("Index", "Home")">Página inicial</a></li>*@
+                <li><a href="@Url.Action("Index", "Enquete")">Enquete</a></li>
+                <li><a href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
+                <li><a href="@Url.Action("Index", "Login")">Sair</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+
+        @RenderBody()
+        <footer>
+            @*<p>&copy; @DateTime.Now.Year - HADES Application</p>*@
+        </footer>
+    </div>
+</body>
+</html>
+
+<script>
+
+    $(document).ready(function () {
+        $(".button-collapse").sideNav();
+    });
+
+</script>

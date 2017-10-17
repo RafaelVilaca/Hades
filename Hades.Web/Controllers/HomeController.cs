@@ -1,14 +1,21 @@
-﻿using Hades.Application;
+﻿using Hades.Web.ViewModels;
 using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult IndexAdm()
         {
             ViewBag.Title = "HADES";
+            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
+            return View();
+        }
 
+        public ActionResult IndexUser()
+        {
+            ViewBag.Title = "HADES";
+            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
             return View();
         }
     }

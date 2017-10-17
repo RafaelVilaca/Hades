@@ -3,8 +3,6 @@ using Hades.Domain.Entities;
 using Hades.Web.ViewModels;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
@@ -30,12 +28,13 @@ namespace Hades.Web.Controllers
             {
                 if (!string.IsNullOrEmpty(nome) || !string.IsNullOrEmpty(senha))
                 {
-                    var usuarioViewModel = _usuarioAppService.GetAll();
+                    var usuarioViewModel = _usuarioAppService.GetByName(nome);
                     if (!usuarioViewModel.IsSuccessStatusCode)
-                        return ErrorMessage("Erro ao buscar usuarios.");
-                    var mostraUsuario =
-                        JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync()
-                            .Result).First(x => x.Nome == nome);
+                    {
+                        TempData["mensagem"] = "Usuario Inexistente!";
+                        return RedirectToAction("Index");
+                    }                        
+                    var mostraUsuario = JsonConvert.DeserializeObject<UsuarioViewModel>(usuarioViewModel.Content.ReadAsStringAsync().Result);
 
                     if (mostraUsuario == null)
                     {
@@ -60,7 +59,15 @@ namespace Hades.Web.Controllers
                         TempData["mensagem"] = "Usuario Inexistente!";
                         return RedirectToAction("Index");
                     }
-                    return RedirectToAction("Index", "Home");
+
+                    UsuarioLogadoViewModel.Id = mostraUsuario.Id;
+                    UsuarioLogadoViewModel.Nome = mostraUsuario.Nome;
+                    UsuarioLogadoViewModel.Administrador = mostraUsuario.Administrador;
+
+                    if(UsuarioLogadoViewModel.Administrador)
+                        return RedirectToAction("IndexAdm", "Home");
+                    else
+                        return RedirectToAction("IndexUser", "Home");
                 }
                 TempData["mensagem"] = "Login e Senha Incorretos!";
                 return RedirectToAction("Index");

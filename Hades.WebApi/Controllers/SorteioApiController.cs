@@ -1,7 +1,7 @@
-﻿using System.Web.Http;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Services;
 using Hades.Infra.Data.Repositories;
+using System.Web.Http;
 
 namespace Hades.WebApi.Controllers
 {

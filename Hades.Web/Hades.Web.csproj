@@ -181,9 +181,10 @@
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VotacaoController.cs" />
     <Compile Include="ViewModels\EnqueteViewModel.cs" />
-    <Compile Include="ViewModels\SorteioParticipantesController.cs" />
+    <Compile Include="Controllers\SorteioParticipantesController.cs" />
     <Compile Include="ViewModels\SorteioViewModel.cs" />
     <Compile Include="ViewModels\SorteioParticipanteViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioLogadoViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
     <Compile Include="ViewModels\VotacaoViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -202,6 +203,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="images\Bastet_CatScratch.png" />
+    <Content Include="images\gifs-gifs-de-fogo-23.gif" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -224,7 +227,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\IndexAdm.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
@@ -247,6 +250,8 @@
     <Content Include="Views\Login\_PartialLayout.cshtml" />
     <Content Include="Views\Shared\_LayoutSemNavBar.cshtml" />
     <Content Include="Views\Login\CreateUsuario.cshtml" />
+    <Content Include="Views\Home\IndexUser.cshtml" />
+    <Content Include="Views\Shared\_LayoutUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -44,12 +44,12 @@
         BuscaTabelaUsuario: '@Url.Action("BuscaGridUsuario", "Usuario")'
     };
 
-    (function buscaTabelaUsuario() {
+    var buscaTabelaUsuario = (function busca() {
         $.get(urlsUsuario.BuscaTabelaUsuario)
             .done(function (data) {
-                escondeModal();
                 $("#tabelaUsuarios").html(data);
             }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') })
+        return busca;
     })();
 
     (function mensagem() {
@@ -110,9 +110,7 @@
     });
 
     function escondeModal() {
-        //$(".modal-overlay").hide();
-        //$("#divContentUsuario").hide();
-        //$("#divContentUsuario").modal('close');
+        $("#divContentUsuario").modal('close');
     }
 
 </script>

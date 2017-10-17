@@ -55,6 +55,15 @@ namespace Hades.Web.Controllers
         {
             try
             {
+                var request = _usuarioAppService.GetAll();
+                if (!request.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao verificar se usuário já existe");
+
+                var usuarioViewModel = JsonConvert.DeserializeObject<Usuario>(request.Content.ReadAsStringAsync().Result);
+                
+                if (usuario.Nome == usuarioViewModel.Nome)
+                    return ErrorMessage("Usuario já existe, insira outro nome.");
+
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
                     return Json("Cadastro Efetuado com sucesso" );

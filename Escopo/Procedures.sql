@@ -4,6 +4,12 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_AddVoto
 	DROP PROCEDURE [dbo].[SP_AddVoto]
 GO
 
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_AddVoto]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_AddVoto]
+GO
+
 CREATE PROCEDURE [dbo].[SP_AddVoto]
 
 	/*
@@ -495,6 +501,33 @@ CREATE PROCEDURE [dbo].[SP_ListarUsuarios]
 	BEGIN
 		SELECT * 
 			FROM Usuario 
+			ORDER BY Nome
+	END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarUsuarioPorNome]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_ListarUsuarioPorNome]
+GO
+
+CREATE PROCEDURE [dbo].[SP_ListarUsuarioPorNome]
+	@Nome varchar(100)
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Lista usuário por nome
+	Autor.............: Rafael Vilaça
+ 	Data..............: 17/10/2017
+	Ex................: EXEC [dbo].[SP_ListarUsuarioPorNome] 'Rafael Vilaça'
+
+	*/
+
+	AS 
+	BEGIN
+		SELECT TOP 1 * 
+			FROM Usuario 
+			WHERE Nome = @Nome
 			ORDER BY Nome
 	END
 GO

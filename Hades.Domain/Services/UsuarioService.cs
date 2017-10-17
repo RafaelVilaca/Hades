@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Domain.Interfaces.Services;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Services
 {
@@ -38,6 +38,11 @@ namespace Hades.Domain.Services
         public IEnumerable<Usuario> GetAll()
         {
             return _usuarioRepository.GetAll();
+        }
+
+        public Usuario GetByName(string nome)
+        {
+            return _usuarioRepository.GetByName(nome);
         }
 
         public string Put(Usuario usuario)

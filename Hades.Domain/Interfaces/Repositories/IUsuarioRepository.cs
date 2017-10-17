@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Interfaces.Repositories
 {
@@ -10,5 +10,6 @@ namespace Hades.Domain.Interfaces.Repositories
         IEnumerable<Usuario> GetAll();
         void Put(Usuario usuario);
         void StatusUsuario(int id, bool status);
+        Usuario GetByName(string nome);
     }
 }

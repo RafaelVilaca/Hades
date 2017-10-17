@@ -42,6 +42,11 @@ namespace Hades.Application
             return _httpClient.PutAsync(url, new {}, JsonMediaTypeFormatter).Result;
         }
 
+        public HttpResponseMessage GetByName(string nome)
+        {
+            return _httpClient.GetAsync("http://localhost:5002/api/usuarios/" + nome).Result;
+        }
+
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter
         {
             SerializerSettings = new JsonSerializerSettings

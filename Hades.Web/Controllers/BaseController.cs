@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Hades.Domain.Entities;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
-using System.Web.Routing;
-using Hades.Domain.Entities;
 
 namespace Hades.Web.Controllers
 {
     public class BaseController : Controller
     {
-        //public Usuario UsuarioLogado
+        //public UsuarioLogado UsuarioLogado
         //{
-        //    get { return (Usuario)Session["UsuarioLogado"]; }
+        //    get { return (UsuarioLogado)Session["UsuarioLogado"]; }
         //    set { Session["UsuarioLogado"] = value; }
         //}
 
@@ -32,6 +30,8 @@ namespace Hades.Web.Controllers
 
         //    base.OnActionExecuting(filterContext);
         //}
+
+        public UsuarioLogado usuarioLogado { get; set; }
 
         protected ActionResult ViewResponse(HttpStatusCode status, string value = "")
         {

@@ -36,6 +36,17 @@ namespace Hades.WebApi.Controllers
             return BadRequest("Erro ao trazer Lista de Usuarios");
         }
 
+        [HttpGet]
+        [Route("usuarios/{nome}")]
+        // GET: api/UsuarioApi/5
+        public IHttpActionResult GetByName(string nome)
+        {
+            var usuario = _usuarioService.GetByName(nome);
+            if (usuario != null)
+                return Ok(usuario);
+            return BadRequest("Erro ao trazer Lista de Usuarios");
+        }
+
         [HttpPost]
         [Route("usuario")]
         // POST: api/UsuarioApi

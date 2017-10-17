@@ -13,7 +13,8 @@ namespace Hades.Infra.Data.Repositories
             SP_ListarUsuarioPorId,
             SP_AddUsuario,
             SP_UpdUsuario,
-            SP_AlteraStatusUsuario
+            SP_AlteraStatusUsuario,
+            SP_ListarUsuarioPorNome
         }
 
         public void Post(Usuario usuario)
@@ -60,6 +61,25 @@ namespace Hades.Infra.Data.Repositories
                         Senha = r.GetString(r.GetOrdinal("Senha"))
                     });
             return usuarios;
+        }
+
+        public Usuario GetByName(string nome)
+        {
+            ExecuteProcedure(Procedures.SP_ListarUsuarioPorNome);
+            AddParameter("@Nome", nome);
+            using (var r = ExecuteReader())
+                if (r.Read())
+                    return new Usuario
+                    {
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
+                        Nome = r.GetString(r.GetOrdinal("Nome")),
+                        Email = r.GetString(r.GetOrdinal("Email")),
+                        Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
+                        Administrador = r.GetBoolean(r.GetOrdinal("Administrador")),
+                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro")),
+                        Senha = r.GetString(r.GetOrdinal("Senha"))
+                    };
+            return null;
         }
 
         public void Put(Usuario usuario)

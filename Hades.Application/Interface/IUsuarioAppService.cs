@@ -10,5 +10,6 @@ namespace Hades.Application.Interface
         HttpResponseMessage GetAll();
         HttpResponseMessage Put(Usuario usuario);
         HttpResponseMessage StatusUsuario(int id, bool status);
+        HttpResponseMessage GetByName(string nome);
     }
 }
