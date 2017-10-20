@@ -20,6 +20,7 @@ namespace Hades.Web.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
+            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
             return View();
         }
 
@@ -55,14 +56,15 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                var request = _usuarioAppService.GetAll();
+                var request = _usuarioAppService.GetByName(usuario.Nome);
                 if (!request.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao verificar se usuário já existe");
 
                 var usuarioViewModel = JsonConvert.DeserializeObject<Usuario>(request.Content.ReadAsStringAsync().Result);
-                
-                if (usuario.Nome == usuarioViewModel.Nome)
-                    return ErrorMessage("Usuario já existe, insira outro nome.");
+
+                if (usuarioViewModel != null)
+                    if (usuario.Nome == usuarioViewModel.Nome)
+                        return ErrorMessage("Usuario já existe, insira outro nome.");
 
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
@@ -83,8 +85,8 @@ namespace Hades.Web.Controllers
                 var response = _usuarioAppService.GetById(id);
                 if (!response.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao buscar usuario");
-                var usuario = JsonConvert.DeserializeObject<UsuarioViewModel>(response.Content.ReadAsStringAsync().Result);
-                return View(usuario);
+                var usuario = JsonConvert.DeserializeObject<Usuario>(response.Content.ReadAsStringAsync().Result);
+                return View(new UsuarioViewModel(usuario));
             }
             catch (Exception e)
             {
@@ -119,6 +121,9 @@ namespace Hades.Web.Controllers
                     return ErrorMessage("Erro ao buscar usuarios.");
                 var usuarios =
                     JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
+
+                ViewBag.Title = "HADES";
+                ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
 
                 return View("_TabelaUsuarios", usuarios);
             }

@@ -47,6 +47,47 @@ CREATE PROCEDURE [dbo].[SP_AddVoto]
 GO
 
 
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_GetVotos]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_GetVotos]
+GO
+
+CREATE PROCEDURE [dbo].[SP_GetVotos]
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Inserir as votações que forem feitas
+	Autor.............: Rafael Vilaça
+ 	Data..............: 09/10/2017
+	Ex................: EXEC [dbo].[SP_AddVoto] 1,
+												1,
+												'Testando inserções',
+												1
+	*/
+
+	@UsuarioId INT,
+	@EnqueteId INT,
+	@Justificativa VARCHAR(200),
+	@TipoVoto BIT
+
+	AS 
+	BEGIN
+		SELECT e.Id AS IdEnquete,
+			   u.Id AS IdUsuario,
+			   e.Titulo,
+			   u.Nome AS NomeUsuario,
+			   v.Justificativa,
+			   v.TipoVoto
+		 FROM [dbo].[Votacao] v WITH(NOLOCK)
+			   INNER JOIN [dbo].[Enquete] e WITH(NOLOCK)
+					ON e.Id = v.IdEnquete
+			   INNER JOIN [dbo].[Usuario] u WITH(NOLOCK)
+					ON u.Id = v.IdUsuario
+			  WHERE e.Id = @EnqueteId
+					AND u.Id = @UsuarioId
+	END
+GO
+
 
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_UpdVoto]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[SP_UpdVoto]
@@ -415,7 +456,7 @@ CREATE PROCEDURE [dbo].[SP_ListarEnquetes]
 			   SUM(CASE WHEN v.TipoVoto = 0 THEN 1 ELSE 0 END) AS VotoContra
 		FROM Enquete e
 			INNER JOIN Usuario u 
-				ON u.Id = e.Id
+				ON u.Id = e.IdUsuario
 			LEFT JOIN Votacao v 
 				ON e.Id = v.IdEnquete
 		WHERE e.Ativo = 1
@@ -464,10 +505,11 @@ CREATE PROCEDURE [dbo].[SP_ListarEnquetePorId]
 			   u.Nome AS Criador
 			FROM Enquete e
 				INNER JOIN Usuario u 
-					ON u.Id = e.Id
+					ON u.Id = e.IdUsuario
 			WHERE e.Id = @Id
 		
-		SELECT v.TipoVoto AS Voto, 
+		SELECT TOP 10
+			   v.TipoVoto AS Voto, 
 			   v.Justificativa AS Justificativa, 
 			   u.Nome AS NomeUsuario 
 			FROM Votacao v

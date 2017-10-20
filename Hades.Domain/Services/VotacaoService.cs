@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Domain.Interfaces.Services;
 
@@ -21,6 +20,11 @@ namespace Hades.Domain.Services
 
             _votacaoRepository.Post(votacao);
             return string.Empty;
+        }
+
+        public Votacao GetVotos(Votacao votacao)
+        {
+            return _votacaoRepository.GetVotos(votacao);
         }
     }
 }

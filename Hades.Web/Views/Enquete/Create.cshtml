@@ -1,44 +1,101 @@
-﻿@model Hades.Web.ViewModels.EnqueteViewModel
+﻿@*@model Hades.Web.ViewModels.EnqueteViewModel*@
 
 @{
     ViewBag.Title = "Create";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h4>Nova Enquete</h4>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
+            <h4>Nova Enquete</h4>
 
+            @using (Ajax.BeginForm("CreateConfirmed", "Enquete", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "buscaTabelaEnquete()",
+                OnFailure = "erro(xhr)"
+            }, new { htmlAttributes = new { @id = "Formulario" } }))
+            {
+                @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("CreateConfirmed", "Enquete", FormMethod.Post, new { @class = "well" })) 
-{
-    @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <div class="input-field col s12">
+                        <input id="Titulo" name="Titulo" type="text" maxlength="20">
+                        <label for="Titulo">Titulo:</label>
+                    </div>
 
-    <div class="form-horizontal">
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Titulo (Deve conter até 20 caracteres)</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Titulo, new {htmlAttributes = new {@class = "form-control"}})
-            </div>
-        </div>
+                    <div class="input-field col s12">
+                        <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150"></textarea>
+                        <label for="Assunto">Assunto:</label>
+                    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Assunto (Deve conter de 10 à 150 caracteres)</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Assunto, new {htmlAttributes = new {@class = "form-control"}})
-            </div>
-        </div>
+                    <div class="input-field col s6">
+                        <input id="Valor" name="Valor" type="text" maxlength="10">
+                        <label for="Valor">Valor R$:</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50"></textarea>
+                        <label for="LocalCotado">Local Cotado:</label>
+                    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" class="btn btn-default"/>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Criar" id="btnSalvar" class="btn btn-confirm" />
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="margin-left: 110px; margin-top: -36px;">
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
             </div>
         </div>
     </div>
-}
-<p>
-    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
-</p>
+</div>
 <script>
-    function cancelar() {
-        buscaTabelaEnquete();
+
+    $(document).ready(function () {
+        $('#Valor').mask("###.###,##", { reverse: true });
+    });
+
+
+    $("#btnSalvar").click(function (e) {
+        e.preventDefault();//cancela o post
+
+        if ($("#Titulo").val() <= 5 || $("#Titulo").val() == "") {
+            erro("Título deve conter de 5 à 20 caracteres");
+            return false;
+        }
+
+        if ($("#Assunto").val() <= 5 || $("#Assunto").val() == "") {
+            erro("Título deve conter de 5 à 150 caracteres");
+            return false;
+        }
+
+        //$("#Formulario").submit();
+        $.post('@Url.Action("CreateConfirmed", "Enquete")', {
+            Titulo: $("#Titulo").val(),
+            Assunto: $("#Assunto").val(),
+            UsuarioId: sessionStorage.getItem('IdUsuarioLogado'),
+            Valor: $("#Valor").val(),
+            Nom_LocalCotado: $("#LocalCotado").val()
+        }).done(function (data) {
+            escondeModal();
+            sucesso(data);
+            buscaTabelaEnquete();
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    });
+
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
     }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
+    }
+
 </script>

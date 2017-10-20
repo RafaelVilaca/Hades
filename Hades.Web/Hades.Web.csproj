@@ -209,6 +209,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -227,7 +228,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <None Include="Views\Home\IndexAdm.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
@@ -250,7 +251,6 @@
     <Content Include="Views\Login\_PartialLayout.cshtml" />
     <Content Include="Views\Shared\_LayoutSemNavBar.cshtml" />
     <Content Include="Views\Login\CreateUsuario.cshtml" />
-    <Content Include="Views\Home\IndexUser.cshtml" />
     <Content Include="Views\Shared\_LayoutUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +291,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50001</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5001/</IISUrl>
+          <IISUrl>http://localhost:2001/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:2001/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

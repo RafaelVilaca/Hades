@@ -33,7 +33,7 @@ namespace Hades.Web.Controllers
                     {
                         TempData["mensagem"] = "Usuario Inexistente!";
                         return RedirectToAction("Index");
-                    }                        
+                    }
                     var mostraUsuario = JsonConvert.DeserializeObject<UsuarioViewModel>(usuarioViewModel.Content.ReadAsStringAsync().Result);
 
                     if (mostraUsuario == null)
@@ -53,7 +53,7 @@ namespace Hades.Web.Controllers
                         TempData["mensagem"] = "Usuario desativado, contate o Administrador!";
                         return RedirectToAction("Index");
                     }
-                    
+
                     if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(senha))
                     {
                         TempData["mensagem"] = "Usuario Inexistente!";
@@ -64,10 +64,8 @@ namespace Hades.Web.Controllers
                     UsuarioLogadoViewModel.Nome = mostraUsuario.Nome;
                     UsuarioLogadoViewModel.Administrador = mostraUsuario.Administrador;
 
-                    if(UsuarioLogadoViewModel.Administrador)
-                        return RedirectToAction("IndexAdm", "Home");
-                    else
-                        return RedirectToAction("IndexUser", "Home");
+                    return RedirectToAction("Index", "Home");
+
                 }
                 TempData["mensagem"] = "Login e Senha Incorretos!";
                 return RedirectToAction("Index");
@@ -95,9 +93,19 @@ namespace Hades.Web.Controllers
         {
             try
             {
+                var request = _usuarioAppService.GetByName(usuario.Nome);
+                if (!request.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao verificar se usuário já existe");
+
+                var usuarioViewModel = JsonConvert.DeserializeObject<Usuario>(request.Content.ReadAsStringAsync().Result);
+
+                if (usuarioViewModel != null)
+                    if (usuario.Nome == usuarioViewModel.Nome)
+                        return ErrorMessage("Usuario já existe, insira outro nome.");
+
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
-                    return Json("Cadastro Efetuado com sucesso, faça o login!" );
+                    return Json("Cadastro Efetuado com sucesso");
                 return ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)

@@ -18,15 +18,14 @@
             <img src="~/images/Bastet_CatScratch.png" style="margin-left: 20px; width: 75px;">
             <span style="text-align: center; font-family: Algerian; color: #b71c1c; position: relative; top: -29px;">@ViewBag.NomeUsuario</span>
             <a href="#" data-activates="mobile-demo" class="button-collapse">
-            <i class="reorder" style="background-color: brown;border-radius: 40px; width: 37px; height: 55px;">menu</i></a>
+                <i class="material-icons" style="font-size: 40px;color: crimson;border-radius: 40px;width: 5px;height: 55px;position: relative;top: 10px;">reorder</i>
+            </a>
             <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-top: 10px;">
-                @*<li><a style="font-size: large; color: #8B0000" href="Url.Action("Index", "Home")">Página inicial</a></li>*@
                 <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Enquete")">Enquete</a></li>
                 <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
                 <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Login")">Sair</a></li>
             </ul>
             <ul class="side-nav" id="mobile-demo">
-                @*<li><a href="Url.Action("Index", "Home")">Página inicial</a></li>*@
                 <li><a href="@Url.Action("Index", "Enquete")">Enquete</a></li>
                 <li><a href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
                 <li><a href="@Url.Action("Index", "Login")">Sair</a></li>
@@ -45,8 +44,10 @@
 
 <script>
 
+    var nomeUsuario = sessionStorage.getItem('NomeUsuarioLogado');
     $(document).ready(function () {
         $(".button-collapse").sideNav();
+        $("#LayoutNomeUsuarioLogado").text(nomeUsuario);
     });
 
 </script>

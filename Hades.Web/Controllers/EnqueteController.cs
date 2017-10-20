@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Hades.Application.Interface;
+﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
 using Hades.Web.ViewModels;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
 {
@@ -22,6 +23,8 @@ namespace Hades.Web.Controllers
         // GET: Enquete
         public ActionResult Index()
         {
+            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
+            ViewBag.Adm = UsuarioLogadoViewModel.Administrador;
             return View();
         }
 
@@ -32,9 +35,9 @@ namespace Hades.Web.Controllers
                 var usuarioViewModel = _enqueteAppService.GetAll();
                 if (!usuarioViewModel.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao trazer lista de enquetes.");
-                var enquetes =
-                    JsonConvert.DeserializeObject<IEnumerable<EnqueteViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
 
+                var enquetes = JsonConvert.DeserializeObject<IEnumerable<EnqueteViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
+                
                 return View("_TabelaEnquetes", enquetes);
             }
             catch (Exception e)
@@ -51,6 +54,7 @@ namespace Hades.Web.Controllers
                 var enquete = _enqueteAppService.GetById(id);
                 if (!enquete.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao buscar enquete");
+                
                 var mostraEnquete =
                     JsonConvert.DeserializeObject<EnqueteViewModel>(enquete.Content.ReadAsStringAsync().Result);
 
@@ -60,7 +64,6 @@ namespace Hades.Web.Controllers
             {
                 return ErrorMessage("Erro ao trazer usuario, " + e.Message);
             }
-
         }
 
         // GET: Enquete/Create
@@ -74,10 +77,22 @@ namespace Hades.Web.Controllers
         {
             try
             {
+                var request = _enqueteAppService.GetAll();
+                if (!request.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao verificar se usuário já existe");
+
+                var enqueteViewModel = JsonConvert.DeserializeObject<IEnumerable<EnqueteViewModel>>(request.Content.ReadAsStringAsync().Result);
+
+                var verifica = enqueteViewModel.Select(x => x.Assunto.Contains(enquete.Assunto)).ToString();
+
+                if (string.IsNullOrEmpty(verifica))
+                    return ErrorMessage("Enquete já existe, insira outro título.");
+
                 var response = _enqueteAppService.Post(enquete);
                 if (!response.IsSuccessStatusCode)
                     ErrorMessage("Erro ao criar enquete");
-                return View("Index");
+
+                return Json("Cadastro Efetuado com sucesso");
             }
             catch (Exception e)
             {
@@ -109,12 +124,12 @@ namespace Hades.Web.Controllers
             {
                 var response = _enqueteAppService.Put(enquete);
                 if (response.IsSuccessStatusCode)
-                    return RedirectToAction("BuscaGridEnquetes");
-                return ErrorMessage("Erro ao editar Enquete");
+                    return Json("Enquete Atualizada com sucesso");
+                return ErrorMessage($"Erro ao editar enquete: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)
             {
-                return ErrorMessage("Erro ao editar cliente, " + e.Message);
+                return ErrorMessage($"Falha ao editar Enquete, " + e.Message);
             }
         }
 

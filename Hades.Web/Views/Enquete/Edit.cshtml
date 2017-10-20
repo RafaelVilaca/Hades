@@ -2,66 +2,95 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h4>Editar Enquete</h4>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
 
-@using (Html.BeginForm("EditConfirmed", "Enquete", FormMethod.Post, new { @class = "col s12" }))
-{
-    @Html.AntiForgeryToken()
+            <h4>Editar Enquete</h4>
 
-    <div class="form-horizontal">
+            @using (Html.BeginForm("EditConfirmed", "Enquete", FormMethod.Post, new { @class = "col s12" }))
+            {
+                @Html.AntiForgeryToken()
 
-        @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
+                <div class="form-horizontal">
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Titulo (Deve conter até 20 caracteres)</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", @id = "Titulo" } })
-            </div>
-        </div>
+                    @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Assunto (Deve conter de 10 à 150 caracteres)</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Assunto, new { htmlAttributes = new { @class = "form-control", @id = "Assunto" } })
-            </div>
-        </div>
+                    <div class="form-horizontal">
+                        <div class="input-field col s12">
+                            <input id="Titulo" name="Titulo" type="text" maxlength="20" value="@Model.Titulo">
+                            <label for="Titulo">Titulo:</label>
+                        </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Enquete</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataEnquete, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
-            </div>
-        </div>
+                        <div class="input-field col s12">
+                            <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150">@Model.Assunto</textarea>
+                            <label for="Assunto">Assunto:</label>
+                        </div>
 
-        <div class="form-group">
-            <p>
-                <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty)/>
-                <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
-            </p>
-        </div>
-        <br/>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" id="btnSalvar" class="btn btn-default" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Enquete</label>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DataEnquete, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
+                            </div>
+                        </div>
+
+                        <div class="input-field col s6">
+                            <input id="Valor" name="Valor" type="text" maxlength="10" value="@Model.Valor">
+                            <label for="Valor">Valor R$:</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50">@Model.Nom_LocalCotado</textarea>
+                            <label for="LocalCotado">Local Cotado:</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty)/>
+                            <label for="Ativo" style="color: black;font-weight: bold;top: -20px;position: relative;">Ativo</label>
+                        </div>
+                        <p></p>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button id="btnEditarEnquete" class="btn btn-confirm" style="float: left;">Salvar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="margin-left: 110px; margin-top: -36px;">
+                <button class="btn btn-default" style="float: right; margin-top: inherit;" onclick="escondeModal()">Cancelar</button>
             </div>
         </div>
     </div>
-}
+</div>
 
-<p>
-    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
-</p>
 
 <script>
-    function cancelar() {
-        buscaTabelaEnquete();
-    }
 
-    $("#btnSalvar").click(function (e) {
+    $("#btnEditarEnquete").click(function (e) {
         e.preventDefault();
+
+        if (!$("#Titulo").val()) {
+            erro("Titulo não pode ser vazio");
+            return false;
+        }
+
+        if (!$("#Assunto").val()) {
+            erro("Assunto não pode ser vazio");
+            return false;
+        }
+
+        if (!$("#Valor").val()) {
+            erro("Valor não pode ser vazio");
+            return false;
+        }
+
+        if (!$("#LocalCotado").val()) {
+            erro("Local Cotado não pode ser vazio");
+            return false;
+        }
 
         var enquete =
         {
@@ -69,15 +98,29 @@
             Titulo: $("#Titulo").val(),
             Ativo: $("#Ativo").prop("checked"),
             Assunto: $("#Assunto").val(),
-            DataCadastro: $("#DataCadastro").val()
+            Valor: $("#Valor").val(),
+            Nom_LocalCotado: $("#LocalCotado").val()
         };
-        console.log(enquete);
+
         $.post('@Url.Action("EditConfirmed", "Enquete")', { enquete: enquete })
         .done(function () {
+            sucesso("Cadastro atualizado com sucesso");
+            escondeModal();
             buscaTabelaEnquete();
         }).fail(function (xhr) {
-            $("#Acoes").html(xhr.responseText);
+            erro(xhr.responseText);
         });
+
     });
+    
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
+    }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
+    }
 
 </script>

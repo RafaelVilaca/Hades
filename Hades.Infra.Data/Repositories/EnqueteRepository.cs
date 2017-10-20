@@ -23,7 +23,7 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@Descricao", enquete.Assunto);
             AddParameter("@Nom_LocalCotado", enquete.Nom_LocalCotado);
             AddParameter("@Valor", enquete.Valor);
-            AddParameter("@UsuarioId", enquete.Usuario.Id);            
+            AddParameter("@UsuarioId", enquete.UsuarioId);            
             ExecuteNonQuery();
         }
 
@@ -39,12 +39,14 @@ namespace Hades.Infra.Data.Repositories
                 {
                     enquete = new Enquete
                     {
-                        Id = r.GetInt32(r.GetOrdinal("Id")),
+                        //Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
-                        Assunto = r.GetString(r.GetOrdinal("Assunto")),
+                        Assunto = r.GetString(r.GetOrdinal("Descricao")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
                         Criador = r.GetString(r.GetOrdinal("Criador")),
+                        Valor = r.GetDecimal(r.GetOrdinal("Valor")),
+                        Nom_LocalCotado = r.GetString(r.GetOrdinal("LocalCotado"))
                     };
                 }
                 if (r.NextResult())
@@ -52,7 +54,7 @@ namespace Hades.Infra.Data.Repositories
                     {
                         enquete.ListaVotacao.Add(new Votacao
                         {
-                            Votador = r.GetString(r.GetOrdinal("NomeUsuario")),
+                            NomeUsuario = r.GetString(r.GetOrdinal("NomeUsuario")),
                             TipoVoto = r.GetBoolean(r.GetOrdinal("Voto")),
                             Justificativa = r.GetString(r.GetOrdinal("Justificativa"))
                         });
@@ -73,10 +75,12 @@ namespace Hades.Infra.Data.Repositories
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
-                        Assunto = r.GetString(r.GetOrdinal("Assunto")),
+                        Assunto = r.GetString(r.GetOrdinal("Descricao")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
                         DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
                         Criador = r.GetString(r.GetOrdinal("Criador")),
+                        Valor = r.GetDecimal(r.GetOrdinal("Valor")),
+                        Nom_LocalCotado = r.GetString(r.GetOrdinal("LocalCotado")),
                         ////Votos
                         VotoFavor = r.GetInt32(r.GetOrdinal("VotoFavor")),
                         VotoContra = r.GetInt32(r.GetOrdinal("VotoContra"))
@@ -88,10 +92,12 @@ namespace Hades.Infra.Data.Repositories
         public void Put(Enquete enquete)
         {
             ExecuteProcedure(Procedures.SP_UpdEnquete);
-            AddParameter("@Id", enquete.Id);
+            AddParameter("@IdEnq", enquete.Id);
             AddParameter("@Titulo", enquete.Titulo);
-            AddParameter("@Assunto", enquete.Assunto);
+            AddParameter("@Descricao", enquete.Assunto);
             AddParameter("@Ativo", enquete.Ativo);
+            AddParameter("@Valor", enquete.Valor);
+            AddParameter("@LocalCotado", enquete.Nom_LocalCotado);
             ExecuteNonQuery();
         }
 

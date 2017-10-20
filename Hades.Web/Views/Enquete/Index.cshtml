@@ -1,30 +1,45 @@
-﻿@model IEnumerable<Hades.Web.ViewModels.EnqueteViewModel>
+﻿@using Hades.Web.ViewModels
+@model IEnumerable<Hades.Web.ViewModels.EnqueteViewModel>
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = UsuarioLogadoViewModel.Administrador ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml";
+    var mensagem = TempData["mensagem"]?.ToString() ?? "";
 }
 
-<div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%;">
-    <h4>Lista de Enquetes</h4>
-
-    <div id="Acoes" style="border-style: inset; padding: 2%; display: none;" ></div>
-
-    <p>
-        <ul>
-            <li>
-                <a class="btn-floating red"><i class="material-icons" onclick="criar()">playlist_add</i></a>
-            
-            
-                <a class="btn-floating blue"><i class="material-icons" onclick="votar()">input</i></a>
-            </li>
-        </ul>
-    </p>
-
-    <div id="divContentEnquete"></div>
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%;">
+        <h4>Lista de Enquetes</h4>
+        <div id="tabela">
+            <ul>
+                <li>
+                    <p>
+                        <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Criar Enquete"><i class="material-icons" id="Novo">playlist_add</i></a>
+                    </p>
+                    @*<a class="btn-floating blue"><i class="material-icons" onclick="votar()">input</i></a>*@
+                </li>
+            </ul>
+            <div id="tabelaEnquete"></div>
+        </div>
+    </div>
 </div>
 
+<div></div>
+<div id="divContentEnquete" class="modal modal-formatada"></div>
+
 <script>
+    
+    $(".modal-overlay").on("click", function () {
+        $(this).hide();
+    });
+
+    var mensagemAviso = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
+
+    $(document).ready(function () {
+        $('.modal').modal();
+        $('.tooltipped').tooltip({ delay: 50 });
+    });
+
     var urlsEnquete = {
         Edit: '@Url.Action("Edit", "Enquete")',
         Details: '@Url.Action("Details", "Enquete")',
@@ -34,60 +49,45 @@
         BuscaTabelaEnquete: '@Url.Action("BuscaGridEnquetes", "Enquete")'
     }
 
-    function criar() {
-        $.post(urlsEnquete.Create)
-            .done(function (data) {
-                $("#divContentEnquete").slideUp(100, function () {
-                    $("#divContentEnquete").html(data).slideDown(200);
-                });
-                $("#Acoes").hide();
-            }).fail(function (xhr) {
-                $("#Acoes").show();
-                $("#Acoes").html(xhr.responseText);
-            });
-    };
-
-    function buscaTabelaEnquete() {
+    var buscaTabelaEnquete = (function tabelaEnquete() {
         $.get(urlsEnquete.BuscaTabelaEnquete)
             .done(function (data) {
-                $("#divContentEnquete").slideUp(100, function () {
-                    $("#divContentEnquete").html(data).slideDown(200);
-                });
-                $("#Acoes").hide();
-            }).fail(function (xhr) {
-                $("#Acoes").show();
-                $("#Acoes").html(xhr.responseText);
-            });
-    };
+                $("#tabelaEnquete").html(data);
+            }).fail(function (xhr) { erro(xhr.responseText); });
+        return tabelaEnquete;
+    })();
 
-    buscaTabelaEnquete();
+    (function mensagem() {
+        if (mensagemAviso != '') {
+            Materialize.toast('' + msg + '', 4000, 'rounded red');
+        }
+    })();
+
+    function erro(xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red'); }
+
+    $("#Novo").click(function () {
+        $.get(urlsEnquete.Create)
+            .done(function (data) { $('#divContentEnquete').modal('open').html(data); })
+            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+    });
 
     function editar(id) {
-        $.post(urlsEnquete.Edit, {
+        $('#divContentEnquete').modal('close');
+        $.get(urlsEnquete.Edit, {
             id: id
         }).done(function (data) {
-            $("#divContentEnquete").fadeOut(100, function () {
-                $("#divContentEnquete").html(data).fadeIn(100);
-            });
-            $("#Acoes").hide();
-        }).fail(function (xhr) {
-            $("#Acoes").show();
-            $("#Acoes").html(xhr.responseText);
-        });
+            escondeModal();
+            $('#divContentEnquete').modal('open').html(data);
+        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
 
     function detalhar(id) {
         $.get(urlsEnquete.Details, {
             id: id
         }).done(function (data) {
-            $("#divContentEnquete").fadeOut(100, function () {
-                $("#divContentEnquete").html(data).fadeIn(100);
-            });
-            $("#Acoes").hide();
-        }).fail(function (xhr) {
-            $("#Acoes").show();
-            $("#Acoes").html(xhr.responseText);
-        });
+            escondeModal();
+            $('#divContentEnquete').modal('open').html(data);
+        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
 
     function desativar(id) {
@@ -97,10 +97,8 @@
             id: id
         }).done(function () {
             buscaTabelaEnquete();
-            $("#Acoes").hide();
         }).fail(function (xhr) {
-            $("#Acoes").show();
-            $("#Acoes").html(xhr.responseText);
+            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
         });
     };
 
@@ -108,13 +106,15 @@
         $.get(urlsEnquete.Votar, {
             id: id
         }).done(function (data) {
-            $("#divContentEnquete").fadeOut(100, function () {
-                $("#divContentEnquete").html(data).fadeIn(100);
-            });
-            $("#Acoes").hide();
+            escondeModal();
+            $('#divContentEnquete').modal('open').html(data);
         }).fail(function (xhr) {
-            $("#Acoes").show();
-            $("#Acoes").html(xhr.responseText);
+            erro(xhr.responseText);
         });
     };
+
+    function escondeModal() {
+        $("#divContentEnquete").modal('close');
+    }
+
 </script>

@@ -35,34 +35,41 @@ table td .material-icons {
 }
 
 h4 {
-    text-align: center; 
-    font-family: Algerian; 
+    text-align: center;
+    font-family: Algerian;
     color: #b71c1c;
 }
 
-.btn-default{
-    border-radius: 20px; 
-    background-color: #b71c1c; 
-    margin-left: 30px;
+.btn-default {
+    border-radius: 20px;
+    background-color: #b71c1c;
 }
 
 .btn-confirm {
-    border-radius: 20px; 
-    background-color: #1976d2; 
-    width:135px;
+    border-radius: 20px;
+    background-color: #1976d2;
+    width: 135px;
 }
 
-.modal-formatada{
-    display: none; 
-    height: auto; 
-    width: 367px; 
-    z-index: 1003; 
-    opacity: 1; 
-    transform: scaleX(1); 
-    border-radius: 15px; 
-    top:10%;
+.modal-formatada {
+    display: none;
+    margin-top: 0;
+    height: auto;
+    width: 462px;
+    z-index: 1003;
+    opacity: 1;
+    transform: scaleX(1);
+    border-radius: 15px;
+    top: 10%;
+    margin: 0 auto;
+    min-height: 100px;
+    padding: 1px;
 }
 
-.text-box{
+.text-box {
     padding-left: 3px;
+}
+
+input, textarea {
+    max-width: 1000px;
 }

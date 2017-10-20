@@ -6,13 +6,11 @@
 
 <table class="striped responsive-table">
     <tr>
-        <th></th>
-        <th>Nome: </th>
-        <th>Email: </th>
-        <th>Data Cadastro: </th>
-        <th>ADM: </th>
-        @*<th>Ativo: </th>*@
-        <th>Ações: </th>
+        <th style="padding-top: 10px; padding-bottom: 7px;">Nome: </th>
+        <th style="padding-top: 10px; padding-bottom: 7px;">Email: </th>
+        <th style="padding-top: 10px; padding-bottom: 7px;">Data Cadastro: </th>
+        <th style="padding-top: 10px; padding-bottom: 7px;">ADM: </th>
+        <th style="padding-top: 10px; padding-bottom: 7px;">Ações: </th>
     </tr>
 
     @if (Model != null && Model.Any())
@@ -20,66 +18,63 @@
         foreach (var usuario in Model)
         {
             <tr @(usuario.Ativo == false ? "style=color:#f00" : "")>
-                <td style="padding: 0; width: 1%;">
-                    <div style="float: right; align-items: center;">
-                        <ul>
-                            <li>                                
-                                @if (@usuario.Ativo == false)
-                                {
-                                    <a class="btn-floating red" style="width: 24px; height: 24px;">
-                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="ativar('@usuario.Id')">perm_identity</i>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="btn-floating green" style="width: 24px; height: 24px;">
-                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="desativar('@usuario.Id')">perm_identity</i>
-                                    </a>
-                                }
-                            </li>
-                        </ul>
-                    </div>
+                <td style="width: 30%; padding-top: 3px; padding-bottom: 3px;">
+                    <ul>
+                        <li>
+                            @if (@usuario.Ativo == false)
+                            {
+                                <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativado" style="width: 24px; height: 24px;">
+                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="ativar('@usuario.Id')">perm_identity</i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ativo" style="width: 24px; height: 24px;">
+                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="desativar('@usuario.Id')">perm_identity</i>
+                                </a>
+                            }
+                            @Html.DisplayFor(modelItem => usuario.Nome)
+                        </li>
+                    </ul>
                 </td>
-                <td style="width: 30%">
-                    @Html.DisplayFor(modelItem => usuario.Nome)
-                </td>
-                <td style="width: 30%">
+                <td style="width: 30%; padding-top: 3px; padding-bottom: 3px;">
                     @Html.DisplayFor(modelItem => usuario.Email)
                 </td>
-                <td style="width: 17%">
+                <td style="width: 17%; padding-top: 3px; padding-bottom: 3px;">
                     @Html.DisplayFor(modelItem => usuario.DataCadastro)
                 </td>
                 @if (@usuario.Administrador)
                 {
-                    <td style="width: 5%">Sim</td>
+                    <td style="width: 5%; padding-top: 3px; padding-bottom: 3px;">Sim</td>
                 }
                 else
                 {
-                    <td style="width: 5%">Não</td>
+                    <td style="width: 5%; padding-top: 3px; padding-bottom: 3px;">Não</td>
                 }
-                @*@if (@usuario.Ativo)
-                {
-                    <td style="width: 5%">Sim</td>
-                }
-                else
-                {
-                    <td style="width: 5%">Não</td>
-                }*@
-                <td style="padding: 0; width: 5%;">
-                    <div style="float: right; align-items: center;">
-                        <ul>
-                            <li>
-                                <a class="btn-floating red" style="width: 24px; height: 24px;">
-                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="editar('@usuario.Id')">mode_edit</i>
-                                </a>
-                                <a class="btn-floating grey darken-3" style="width: 24px; height: 24px;">
-                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="detalhar('@usuario.Id')">description</i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <td style="padding-top: 3px; padding-bottom: 3px; width: 5%;">
+                    <ul>
+                        <li>
+                            <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar" style="width: 24px; height: 24px;">
+                                <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="editar('@usuario.Id')">mode_edit</i>
+                            </a>
+                            <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar" style="width: 24px; height: 24px;">
+                                <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="detalhar('@usuario.Id')">description</i>
+                            </a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         }
     }
+    else
+    {
+        <tr><td colspan="5" style="text-align: center">Nenhum registro encontrado</td></tr>
+    }
 </table>
+
+<script>
+    $(document).ready(function () {
+        $('.modal').modal();
+        $('.tooltipped').tooltip({ delay: 50 });
+    });
+</script>

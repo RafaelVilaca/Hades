@@ -19,10 +19,7 @@ namespace Hades.WebApi.Controllers
         // GET: api/EnqueteApi
         public IHttpActionResult GetAll()
         {
-            var enquetes = _enqueteService.GetAll();
-            if (enquetes != null)
-                return Ok(enquetes);
-            return BadRequest("Erro ao trazer Lista de Enquetes");
+            return Ok(_enqueteService.GetAll());
         }
 
         [HttpGet]
@@ -30,10 +27,7 @@ namespace Hades.WebApi.Controllers
         // GET: api/EnqueteApi/5
         public IHttpActionResult GetById(int id)
         {
-            var enquete = _enqueteService.GetById(id);
-            if (enquete != null)
-                return Ok(enquete);
-            return BadRequest("Erro ao trazer Lista de Enquetes");
+            return Ok(_enqueteService.GetById(id));
         }
 
         [HttpPost]

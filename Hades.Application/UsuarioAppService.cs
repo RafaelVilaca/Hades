@@ -17,34 +17,34 @@ namespace Hades.Application
 
         public HttpResponseMessage Post(Usuario usuario)
         {
-            return _httpClient.PostAsync("http://localhost:5002/api/usuario", usuario, JsonMediaTypeFormatter).Result;
+            return _httpClient.PostAsync("http://localhost:2002/api/usuario", usuario, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage GetById(int id)
         {
-            return _httpClient.GetAsync("http://localhost:5002/api/usuario/" + id).Result;
+            return _httpClient.GetAsync("http://localhost:2002/api/usuario/" + id).Result;
         }
 
         public HttpResponseMessage GetAll()
         {
-            return _httpClient.GetAsync("http://localhost:5002/api/usuarios").Result;
+            return _httpClient.GetAsync("http://localhost:2002/api/usuarios").Result;
         }
 
         public HttpResponseMessage Put(Usuario usuario)
         {
-            return _httpClient.PutAsync("http://localhost:5002/api/usuario", usuario, JsonMediaTypeFormatter).Result;
+            return _httpClient.PutAsync("http://localhost:2002/api/usuario", usuario, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage StatusUsuario(int id, bool status)
         {
-            var url = $"http://localhost:5002/api/usuario/{id}/{status}";
+            var url = $"http://localhost:2002/api/usuario/{id}/{status}";
 
             return _httpClient.PutAsync(url, new {}, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage GetByName(string nome)
         {
-            return _httpClient.GetAsync("http://localhost:5002/api/usuarios/" + nome).Result;
+            return _httpClient.GetAsync("http://localhost:2002/api/usuarios/" + nome).Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

@@ -1,0 +1,12 @@
+﻿@using Hades.Web.ViewModels
+
+@{
+    Layout = UsuarioLogadoViewModel.Administrador ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml"; ;
+}
+
+<body></body>
+
+<script>
+    sessionStorage.setItem('NomeUsuarioLogado', '@ViewBag.NomeUsuario');
+    sessionStorage.setItem('IdUsuarioLogado', '@ViewBag.IdUsuario');
+</script>

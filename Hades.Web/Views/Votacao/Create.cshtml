@@ -1,47 +1,59 @@
-﻿@model Hades.Web.ViewModels.VotacaoViewModel
+﻿@model Hades.Domain.Entities.Votacao
 
 @{
     ViewBag.Title = "Create";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h2>Votação</h2>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
 
-@using (Html.BeginForm("CreateConfirmed", "Votacao")) 
-{
-    @Html.AntiForgeryToken()
+            <h4>Votação</h4>
 
-    <div class="form-group">
-        <div>Lista de Enquetes</div>
-        <div class="col-lg-10 col-md-10">
-            @Html.DropDownList("listaEnquetes", Model.ListaParaVotacao)
-        </div>
-    </div>
+            @using (Html.BeginForm("CreateConfirmed", "Votacao"))
+            {
+                @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Votacao</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Justificativa</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Justificativa, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold; ">Tipo Voto</label>
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.TipoVoto)
+                <div class="input-field col s12">
+                    <input id="Titulo" name="Titulo" type="text" maxlength="20" value="@Model.Enquete" readonly="readonly">
+                    <label for="Titulo">Titulo Enquete:</label>
                 </div>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Votar" class="btn btn-default" style="border-radius: 20px;" />
-            </div>
+                <div class="form-horizontal">
+                    <h4>Votacao</h4>
+                    <div class="input-field col s12">
+                        <input id="Justificativa" name="Justificativa" type="text" maxlength="150" value="@Model.Justificativa" readonly="readonly">
+                        <label for="Justificativa">Justificativa:</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <p>
+                            <input name="TipoVoto" type="radio" id="Favor" />
+                            <label for="Favor">Favor</label>
+                        </p>
+                        <p>
+                            <input name="TipoVoto" type="radio" id="Contra" />
+                            <label for="Contra">Contra</label>
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Votar" class="btn btn-confirm" style="border-radius: 20px;" />
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-}
+</div>
+
+<script>
+    $(document).ready(function() {
+        if (@Model.TipoVoto)
+            $("#Favor").prop("checked", true);
+        else
+            $("#Contra").prop("checked", true);
+    });
+</script>

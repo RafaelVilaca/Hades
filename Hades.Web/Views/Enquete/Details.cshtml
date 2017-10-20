@@ -1,72 +1,93 @@
 ﻿@model  Hades.Web.ViewModels.EnqueteViewModel
 @{
     ViewBag.Title = "Details";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h4>Detalhes Enquete</h4>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
 
-<div>
-    <dl class="dl-horizontal">
-        <dt><b>Titulo:</b> @Html.DisplayFor(model => model.Titulo)</dt>
+            <h4>Detalhes Enquete</h4>
 
-        <dt><b>Assunto:</b> @Html.DisplayFor(model => model.Assunto)</dt>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>Titulo: @Html.DisplayFor(model => model.Titulo)</dt>
 
-        <dt><b>Data Enquete:</b> @Html.DisplayFor(model => model.DataEnquete)</dt>
-    </dl>
-</div>
-<p>
-    <button class="btn btn-default" onclick="editar(@Model.Id)">Editar</button>
-    <button class="btn btn-default" onclick="cancelar()">Cancelar</button>
-</p>
+                    <dt>Assunto: @Html.DisplayFor(model => model.Assunto)</dt>
 
-@*Votos*@
-<div>
-    <h4>Tabela de Votos</h4>
-    <table class="striped">
-        <tr>
-            <th>Nome Usuario</th>
-            <th>Tipo Voto</th>
-            <th>Justificativa</th>
-        </tr>
-        @foreach (var voto in Model.ListaVotacao)
-        {
-            <tr @(voto.TipoVoto == false ? "style=color:#f00" : "")>
-                <td>@Html.DisplayFor(modelItem => voto.Votador)</td>
-                @if (voto.TipoVoto)
-                {
-                    <td>Favor</td>
-                }
-                else
-                {
-                    <td>Contra</td>
-                }
-                <td>@Html.DisplayFor(modelItem => voto.Justificativa)</td>
-            </tr>
-        }
+                    <dt>Data Enquete: @Html.DisplayFor(model => model.DataFormatada)</dt>
 
-    </table>
+                    <dt>Local: @Html.DisplayFor(model => model.Nom_LocalCotado)</dt>
+
+                    <dt>Valor: R$@Html.DisplayFor(model => model.Valor)</dt>
+
+                    <dt>Criador: @Html.DisplayFor(model => model.Criador)</dt>
+                </dl>
+            </div>
+
+            <p>
+                <ul>
+                    <li>
+                        <button class="btn btn-confirm" onclick="editar(@Model.Id)">Editar</button>
+                        <button class="btn btn-default" style="float: right" onclick="cancelar()">Cancelar</button>
+                    </li>
+                </ul>
+            </p>
+
+            @*Votos*@
+            <div>
+                <h4>Tabela de Votos</h4>
+                <table class="striped">
+                    <tr>
+                        <th>Nome Usuario</th>
+                        <th>Tipo Voto</th>
+                        <th>Justificativa</th>
+                    </tr>
+                    @if (Model.ListaVotacao != null)
+                    {
+                        foreach (var voto in Model.ListaVotacao)
+                        {
+                            <tr @(voto.TipoVoto == false ? "style=color:#f00" : "")>
+                                <td>@Html.DisplayFor(modelItem => voto.NomeUsuario)</td>
+                                @if (voto.TipoVoto)
+                    {
+                                    <td>Favor</td>
+                                }
+                                else
+                                {
+                                    <td>Contra</td>
+                                }
+                                <td>@Html.DisplayFor(modelItem => voto.Justificativa)</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="3" style="text-align: center;">Nenhuma votação encontrada...</td></tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 @*Votos*@
 
 <script>
-    var urlsEnquete = {
-        Edit: '@Url.Action("Edit", "Enquete")'
-    }
 
     function editar(id) {
+        escondeModal();
         $.get(urlsEnquete.Edit, {
             id: id
         }).done(function (data) {
-            $("#divContentEnquete").fadeOut(100, function () {
-                $("#divContentEnquete").html(data).fadeIn(100);
-            });
+            $('#divContentUsuario').modal('open').html(data);
         }).fail(function (xhr) {
-            $("#Acoes").html(xhr.responseText);
+            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
         });
     };
 
     function cancelar() {
+        escondeModal();
         buscaTabelaEnquete();
     }
 </script>

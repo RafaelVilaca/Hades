@@ -15,7 +15,7 @@
                 HttpMethod = "POST",
                 OnSuccess = "buscaTabelaUsuario()",
                 OnFailure = "erro(xhr)"
-            }, new { htmlAttributes = new { @id = "Formulario" } }))
+            }, new {htmlAttributes = new {@id = "Formulario"}}))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-horizontal">
@@ -43,12 +43,12 @@
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" onclick="escondeModal()">Cancelar</button>
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
             </div>
         </div>
     </div>
 </div>
-<p></p>
+
 <script>
 
     var urls = {

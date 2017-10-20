@@ -17,7 +17,12 @@ namespace Hades.Application
 
         public HttpResponseMessage Post(Votacao votacao)
         {
-            return _httpClient.PostAsync("http://localhost:5002/api/votacao", votacao, JsonMediaTypeFormatter).Result;
+            return _httpClient.PostAsync("http://localhost:2002/api/votacao", votacao, JsonMediaTypeFormatter).Result;
+        }
+
+        public HttpResponseMessage GetVoto(Votacao votacao)
+        {
+            return _httpClient.GetAsync("http://localhost:2002/api/votacao/{votacao}").Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

@@ -8,7 +8,7 @@ namespace Hades.WebApi.Controllers
     public class UsuarioApiController : ApiController
     {
         private readonly IUsuarioService _usuarioService;
-        
+
         public UsuarioApiController(IUsuarioService usuarioService)
         {
             _usuarioService = usuarioService;
@@ -41,33 +41,21 @@ namespace Hades.WebApi.Controllers
         // GET: api/UsuarioApi/5
         public IHttpActionResult GetByName(string nome)
         {
-            var usuario = _usuarioService.GetByName(nome);
-            if (usuario != null)
-                return Ok(usuario);
-            return BadRequest("Erro ao trazer Lista de Usuarios");
+            return Ok(_usuarioService.GetByName(nome));
         }
 
         [HttpPost]
         [Route("usuario")]
         // POST: api/UsuarioApi
-        public void Post(Usuario usuario)
-        {
-            _usuarioService.Post(usuario);
-        }
+        public void Post(Usuario usuario) => _usuarioService.Post(usuario);
 
         [HttpPut]
         [Route("usuario")]
         // PUT: api/UsuarioApi/5
-        public void Put(Usuario usuario)
-        {
-            _usuarioService.Put(usuario);
-        }
+        public void Put(Usuario usuario) => _usuarioService.Put(usuario);
 
         [HttpPut]
         [Route("usuario/{id}/{status}")]
-        public void StatusUsuario(int id, bool status)
-        {
-            _usuarioService.StatusUsuario(id, status);
-        }
+        public void StatusUsuario(int id, bool status) => _usuarioService.StatusUsuario(id, status);
     }
 }

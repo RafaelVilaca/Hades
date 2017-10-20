@@ -5,58 +5,65 @@
     Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h4>Editar</h4>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
 
-@using (Html.BeginForm("EditConfirmed", "Usuario", FormMethod.Post, new { @class = "well" }))
-{
-    @Html.AntiForgeryToken()
+            <h4>Editar</h4>
 
-    <div class="form-horizontal">
-        @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
+            @using (Html.BeginForm("EditConfirmed", "Usuario", FormMethod.Post, new { @class = "well" }))
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="input-field col s12">
-            <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome">
-            <label for="Nome" data-error="wrong" data-success="right">Nome</label>
-        </div>
-        <div class="input-field col s12">
-            <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email">
-            <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
-        </div>
+                <div class="form-horizontal">
+                    @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Cadastro</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
+                    <div class="input-field col s12">
+                        <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome">
+                        <label for="Nome" data-error="wrong" data-success="right">Nome</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email">
+                        <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Cadastro</label>
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
+                        </div>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="Senha" type="password" maxlength="20" value="@Model.Senha">
+                        <label for="Senha" data-error="wrong" data-success="right">Senha</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="ConfirmarSenha" type="password" maxlength="20">
+                        <label for="ConfirmarSenha" data-error="wrong" data-success="right">Confirmar Senha</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="Administrador" name="Administrador" @(Model.Administrador ? "checked" : string.Empty)/>
+                        <label for="Administrador" style="color: black; font-weight: bold;">Administrador &nbsp;</label>
+
+                        <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty)/>
+                        <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Salvar" id="btnEditar" class="btn btn-confirm" />
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="margin-left: 110px; margin-top: -36px;">
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
             </div>
         </div>
-
-        <div class="input-field col s12">
-            <input id="Senha" type="password" maxlength="20" value="@Model.Senha">
-            <label for="Senha" data-error="wrong" data-success="right">Senha</label>
-        </div>
-        <div class="input-field col s12">
-            <input id="ConfirmarSenha" type="password" maxlength="20">
-            <label for="ConfirmarSenha" data-error="wrong" data-success="right">Confirmar Senha</label>
-        </div>
-
-        <div class="form-group">
-            <input type="checkbox" id="Administrador" name="Administrador" @(Model.Administrador ? "checked" : string.Empty) />
-            <label for="Administrador" style="color: black; font-weight: bold;">Administrador &nbsp;</label>
-
-            <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
-            <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Salvar" id="btnEditar" class="btn btn-confirm"/>
-            </div>
-        </div>        
     </div>
-}
-<div style="margin-left: 110px; margin-top: -36px;">
-    <button class="btn btn-default" onclick="escondeModal()">Cancelar</button>
 </div>
-<p></p>
 
 <script>
 
@@ -64,22 +71,22 @@
         e.preventDefault();
 
         if (!$("#Nome").val()) {
-            erro("Nome não pode ser vazio")
+            erro("Nome não pode ser vazio");
             return false;
         }
 
         if (!$("#Email").val()) {
-            erro("Email não pode ser vazio")
+            erro("Email não pode ser vazio");
             return false;
         }
 
         if (!$("#Senha").val() || $("#Senha").val().length < 5) {
-            erro("Senha deve conter de 5 até 20 caracteres")
+            erro("Senha deve conter de 5 até 20 caracteres");
             return false;
         }
 
         if ($("#Senha").val() != $("#ConfirmarSenha").val()) {
-            erro("Senhas não conferem")
+            erro("Senhas não conferem");
             return false;
         }
 

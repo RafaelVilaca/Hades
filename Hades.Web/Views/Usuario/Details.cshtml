@@ -5,55 +5,57 @@
     Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-<h4>Detalhes Usuario</h4>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
+            <h4>Detalhes Usuario</h4>
 
-<div>
-    @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
-    <dl class="dl-horizontal">
-        <dt>
-            Nome: @*</dt><dd>*@
-            @Html.DisplayFor(model => model.Nome)
-        </dt>
+            <div>
+                @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
+                <dl class="dl-horizontal">
+                    <dt>
+                        Nome: @*</dt><dd>*@
+                        @Html.DisplayFor(model => model.Nome)
+                    </dt>
 
-        <dt>
-            Email: @*</dt><dd>*@
-            @Html.DisplayFor(model => model.Email)
-        </dt>
+                    <dt>
+                        Email: @*</dt><dd>*@
+                        @Html.DisplayFor(model => model.Email)
+                    </dt>
 
-        <dt>
-            Data Cadastro: @*</dt><dd>*@
-            @Html.DisplayFor(model => model.DataCadastro)
-        </dt>
-        @if (@Model.Ativo)
-        {
-            <dt>Ativo: Sim</dt>
-        }
-        else
-        {
-            <dt>Ativo: Não</dt>
-        }
+                    <dt>
+                        Data Cadastro: @*</dt><dd>*@
+                        @Html.DisplayFor(model => model.DataCadastro)
+                    </dt>
+                    @if (@Model.Ativo)
+                    {
+                        <dt>Ativo: Sim</dt>
+                    }
+                    else
+                    {
+                        <dt>Ativo: Não</dt>
+                    }
 
-        @if (@Model.Administrador)
-        {
-            <dt>Administrador: Sim</dt>
-        }
-        else
-        {
-            <dt>Administrador: Não</dt>
-        }
-    </dl>
+                    @if (@Model.Administrador)
+                    {
+                        <dt>Administrador: Sim</dt>
+                    }
+                    else
+                    {
+                        <dt>Administrador: Não</dt>
+                    }
+                </dl>
+            </div>
+            <button class="btn btn-confirm" onclick="editar($('#Id').val())">Editar</button>
+            <div style="margin-left: 110px; margin-top: -36px;">
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
 </div>
-<button class="btn btn-confirm" onclick="editar($('#Id').val())">Editar</button>
-<div style="margin-left: 110px; margin-top: -36px;">
-    <button class="btn btn-default" onclick="escondeModal()">Cancelar</button>
-</div>
-<p></p>
 
 <script>
-
-    var urlsSorteio = {
-        Edit: '@Url.Action("Edit", "Usuario")'
-    }
 
     function editar(id) {
         $.get(urlsUsuario.Edit, {

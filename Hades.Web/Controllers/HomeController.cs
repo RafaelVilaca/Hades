@@ -5,16 +5,10 @@ namespace Hades.Web.Controllers
 {
     public class HomeController : BaseController
     {
-        public ActionResult IndexAdm()
+        public ActionResult Index()
         {
             ViewBag.Title = "HADES";
-            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
-            return View();
-        }
-
-        public ActionResult IndexUser()
-        {
-            ViewBag.Title = "HADES";
+            ViewBag.IdUsuario = UsuarioLogadoViewModel.Id;
             ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
             return View();
         }

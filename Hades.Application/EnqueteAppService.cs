@@ -17,27 +17,27 @@ namespace Hades.Application
 
         public HttpResponseMessage Post(Enquete enquete)
         {
-            return _httpClient.PostAsync("http://localhost:5002/api/enquete", enquete, JsonMediaTypeFormatter).Result;
+            return _httpClient.PostAsync("http://localhost:2002/api/enquete", enquete, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage GetById(int id)
         {
-            return _httpClient.GetAsync("http://localhost:5002/api/enquete?id=" + id).Result;
+            return _httpClient.GetAsync($"http://localhost:2002/api/enquete/{id}").Result;
         }
 
         public HttpResponseMessage GetAll()
         {
-            return _httpClient.GetAsync("http://localhost:5002/api/enquete").Result;
+            return _httpClient.GetAsync("http://localhost:2002/api/enquete").Result;
         }
 
         public HttpResponseMessage Put(Enquete enquete)
         {
-            return _httpClient.PutAsync("http://localhost:5002/api/enquete", enquete, JsonMediaTypeFormatter).Result;
+            return _httpClient.PutAsync("http://localhost:2002/api/enquete", enquete, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage StatusEnquete(int id)
         {
-            var url = $"http://localhost:5002/api/enquete/{id}";
+            var url = $"http://localhost:2002/api/enquete/{id}";
             return _httpClient.PutAsync(url, new {}, JsonMediaTypeFormatter).Result;
         }
 
