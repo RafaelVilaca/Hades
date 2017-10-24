@@ -49,15 +49,15 @@
         storage.clear();
 
         $('.modal').modal();
-
-        (function () {
-            var msg = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
-
-            if (msg != '') {
-                Materialize.toast('' + msg + '', 4000, 'rounded red');
-            }
-        })();
     });
+
+    (function () {
+        var msg = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
+
+        if (msg != '') {
+            Materialize.toast('' + msg + '', 4000, 'rounded red');
+        }
+    })();
 
     $("#Novo").click(function () {
         $.get(urlsUsuario.Create)

@@ -108,7 +108,7 @@ namespace Hades.Web.Controllers
             }
             catch (Exception e)
             {
-                return ErrorMessage($"Falha ao editar Usuario, " + e.Message);
+                return ErrorMessage($"Falha ao editar Usuario, {e.Message}");
             }
         }
 

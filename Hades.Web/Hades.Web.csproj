@@ -182,11 +182,9 @@
     <Compile Include="Controllers\VotacaoController.cs" />
     <Compile Include="ViewModels\EnqueteViewModel.cs" />
     <Compile Include="Controllers\SorteioParticipantesController.cs" />
-    <Compile Include="ViewModels\SorteioViewModel.cs" />
     <Compile Include="ViewModels\SorteioParticipanteViewModel.cs" />
     <Compile Include="ViewModels\UsuarioLogadoViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
-    <Compile Include="ViewModels\VotacaoViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

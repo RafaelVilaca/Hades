@@ -24,11 +24,11 @@
     </div>
 </div>
 
-<div></div>
+<div id="divContentEnqueteDetail" class="modal modal-formatada-detail"></div>
 <div id="divContentEnquete" class="modal modal-formatada"></div>
 
 <script>
-    
+
     $(".modal-overlay").on("click", function () {
         $(this).hide();
     });
@@ -45,7 +45,7 @@
         Details: '@Url.Action("Details", "Enquete")',
         Delete: '@Url.Action("DesativarEnquete", "Enquete")',
         Create: '@Url.Action("Create", "Enquete")',
-        Votar: '@Url.Action("Votar", "Enquete")',
+        GetVotacao: '@Url.Action("GetVotacao", "Enquete")',
         BuscaTabelaEnquete: '@Url.Action("BuscaGridEnquetes", "Enquete")'
     }
 
@@ -72,7 +72,6 @@
     });
 
     function editar(id) {
-        $('#divContentEnquete').modal('close');
         $.get(urlsEnquete.Edit, {
             id: id
         }).done(function (data) {
@@ -86,7 +85,7 @@
             id: id
         }).done(function (data) {
             escondeModal();
-            $('#divContentEnquete').modal('open').html(data);
+            $('#divContentEnqueteDetail').modal('open').html(data);
         }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
 
@@ -102,9 +101,13 @@
         });
     };
 
-    function votar(id) {
-        $.get(urlsEnquete.Votar, {
-            id: id
+    var userLog = sessionStorage.getItem('IdUsuarioLogado');
+
+    function votar(id, tituloEnquete){
+        $.get(urlsEnquete.GetVotacao, {
+            IdUsuario: userLog,
+            IdEnquete: id,
+            Enquete: tituloEnquete
         }).done(function (data) {
             escondeModal();
             $('#divContentEnquete').modal('open').html(data);
@@ -115,6 +118,7 @@
 
     function escondeModal() {
         $("#divContentEnquete").modal('close');
+        $("#divContentEnqueteDetail").modal('close');
     }
 
 </script>

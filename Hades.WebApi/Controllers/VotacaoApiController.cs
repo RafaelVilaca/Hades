@@ -22,11 +22,19 @@ namespace Hades.WebApi.Controllers
             _votacaoService.Post(votacao);
         }
 
-        [HttpGet]
-        [Route("voto/{votacao}")]
-        public IHttpActionResult GetVotos(Votacao votacao)
+        [HttpPut]
+        [Route("voto")]
+        // POST: api/UsuarioApi
+        public void Put(Votacao votacao)
         {
-            return Ok(_votacaoService.GetVotos(votacao));
+            _votacaoService.Put(votacao);
+        }
+
+        [HttpGet]
+        [Route("voto/{IdUsuario}/{IdEnquete}")]
+        public IHttpActionResult GetVotos(int idUsuario, int idEnquete)
+        {
+            return Ok(_votacaoService.GetVotos(idUsuario, idEnquete));
         }
     }
 }

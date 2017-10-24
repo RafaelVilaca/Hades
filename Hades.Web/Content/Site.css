@@ -55,7 +55,22 @@ h4 {
     display: none;
     margin-top: 0;
     height: auto;
-    width: 462px;
+    width: 470px;
+    z-index: 1003;
+    opacity: 1;
+    transform: scaleX(1);
+    border-radius: 15px;
+    top: 10%;
+    margin: 0 auto;
+    min-height: 100px;
+    padding: 1px;
+}
+
+.modal-formatada-detail {
+    display: none;
+    margin-top: 0;
+    height: auto;
+    width: 900px;
     z-index: 1003;
     opacity: 1;
     transform: scaleX(1);

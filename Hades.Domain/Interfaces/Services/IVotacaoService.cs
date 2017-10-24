@@ -5,6 +5,7 @@ namespace Hades.Domain.Interfaces.Services
     public interface IVotacaoService
     {
         string Post(Votacao votacao);
-        Votacao GetVotos(Votacao votacao);
+        string Put(Votacao votacao);
+        Votacao GetVotos(int idUsuario, int idEnquete);
     }
 }

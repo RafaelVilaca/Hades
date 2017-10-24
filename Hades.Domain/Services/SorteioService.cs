@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Domain.Interfaces.Services;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Services
 {
@@ -16,9 +16,6 @@ namespace Hades.Domain.Services
 
         public string Post(Sorteio sorteio)
         {
-            if (sorteio.IsValid() != 0)
-                return "Nome deve conter de 5 à 20 caracteres";
-                
             _sorteioRepository.Post(sorteio);
             return string.Empty;
         }
@@ -35,9 +32,6 @@ namespace Hades.Domain.Services
 
         public string Put(Sorteio sorteio)
         {
-            if (sorteio.IsValid() != 0)
-                return "Nome deve conter de 5 à 20 caracteres";
-
             _sorteioRepository.Put(sorteio);
             return string.Empty;
         }

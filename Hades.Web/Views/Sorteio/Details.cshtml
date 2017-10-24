@@ -1,4 +1,4 @@
-﻿@model Hades.Web.ViewModels.SorteioViewModel
+﻿@model Hades.Domain.Entities.Sorteio
 
 @{
     ViewBag.Title = "Details";
@@ -11,7 +11,7 @@
         <dd> @Html.DisplayFor(model => model.Nome) </dd>
     </dl>
 </div>
-<p>
+@*<p>
     <ul>
         <li>
             <button class="btn btn-default" onclick="editar(@Model.Id)" style="border-radius: 20px;">Editar</button>
@@ -19,25 +19,9 @@
             <button class="btn btn-default" onclick="cancelar()" style="border-radius: 20px;">Cancelar</button>
         </li>
     </ul>
-</p>
+</p>*@
 
 <script>
-    var urlsSorteio = {
-        Edit: '@Url.Action("Edit", "Sorteio")'
-    }
-
-    function editar(id) {
-        $.get(urlsSorteio.Edit, {
-            id: id
-        }).done(function (data) {
-            $("#divContentSorteio").fadeOut(100, function () {
-                $("#divContentSorteio").html(data).fadeIn(100);
-            });
-        }).fail(function (xhr) {
-            $("#Acoes").html(xhr.responseText);
-        });
-    };
-
     function cancelar() {
         buscaTabelaSorteio();
     }

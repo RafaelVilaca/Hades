@@ -9,38 +9,33 @@
     <div class="col s12">
         <div class="row">
 
-            <h4>Votação</h4>
-
             @using (Html.BeginForm("CreateConfirmed", "Votacao"))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="input-field col s12">
-                    <input id="Titulo" name="Titulo" type="text" maxlength="20" value="@Model.Enquete" readonly="readonly">
+                    <input id="Titulo" name="Titulo" type="text" maxlength="20" value="@Model.Enquete" readonly="readonly" style="text-align: center;">
                     <label for="Titulo">Titulo Enquete:</label>
                 </div>
 
                 <div class="form-horizontal">
-                    <h4>Votacao</h4>
+                    <h4>Votação</h4>
                     <div class="input-field col s12">
-                        <input id="Justificativa" name="Justificativa" type="text" maxlength="150" value="@Model.Justificativa" readonly="readonly">
-                        <label for="Justificativa">Justificativa:</label>
+                        <textarea id="Justificativa" name="Justificativa" class="materialize-textarea" maxlength="200" >@Model.Justificativa</textarea>
+                        <label for="Justificativa">Justificativa do Voto:</label>
                     </div>
 
-                    <div class="input-field col s12">
-                        <p>
-                            <input name="TipoVoto" type="radio" id="Favor" />
+                    <div class="input-field col s12" style="width: auto; position: relative; margin-top: 0; margin-bottom: 10px; left: 58px; float: left;">
+                            <input name="TipoVoto" type="radio" id="Favor" value="true" style="margin-left: 35px;" checked />
                             <label for="Favor">Favor</label>
-                        </p>
-                        <p>
-                            <input name="TipoVoto" type="radio" id="Contra" />
+                        
+                            <input name="TipoVoto" type="radio" id="Contra" value="false" style="margin-left: 20px; position: inherit;" />
                             <label for="Contra">Contra</label>
-                        </p>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Votar" class="btn btn-confirm" style="border-radius: 20px;" />
+                            <input type="button" id="Votar" value="Votar" class="btn btn-confirm" style="width: -webkit-fill-available;border-radius: 20px;top: 22px;position: relative;" />
                         </div>
                     </div>
                 </div>
@@ -51,9 +46,51 @@
 
 <script>
     $(document).ready(function() {
-        if (@Model.TipoVoto)
+        if ('@Model.IndicadorTipoVoto' == "S")
             $("#Favor").prop("checked", true);
         else
             $("#Contra").prop("checked", true);
     });
+
+    var idEnquete = '@Model.IdEnquete';
+
+    var urlsVotacao = {
+            create : '@Url.Action("CreateConfirmed", "Votacao")'
+        }
+
+    var indicadorCadastro = '@Model.IndicadorCadastro';
+
+    $("#Votar").click(function(e) {
+        e.preventDefault(); //cancela o post
+
+        if ($("#Justificativa").val().length <= 10 && $("#Contra").prop("checked", true)) {
+            erro("Justificativa deve conter dentre 10 à 200 caracteres");
+            return false;
+        }
+
+        $.post(urlsVotacao.create, {
+            IdEnquete: idEnquete,
+            IdUsuario: sessionStorage.getItem('IdUsuarioLogado'),
+            Justificativa: $("#Justificativa").val(),
+            IndicadorCadastro: indicadorCadastro,
+            TipoVoto: $("[name=TipoVoto]:checked").val()
+        }).done(function () {
+            escondeModal();
+            sucesso("Voto efetuado com Sucesso!");
+            buscaTabelaEnquete();
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    });
+
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
+    }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
+    }
+
 </script>

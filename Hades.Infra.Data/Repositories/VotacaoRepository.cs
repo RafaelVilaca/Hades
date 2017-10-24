@@ -9,28 +9,27 @@ namespace Hades.Infra.Data.Repositories
         private enum Procedures
         {
             SP_AddVoto,
-            SP_GetVotos
+            SP_GetVotos,
+            SP_UpdVoto
         }
 
-        public Votacao GetVotos(Votacao votacao)
+        public Votacao GetVotos(int idUsuario, int idEnquete)
         {
             ExecuteProcedure(Procedures.SP_GetVotos);
-            AddParameter("@UsuarioId", votacao.IdUsuario);
-            AddParameter("@EnqueteId", votacao.IdEnquete);
-            AddParameter("@Justificativa", votacao.Justificativa);
-            AddParameter("@TipoVoto", votacao.TipoVoto);
+            AddParameter("@UsuarioId", idUsuario);
+            AddParameter("@EnqueteId", idEnquete);
             using (var r = ExecuteReader())
-            {
-                return new Votacao
-                {
-                    IdEnquete = r.GetInt32(r.GetOrdinal("IdEnquete")),
-                    IdUsuario = r.GetInt32(r.GetOrdinal("IdUsuario")),
-                    Enquete = r.GetString(r.GetOrdinal("Titulo")),
-                    NomeUsuario = r.GetString(r.GetOrdinal("NomeUsuario")),
-                    Justificativa = r.GetString(r.GetOrdinal("Justificativa")),
-                    TipoVoto = r.GetBoolean(r.GetOrdinal("TipoVoto"))
-                };
-            }
+                return !r.Read()
+                    ? null
+                    : new Votacao
+                    {
+                        IdEnquete = idEnquete,
+                        IdUsuario = idUsuario,
+                        Enquete = r["Titulo"].ToString(),
+                        NomeUsuario = r["NomeUsuario"].ToString(),
+                        Justificativa = r["Justificativa"].ToString(),
+                        TipoVoto = r.GetBoolean(r.GetOrdinal("TipoVoto"))
+                    };
         }
 
         public void Post(Votacao votacao)
@@ -42,5 +41,16 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@TipoVoto", votacao.TipoVoto);
             ExecuteNonQuery();
         }
+
+        public void Put(Votacao votacao)
+        {
+            ExecuteProcedure(Procedures.SP_UpdVoto);
+            AddParameter("@IdUsua", votacao.IdUsuario);
+            AddParameter("@IdEnq", votacao.IdEnquete);
+            AddParameter("@Justificativa", votacao.Justificativa);
+            AddParameter("@TipoVoto", votacao.TipoVoto);
+            ExecuteNonQuery();
+        }
     }
 }
+

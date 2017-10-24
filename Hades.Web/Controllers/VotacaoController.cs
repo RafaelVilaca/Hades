@@ -1,6 +1,5 @@
 ﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
-using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
 
@@ -18,11 +17,7 @@ namespace Hades.Web.Controllers
         // GET: Votacao/Create
         public ActionResult Create(Votacao votacao)
         {
-            var voto = _votacaoAppService.GetVoto(votacao);
-            if (!voto.IsSuccessStatusCode)
-                return ErrorMessage("Erro ao trazer Votação");
-            var getVotacao = JsonConvert.DeserializeObject<Votacao>(voto.Content.ReadAsStringAsync().Result);
-            return View(getVotacao);
+            return View(votacao);
         }
 
         // POST: Votacao/Create
@@ -31,15 +26,15 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                var voto = _votacaoAppService.Post(votacao);
-                if (!voto.IsSuccessStatusCode)
-                    return ErrorMessage("Erro ao trazer postar voto");
+                var response = votacao.IndicadorCadastro == "S" ? _votacaoAppService.Post(votacao) : _votacaoAppService.Put(votacao);
 
-                return Json("Ok");
+                return !response.IsSuccessStatusCode 
+                    ? ErrorMessage("Erro ao efetuar votação, tente novamente") 
+                    : Json("Ok");
             }
             catch(Exception e)
             {
-                return ErrorMessage("Erro ao trazer postar voto, " + e.Message);
+                return ErrorMessage("Falha ao efetuar votação, " + e.Message);
             }
         }
     }

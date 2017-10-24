@@ -59,22 +59,22 @@
         e.preventDefault();//cancela o post
 
         if ($("#NomeUsuario").val().length == 0) {
-            erro("Nome não pode ser vazio")
+            erro("Nome não pode ser vazio");
             return false;
         }
 
         if ($("#Email").val() == "") {
-            erro("Email não pode ser vazio")
+            erro("Email não pode ser vazio");
             return false;
         }
 
         if ($("#SenhaUsuario").val() == "" || $("#SenhaUsuario").val().length < 5) {
-            erro("Senha deve conter de 5 até 20 caracteres")
+            erro("Senha deve conter de 5 até 20 caracteres");
             return false;
         }
 
         if ($("#SenhaUsuario").val() != $("#ConfirmarSenha").val()) {
-            erro("Senhas não conferem")
+            erro("Senhas não conferem");
             return false;
         }
 

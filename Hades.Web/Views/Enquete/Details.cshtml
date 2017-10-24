@@ -26,14 +26,14 @@
                 </dl>
             </div>
 
-            <p>
+            @*<p>
                 <ul>
                     <li>
                         <button class="btn btn-confirm" onclick="editar(@Model.Id)">Editar</button>
-                        <button class="btn btn-default" style="float: right" onclick="cancelar()">Cancelar</button>
+                        <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
                     </li>
                 </ul>
-            </p>
+            </p>*@
 
             @*Votos*@
             <div>
@@ -73,21 +73,3 @@
 </div>
 @*Votos*@
 
-<script>
-
-    function editar(id) {
-        escondeModal();
-        $.get(urlsEnquete.Edit, {
-            id: id
-        }).done(function (data) {
-            $('#divContentUsuario').modal('open').html(data);
-        }).fail(function (xhr) {
-            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
-        });
-    };
-
-    function cancelar() {
-        escondeModal();
-        buscaTabelaEnquete();
-    }
-</script>

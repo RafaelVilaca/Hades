@@ -61,7 +61,9 @@
                                         <a class="btn-floating orange darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
                                         <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
                                     }
-                                    <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Votar"><i class="material-icons" onclick="votar('@enquete.Id')">note_add</i></a>
+                                    <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Votar">
+                                        <i class="material-icons" onclick="votar('@enquete.Id', '@enquete.Titulo')">note_add</i>
+                                    </a>
                                 </li>
                             </ul>
                         </div>

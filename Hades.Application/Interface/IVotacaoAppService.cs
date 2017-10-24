@@ -6,6 +6,7 @@ namespace Hades.Application.Interface
     public interface IVotacaoAppService
     {
         HttpResponseMessage Post(Votacao votacao);
-        HttpResponseMessage GetVoto(Votacao votacao);
+        HttpResponseMessage Put(Votacao votacao);
+        HttpResponseMessage GetVotos(int? idUsuario, int? idEnquete);
     }
 }

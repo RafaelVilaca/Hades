@@ -52,39 +52,31 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_GetVoto
 GO
 
 CREATE PROCEDURE [dbo].[SP_GetVotos]
-
+	@UsuarioId INT = null,
+	@EnqueteId INT
+	AS 
 	/*
 	Documentação
 	Arquivo Fonte.....: Procedures.sql
 	Objetivo..........: Inserir as votações que forem feitas
 	Autor.............: Rafael Vilaça
  	Data..............: 09/10/2017
-	Ex................: EXEC [dbo].[SP_AddVoto] 1,
-												1,
-												'Testando inserções',
-												1
+	Ex................: EXEC [dbo].[SP_GetVotos] 1, 6
 	*/
-
-	@UsuarioId INT,
-	@EnqueteId INT,
-	@Justificativa VARCHAR(200),
-	@TipoVoto BIT
-
-	AS 
+	
 	BEGIN
-		SELECT e.Id AS IdEnquete,
-			   u.Id AS IdUsuario,
-			   e.Titulo,
-			   u.Nome AS NomeUsuario,
-			   v.Justificativa,
-			   v.TipoVoto
-		 FROM [dbo].[Votacao] v WITH(NOLOCK)
-			   INNER JOIN [dbo].[Enquete] e WITH(NOLOCK)
+		SELECT  e.Titulo,
+				u.Nome AS NomeUsuario,
+			    v.Justificativa,
+				v.TipoVoto
+			FROM [dbo].[Votacao] v
+				INNER JOIN [dbo].[Enquete] e WITH(NOLOCK)
 					ON e.Id = v.IdEnquete
-			   INNER JOIN [dbo].[Usuario] u WITH(NOLOCK)
+				INNER JOIN [dbo].[Usuario] u WITH(NOLOCK)
 					ON u.Id = v.IdUsuario
-			  WHERE e.Id = @EnqueteId
-					AND u.Id = @UsuarioId
+			WHERE (@UsuarioId IS NULL OR v.IdUsuario = @UsuarioId)
+				AND (@EnqueteId IS NULL OR v.IdEnquete = @EnqueteId)
+					
 	END
 GO
 

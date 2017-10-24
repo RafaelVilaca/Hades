@@ -37,7 +37,7 @@ namespace Hades.Web.Controllers
                     return ErrorMessage("Erro ao trazer lista de enquetes.");
 
                 var enquetes = JsonConvert.DeserializeObject<IEnumerable<EnqueteViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
-                
+
                 return View("_TabelaEnquetes", enquetes);
             }
             catch (Exception e)
@@ -54,7 +54,7 @@ namespace Hades.Web.Controllers
                 var enquete = _enqueteAppService.GetById(id);
                 if (!enquete.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao buscar enquete");
-                
+
                 var mostraEnquete =
                     JsonConvert.DeserializeObject<EnqueteViewModel>(enquete.Content.ReadAsStringAsync().Result);
 
@@ -146,12 +146,28 @@ namespace Hades.Web.Controllers
             {
                 return ErrorMessage("Erro ao desativar Enquete, " + e.Message);
             }
-            
+
         }
 
-        public ActionResult Votar()
+        public ActionResult GetVotacao(Votacao votacao)
         {
-            return RedirectToAction("Create", "Votacao");
+            var response = _votacaoAppService.GetVotos(votacao.IdUsuario, votacao.IdEnquete);
+
+            if (!response.IsSuccessStatusCode)
+                return ErrorMessage("Não foi possível efetuar votação. Faça o Log In novamente!");
+
+            var voto = JsonConvert.DeserializeObject<Votacao>(response.Content.ReadAsStringAsync().Result);
+
+            if (voto == null)
+                voto = new Votacao { Enquete = votacao.Enquete, IdEnquete = votacao.IdEnquete, IndicadorCadastro = "S"};
+            else
+            {
+                voto.Enquete = votacao.Enquete;
+                voto.IdEnquete = votacao.IdEnquete;
+                voto.IndicadorCadastro = "N";
+            }
+
+            return RedirectToAction("Create", "Votacao", voto);
         }
     }
 }
