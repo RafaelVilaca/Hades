@@ -21,21 +21,21 @@
 
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="Titulo" name="Titulo" type="text" maxlength="20">
+                        <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20">
                         <label for="Titulo">Titulo:</label>
                     </div>
 
                     <div class="input-field col s12">
-                        <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150"></textarea>
+                        <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150"></textarea>
                         <label for="Assunto">Assunto:</label>
                     </div>
 
                     <div class="input-field col s6">
-                        <input id="Valor" name="Valor" type="text" maxlength="10">
+                        <input id="Valor" name="Valor" type="text" maxlength="10" data-length="10">
                         <label for="Valor">Valor R$:</label>
                     </div>
                     <div class="input-field col s6">
-                        <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50"></textarea>
+                        <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50" data-length="50"></textarea>
                         <label for="LocalCotado">Local Cotado:</label>
                     </div>
 
@@ -56,9 +56,9 @@
 
     $(document).ready(function () {
         $('#Valor').mask("###.###,##", { reverse: true });
+        $('input#input_text, textarea#textarea1').characterCounter();
     });
-
-
+   
     $("#btnSalvar").click(function (e) {
         e.preventDefault();//cancela o post
 

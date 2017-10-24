@@ -21,12 +21,12 @@
 
                     <div class="form-horizontal">
                         <div class="input-field col s12">
-                            <input id="Titulo" name="Titulo" type="text" maxlength="20" value="@Model.Titulo">
+                            <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20" value="@Model.Titulo">
                             <label for="Titulo">Titulo:</label>
                         </div>
 
                         <div class="input-field col s12">
-                            <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150">@Model.Assunto</textarea>
+                            <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150">@Model.Assunto</textarea>
                             <label for="Assunto">Assunto:</label>
                         </div>
 
@@ -38,16 +38,16 @@
                         </div>
 
                         <div class="input-field col s6">
-                            <input id="Valor" name="Valor" type="text" maxlength="10" value="@Model.Valor">
+                            <input id="Valor" name="Valor" type="text" maxlength="10" data-length="10" value="@Model.Valor">
                             <label for="Valor">Valor R$:</label>
                         </div>
                         <div class="input-field col s6">
-                            <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50">@Model.Nom_LocalCotado</textarea>
+                            <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" data-length="50" maxlength="50">@Model.Nom_LocalCotado</textarea>
                             <label for="LocalCotado">Local Cotado:</label>
                         </div>
 
                         <div class="form-group">
-                            <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty)/>
+                            <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
                             <label for="Ativo" style="color: black;font-weight: bold;top: -20px;position: relative;">Ativo</label>
                         </div>
                         <div class="form-group">
@@ -67,6 +67,10 @@
 
 
 <script>
+    $(document).ready(function () {
+        $('#Valor').mask("###.###,##", { reverse: true });
+        $('input#input_text, textarea#textarea1').characterCounter();
+    });
 
     $("#btnEditarEnquete").click(function (e) {
         e.preventDefault();
@@ -102,16 +106,16 @@
         };
 
         $.post('@Url.Action("EditConfirmed", "Enquete")', { enquete: enquete })
-        .done(function () {
-            sucesso("Cadastro atualizado com sucesso");
-            escondeModal();
-            buscaTabelaEnquete();
-        }).fail(function (xhr) {
-            erro(xhr.responseText);
-        });
+            .done(function () {
+                sucesso("Cadastro atualizado com sucesso");
+                escondeModal();
+                buscaTabelaEnquete();
+            }).fail(function (xhr) {
+                erro(xhr.responseText);
+            });
 
     });
-    
+
     function sucesso(message) {
         Materialize.toast('' + message + '', 4000, 'rounded green');
         return true;

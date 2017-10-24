@@ -19,11 +19,11 @@
                     @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
                     <div class="input-field col s12">
-                        <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome">
+                        <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome" data-length="100">
                         <label for="Nome" data-error="wrong" data-success="right">Nome</label>
                     </div>
                     <div class="input-field col s12">
-                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email">
+                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email" data-length="100">
                         <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
                     </div>
 
@@ -35,12 +35,12 @@
                     </div>
 
                     <div class="input-field col s12">
-                        <input id="Senha" type="password" maxlength="20" value="@Model.Senha">
+                        <input id="Senha" type="password" maxlength="20" value="@Model.Senha" data-length="20">
                         <label for="Senha" data-error="wrong" data-success="right">Senha</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="ConfirmarSenha" type="password" maxlength="20">
-                        <label for="ConfirmarSenha" data-error="wrong" data-success="right">Confirmar Senha</label>
+                        <label for="ConfirmarSenha" data-error="wrong" data-success="right" data-length="20">Confirmar Senha</label>
                     </div>
 
                     <div class="form-group">
@@ -66,6 +66,10 @@
 </div>
 
 <script>
+    
+    $(document).ready(function () {
+        $('input#input_text, textarea#textarea1').characterCounter();
+    });
 
     $("#btnEditar").click(function (e) {
         e.preventDefault();

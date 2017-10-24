@@ -16,7 +16,7 @@
 
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="NomeUsuario" type="text" name="Nome" maxlength="20">
+                        <input id="NomeUsuario" type="text" name="Nome" maxlength="20" data-length="20">
                         <label for="NomeUsuario">Nome</label>
                     </div>
                     <div class="input-field col s12">
@@ -39,6 +39,7 @@
 </div>
 <script>
     $(document).ready(function () {
+        $('input#input_text, textarea#textarea1').characterCounter();
         $('.datepicker').pickadate({
             selectMonths: true, // Creates a dropdown to control month
             selectYears: 15, // Creates a dropdown of 15 years to control year,
