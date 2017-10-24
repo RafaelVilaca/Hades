@@ -20,6 +20,9 @@ namespace Hades.Infra.Data.Repositories
         {
             ExecuteProcedure(Procedures.SP_AddSorteio);
             AddParameter("@Nome", sorteio.Nome);
+            AddParameter("@QtdItens", sorteio.QtdeItens);
+            AddParameter("@DataSorteio", sorteio.DataSorteio);
+            AddParameter("@IdCriador", sorteio.IdUsuario);
             ExecuteNonQuery();
         }
 
@@ -29,7 +32,7 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@Id", id);
             using (var r = ExecuteReader())
                 if (r.Read())
-                    return new Sorteio{ Nome = r.GetString(r.GetOrdinal("Nome")) };
+                    return new Sorteio { Nome = r.GetString(r.GetOrdinal("Nome")) };
             return null;
         }
 
@@ -42,8 +45,9 @@ namespace Hades.Infra.Data.Repositories
                     sorteios.Add(new Sorteio
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
-                        Nome = r.GetString(r.GetOrdinal("Nome")),
-                        QtdParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes"))
+                        Nome = r["Nome"].ToString(),
+                        QtdParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes")),
+                        IdUsuario = r.GetInt32(r.GetOrdinal("IdUsuario"))
                     });
             return sorteios;
         }

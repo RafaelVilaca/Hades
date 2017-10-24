@@ -311,13 +311,15 @@ CREATE PROCEDURE [dbo].[SP_AddSorteio]
  	Data..............: 01/01/2015
 	Ex................: EXEC [dbo].[SP_AddSorteio] 'Cadernos'
 												   2,
-												   '27/10/2017'
+												   '27/10/2017',
+												   1
 
 	*/
 
 	@Nome VARCHAR(20),
 	@QtdItens INT,
-	@DataSorteio DATETIME
+	@DataSorteio DATETIME,
+	@IdCriador int
 
 	AS 
 	BEGIN
@@ -326,14 +328,16 @@ CREATE PROCEDURE [dbo].[SP_AddSorteio]
 								QtdItens,
 								DataSorteio,
 								DataCadastro,
-								Ativo
+								Ativo,
+								IdCriador
 							)
 			VALUES(
 					@Nome,
 					@QtdItens,
 					@DataSorteio,
 					GETDATE(),
-					1
+					1,
+					@IdCriador
 				  )
 	END
 GO
@@ -620,14 +624,16 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 					SELECT COUNT(*) 
 						FROM SorteioParticipante sp 
 						WHERE sp.IdSorteio = s.Id
-			   ) AS NumeroParticipantes
+			   ) AS NumeroParticipantes,
+			   s.IdCriador
 			FROM Sorteio s
 			WHERE s.Ativo = 1
 			GROUP BY s.Id, 
 					 s.Nome,
 					 s.DataSorteio,
 					 s.QtdItens,
-					 s.DataCadastro
+					 s.DataCadastro,
+					 s.IdCriador
 	END
 GO
 
@@ -661,7 +667,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteioPorId]
 					SELECT COUNT(*) 
 						FROM SorteioParticipante sp 
 						WHERE sp.IdSorteio = Id
-				) AS NumeroParticipantes
+				) AS NumeroParticipantes,
+				s.IdCriador
 		FROM Sorteio s
 		WHERE s.Id = @Id
 	END

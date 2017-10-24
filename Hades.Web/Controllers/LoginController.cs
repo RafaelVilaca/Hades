@@ -105,7 +105,7 @@ namespace Hades.Web.Controllers
 
                 var response = _usuarioAppService.Post(usuario);
                 if (response.IsSuccessStatusCode)
-                    return Json("Cadastro Efetuado com sucesso");
+                    return Json("OK");
                 return ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)

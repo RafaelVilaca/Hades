@@ -1,4 +1,6 @@
-﻿namespace Hades.Domain.Entities
+﻿using System;
+
+namespace Hades.Domain.Entities
 {
     public class Sorteio
     {
@@ -7,6 +9,7 @@
         public int QtdParticipantes { get; set; }
         public int IdUsuario { get; set; }
         public bool Adm { get; set; }
-
+        public DateTime DataSorteio { get; set; }
+        public int QtdeItens { get; set; }
     }
 }

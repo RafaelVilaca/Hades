@@ -9,7 +9,6 @@
     @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post, new { @class = "card", @style = "width: 22%; border-radius: 60px; position: absolute; border-style: initial; margin-left: 21.6%; height: 545px; background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%; " }))
     {
         <div style="width: 244px; margin-left: 80px;">
-            <!--<h4 style="text-align: center; font-family: Algerian; ">LOGIN:</h4>-->
             <div class="card-image">
                 <img src="~/images/Bastet_CatScratch.png">
                 <h5><span class="card-title" style="left: 130px; text-align: center; font-family: Algerian; color: black;">HADES</span></h5>
@@ -40,14 +39,16 @@
 </div>
 
 <script>
+    sessionStorage.setItem('NomeUsuarioLogado', '');
+    sessionStorage.setItem('IdUsuarioLogado', '');
 
-    var urlsUsuario = {
-        Create: '@Url.Action("CreateUsuario", "Login")'
+    var urlsLogin = {
+        Create: '@Url.Action("CreateUsuario", "Login")',
+        CreateConfirmed: '@Url.Action("CreateConfirmed", "Login")'
     }
 
     $(document).ready(function () {
-        storage.clear();
-
+        //storage.clear();
         $('.modal').modal();
     });
 
@@ -60,8 +61,11 @@
     })();
 
     $("#Novo").click(function () {
-        $.get(urlsUsuario.Create)
-            .done(function (data) { $('#modalCreateCliente').modal('open').html(data); })
+        $.get(urlsLogin.Create)
+            .done(function (data) {
+                escondeCreate();
+                $('#modalCreateCliente').modal('open').html(data);
+            })
             .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     });
 

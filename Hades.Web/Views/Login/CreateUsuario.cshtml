@@ -52,10 +52,6 @@
 
 <script>
 
-    var urls = {
-        createConfirmed: '@Url.Action("CreateConfirmed", "Login")'
-    }
-
     $("#btnSalvar").click(function (e) {
         e.preventDefault();//cancela o post
 
@@ -80,13 +76,13 @@
         }
 
         //$("#Formulario").submit();
-        $.post(urls.createConfirmed, {
+        $.post(urlsLogin.CreateConfirmed, {
             Nome: $("#NomeUsuario").val(),
             Email: $("#Email").val(),
             Senha: $("#SenhaUsuario").val()
-        }).done(function (data) {
+        }).done(function () {
             $('#modalCreateCliente').modal('close');
-            sucesso(data);
+            sucesso("Cadastro Efetuado com sucesso");
         }).fail(function (xhr) {
             erro(xhr.responseText);
         });

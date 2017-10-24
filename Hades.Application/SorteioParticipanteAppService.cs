@@ -17,12 +17,12 @@ namespace Hades.Application
 
         public void Participar(SorteioParticipante sorteioParticipante)
         {
-            _httpClient.PostAsync("http://localhost:5002/api/sorteioParticipante", sorteioParticipante, JsonMediaTypeFormatter);
+            _httpClient.PostAsync("http://localhost:2002/api/sorteioParticipante", sorteioParticipante, JsonMediaTypeFormatter);
         }
 
         public HttpResponseMessage GetAll(int id)
         {
-            return _httpClient.GetAsync("http://localhost:5002/api/sorteioParticipante?id=" + id).Result;
+            return _httpClient.GetAsync("http://localhost:2002/api/sorteioParticipante?id=" + id).Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

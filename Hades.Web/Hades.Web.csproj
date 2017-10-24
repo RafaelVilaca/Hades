@@ -183,6 +183,7 @@
     <Compile Include="ViewModels\EnqueteViewModel.cs" />
     <Compile Include="Controllers\SorteioParticipantesController.cs" />
     <Compile Include="ViewModels\SorteioParticipanteViewModel.cs" />
+    <Compile Include="ViewModels\SorteioViewModel.cs" />
     <Compile Include="ViewModels\UsuarioLogadoViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Global.asax.cs">
@@ -192,6 +193,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\VotacaoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

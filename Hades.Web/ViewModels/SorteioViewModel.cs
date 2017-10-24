@@ -1,4 +1,6 @@
-﻿namespace Hades.Web.ViewModels
+﻿using System;
+
+namespace Hades.Web.ViewModels
 {
     public class SorteioViewModel
     {
@@ -7,5 +9,7 @@
         public int QtdParticipantes { get; set; }
         public int IdUsuario { get; set; }
         public bool Adm { get; set; }
+        public DateTime DataSorteio { get; set; }
+        public int QtdeItens { get; set; }
     }
 }
