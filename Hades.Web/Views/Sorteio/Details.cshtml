@@ -1,27 +1,77 @@
-﻿@model Hades.Web.ViewModels.SorteioViewModel
+﻿@using Hades.Web.ViewModels
+@model Hades.Web.ViewModels.SorteioViewModel
 
 @{
     ViewBag.Title = "Details";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
+    var ADM = UsuarioLogadoViewModel.Administrador;
+    var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
 }
-<div>
-    <h4>Detalhes Sorteio</h4>
-    <dl class="dl-horizontal">
-        <dt> Nome: </dt>
-        <dd> @Html.DisplayFor(model => model.Nome) </dd>
-    </dl>
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
+            <div>
+                <h4>Detalhes Sorteio</h4>
+                <dl class="dl-horizontal">
+                    <dt> Nome:  @Html.DisplayFor(model => model.Nome) </dt>
+                </dl>
+            </div>
+            <div>
+                <h4>Participantes</h4>
+                <table class="striped">
+                    <tr>
+                        <th></th>
+                        <th>Nome Usuario</th>
+                    </tr>
+                    @if (Model.SorteioParticipantes != null)
+                    {
+
+                        foreach (var participante in Model.SorteioParticipantes)
+                        {
+                            if (ADM || participante.Sorteio.NomeCriador == usuarioLogado)
+                            {
+                                 <tr>
+                                     <td>
+                                         <ul>
+                                             <li>
+                                                 <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativado" style="width: 24px; height: 24px;">
+                                                     <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="excluir('@participante.Id')">perm_identity</i>
+                                                 </a>
+                                                 @Html.DisplayFor(modelItem => participante.NomeUsuario)
+                                             </li>
+                                         </ul>
+                                     </td>
+                                 </tr>
+                             }
+                         }
+                    }
+                    else
+                    {
+                        <tr><td colspan="1" style="text-align: center;">Nenhum participante encontrado...</td></tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-@*<p>
-    <ul>
-        <li>
-            <button class="btn btn-default" onclick="editar(@Model.Id)" style="border-radius: 20px;">Editar</button>
-       
-            <button class="btn btn-default" onclick="cancelar()" style="border-radius: 20px;">Cancelar</button>
-        </li>
-    </ul>
-</p>*@
 
 <script>
+    function excluir(idSorteio, idUsuario) {
+        if (!confirm("Deseja realmente excluir esse participante?")) return;
+
+        $.get('@Url.Action("DeletarParticipante", "SorteioParticipantes")', {
+            idSorteio: idSorteio,
+            idUsuario: idUsuario
+        }).done(function () {
+            $.get(urlsSorteio.Details, {
+                id: idSorteio
+            }).done(function (data) {
+                escondeModal();
+                $('#divContentSorteio').modal('open').html(data);
+            }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+    }
+
     function cancelar() {
         buscaTabelaSorteio();
     }

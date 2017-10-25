@@ -1,0 +1,45 @@
+﻿@model Hades.Web.ViewModels.SorteioViewModel
+
+@{
+    ViewBag.Title = "Drawlots";
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
+}
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
+            <div>
+                <h4>Nome Sorteio</h4>
+                <dl class="dl-horizontal">
+                    <dt> Nome:  @Html.DisplayFor(model => model.Nome) </dt>
+                </dl>
+            </div>
+            <div>
+                <h4>Participantes</h4>
+                <table class="striped">
+                    <tr>
+                        <th>Nome Vencedor</th>
+                    </tr>
+                    @if (Model.SorteioParticipantes != null)
+                    {
+                        foreach (var participante in Model.SorteioParticipantes)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => participante.NomeUsuario)</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="1" style="text-align: center;">Nenhum ganhador encontrado...</td></tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cancelar() {
+        buscaTabelaSorteio();
+    }
+</script>

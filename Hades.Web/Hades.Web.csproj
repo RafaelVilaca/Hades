@@ -252,6 +252,7 @@
     <Content Include="Views\Shared\_LayoutSemNavBar.cshtml" />
     <Content Include="Views\Login\CreateUsuario.cshtml" />
     <Content Include="Views\Shared\_LayoutUsuario.cshtml" />
+    <Content Include="Views\Sorteio\DrawLots.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Domain.Interfaces.Services;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Services
 {
@@ -22,6 +22,16 @@ namespace Hades.Domain.Services
         public IEnumerable<SorteioParticipante> GetAll(int id)
         {
             return _sorteioParticipanteRepository.GetAll(id);
+        }
+
+        public void VencedorParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            _sorteioParticipanteRepository.VencedorParticipantesSorteio(idSorteio, idUsuario);
+        }
+
+        public void DeletarParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            _sorteioParticipanteRepository.DeletarParticipantesSorteio(idSorteio, idUsuario);
         }
     }
 }

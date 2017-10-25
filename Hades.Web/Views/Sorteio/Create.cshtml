@@ -16,17 +16,21 @@
 
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="NomeUsuario" type="text" name="Nome" maxlength="20" data-length="20">
-                        <label for="NomeUsuario">Nome</label>
+                        <input id="NomeSorteio" type="text" name="NomeSorteio" maxlength="20" data-length="20" />
+                        <label for="NomeSorteio">Nome Sorteio</label>
                     </div>
                     <div class="input-field col s12">
-                        <input id="DataSorteio" type="text" name="DataSorteio" class="datepicker" >
+                        <input id="DataSorteio" type="text" name="DataSorteio" class="datepicker"/>
                         <label for="DataSorteio">Data Sorteio</label>
                     </div>
-
+                    <div class="input-field col s12">
+                        <input id="QtdeItens" type="number" name="QtdeItens" min="1" max="100" />
+                        <label for="QtdeItens">Qtde de Itens</label>
+                    </div>
+                    
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Criar" class="btn btn-confirm" style="border-radius: 20px;" />
+                            <input type="button" value="Criar" class="btn btn-confirm" id="btnCriarSorteio" style="border-radius: 20px;" />
                         </div>
                     </div>
                 </div>
@@ -38,6 +42,9 @@
     </div>
 </div>
 <script>
+
+    var usuarioLogado = sessionStorage.getItem("IdUsuarioLogado");
+
     $(document).ready(function () {
         $('input#input_text, textarea#textarea1').characterCounter();
         $('.datepicker').pickadate({
@@ -50,7 +57,45 @@
         });
     });
 
-    function cancelar() {
-        buscaTabelaSorteio();
+    var dataHoje = '@DateTime.Today';
+
+    $("#btnCriarSorteio").click(function () {
+        if ($("#NomeSorteio").val().length <= 3) {
+            erro("Nome do sorteio tem que estar entre 3 até 20 caracteres");
+            return false;
+        }
+
+        if ($("#DataSorteio").val() == "" || $("#DataSorteio").val() < dataHoje){
+            erro("Data do Sorteio deve ser válida");
+            return false;
+        }
+
+        if ($("#QtdeItens").val() <= 0 || $("#QtdeItens").val() > 100) {
+            erro("A quantidade tem que ser maior que zero e menor que 100");
+            return false;
+        }
+
+        $.post('@Url.Action("CreateConfirmed", "Sorteio")', {
+            Nome: $("#NomeSorteio").val(),
+            DataSorteio: $("#DataSorteio").val(),
+            QtdeItens: $("#QtdeItens").val(),
+            IdCriador: usuarioLogado
+        }).done(function () {
+            escondeModal();
+            sucesso("Sorteio cadastrado com Sucesso!");
+            buscaTabelaSorteio();
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    });
+
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
+    }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
     }
 </script>

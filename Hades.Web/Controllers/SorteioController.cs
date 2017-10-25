@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using Hades.Application.Interface;
+﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
 using Hades.Web.ViewModels;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
 {
@@ -72,7 +72,7 @@ namespace Hades.Web.Controllers
             {
                 var response = _sorteioAppService.Post(sorteio);
                 if (response.IsSuccessStatusCode)
-                    return RedirectToAction("Index");
+                    return Json("OK");
                 return ErrorMessage("Erro ao criar Sorteio");
             }
             catch (Exception e)
@@ -130,29 +130,51 @@ namespace Hades.Web.Controllers
             }
         }
 
-        public ActionResult Drawlots(int id)
+        public ActionResult Drawlots(int idSorteio)
         {
             try
             {
-                var responseParticipantes = _sorteioParticipanteAppService.GetAll(id);
+                var responseParticipantes = _sorteioAppService.GetById(idSorteio);
 
                 if (!responseParticipantes.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao trazer participantes");
 
 
-                var participantes = JsonConvert.DeserializeObject<IEnumerable<SorteioParticipanteViewModel>>(responseParticipantes.Content.ReadAsStringAsync().Result).ToList();
+                var dadosParticipantesSorteio = JsonConvert.DeserializeObject<SorteioViewModel>
+                            (responseParticipantes.Content.ReadAsStringAsync().Result);
 
-                if (!participantes.Any())
+                if (!dadosParticipantesSorteio.SorteioParticipantes.Any())
                     return ErrorMessage("Não foi encontrado nenhum participante");
 
+                if (dadosParticipantesSorteio.QtdParticipantes <= dadosParticipantesSorteio.QtdeItens)
+                    return View(dadosParticipantesSorteio);
 
                 var aleatorio = new Random();
+                var participantes = dadosParticipantesSorteio.SorteioParticipantes;
+                var vencedores = new string[dadosParticipantesSorteio.SorteioParticipantes.Count];
+                var contadorRotina = 0;
+                var posicoesSorteadas = new int[dadosParticipantesSorteio.QtdeItens];
 
-                var posicao = aleatorio.Next(0, participantes.Count);
+                do
+                {
+                    var posicao = aleatorio.Next(0, participantes.Count);
+                    if (!posicoesSorteadas.Contains(posicao))
+                    {
+                        posicoesSorteadas[contadorRotina] = posicao;
+                        vencedores[contadorRotina] = participantes[posicao].NomeUsuario;
+                        dadosParticipantesSorteio.QtdeItens -= dadosParticipantesSorteio.QtdeItens - 1;
+                        _sorteioParticipanteAppService.VencedorParticipantesSorteio(idSorteio, participantes[posicao].Id);
+                        contadorRotina ++;
+                    }
+                } while (dadosParticipantesSorteio.QtdeItens != 0);
 
-                var nome = participantes[posicao].NomeUsuario;
+                var getVencedores = new SorteioViewModel();
+                foreach (var vencedor in vencedores)
+                {
+                    getVencedores.SorteioParticipantes.Add(new SorteioParticipanteViewModel {NomeUsuario = vencedor});
+                }
 
-                return Json(new { message = $"O Ganhador é {nome}... Parabéns!!!" }, JsonRequestBehavior.AllowGet);
+                return View(getVencedores);
             }
             catch (Exception e)
             {

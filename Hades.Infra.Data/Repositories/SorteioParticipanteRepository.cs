@@ -11,7 +11,8 @@ namespace Hades.Infra.Data.Repositories
         {
             SP_GetParticipantes,
             SP_AddParticipante,
-            SP_DeletarParticipantesSorteio
+            SP_DeletarParticipantesSorteio,
+            SP_UpdVencedoresSorteios
         }
 
         public void Participar(SorteioParticipante sorteioParticipante)
@@ -36,10 +37,19 @@ namespace Hades.Infra.Data.Repositories
             return sorteios;
         }
 
-        public void DeletarParticipantesSorteio(int id)
+        public void DeletarParticipantesSorteio(int idSorteio, int idUsuario)
         {
             ExecuteProcedure(Procedures.SP_DeletarParticipantesSorteio);
-            AddParameter("@Id", id);
+            AddParameter("@IdSorteio", idSorteio);
+            AddParameter("@IdUsuario", idUsuario);
+            ExecuteNonQuery();
+        }
+
+        public void VencedorParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            ExecuteProcedure(Procedures.SP_UpdVencedoresSorteios);
+            AddParameter("@IdSorteio", idSorteio);
+            AddParameter("@IdUsuario", idUsuario);
             ExecuteNonQuery();
         }
     }

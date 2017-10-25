@@ -67,7 +67,7 @@ CREATE TABLE SorteioParticipante(
 	IdUsuario INT NOT NULL,
 	IdSorteio INT NOT NULL,
 	DataCadastro DATETIME,
-	IndSorteado BIT,
+	IndSorteado BIT DEFAULT 0,
 	CONSTRAINT FK_Usuario_SorteioPArticipante FOREIGN KEY (IdUsuario) REFERENCES Usuario(Id),
 	CONSTRAINT FK_Participante_Sorteio FOREIGN KEY (IdSorteio) REFERENCES Sorteio(Id),
 	CONSTRAINT PK_UsuaSortPK PRIMARY KEY (IdUsuario, IdSorteio) )

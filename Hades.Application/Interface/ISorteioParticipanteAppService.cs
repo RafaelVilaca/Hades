@@ -1,11 +1,13 @@
-﻿using System.Net.Http;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
+using System.Net.Http;
 
 namespace Hades.Application.Interface
 {
     public interface ISorteioParticipanteAppService
     {
-        void Participar(SorteioParticipante sorteioParticipante);
+        HttpResponseMessage Participar(SorteioParticipante sorteioParticipante);
         HttpResponseMessage GetAll(int id);
+        HttpResponseMessage DeletarParticipantesSorteio(int idSorteio, int idUsuario);
+        HttpResponseMessage VencedorParticipantesSorteio(int idSorteio, int idUsuario);
     }
 }

@@ -112,16 +112,4 @@
             Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
         });
     };
-
-    function sortear(id) {
-        $.get(urlsSorteio.Drawlots, {
-            id: id
-        }).done(function (data) {
-            escondeModal();
-            $('#divContentSorteio').modal('open').html(data);
-        }).fail(function (xhr) {
-            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
-        });
-    };
-
 </script>

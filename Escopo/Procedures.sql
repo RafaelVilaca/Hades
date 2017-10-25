@@ -439,6 +439,14 @@ CREATE PROCEDURE [dbo].[SP_ListarEnquetes]
 
 	AS 
 	BEGIN
+
+		DECLARE @VerificaDatas DateTime = GETDATE();
+
+		UPDATE Enquete
+			SET Ativo = 0
+			WHERE DataEnquete < @VerificaDatas
+
+
 		SELECT e.Id,
 			   e.Titulo,
 			   e.Descricao,
@@ -616,7 +624,15 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 
 	AS 
 	BEGIN
-		SELECT s.Nome,
+
+		DECLARE @VerificaDatas DateTime = GETDATE();
+
+		UPDATE Sorteio
+			SET Ativo = 0
+			WHERE DataSorteio < @VerificaDatas
+
+		SELECT s.Id,
+			   s.Nome,
 			   s.QtdItens,
 			   s.DataSorteio, 
 			   s.DataCadastro, 
@@ -625,15 +641,19 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 						FROM SorteioParticipante sp 
 						WHERE sp.IdSorteio = s.Id
 			   ) AS NumeroParticipantes,
-			   s.IdCriador
+			   s.IdCriador,
+			   u.Nome AS NomeCriador
 			FROM Sorteio s
+				INNER JOIN Usuario u
+					ON u.Id = s.IdCriador
 			WHERE s.Ativo = 1
 			GROUP BY s.Id, 
 					 s.Nome,
 					 s.DataSorteio,
 					 s.QtdItens,
 					 s.DataCadastro,
-					 s.IdCriador
+					 s.IdCriador,
+					 u.Nome
 	END
 GO
 
@@ -659,18 +679,29 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteioPorId]
 
 	AS 
 	BEGIN
-		SELECT s.Nome,
+		SELECT s.Id,
+			   s.Nome,
 			   s.QtdItens,
 			   s.DataSorteio, 
 			   s.DataCadastro, 
 			   (
 					SELECT COUNT(*) 
 						FROM SorteioParticipante sp 
-						WHERE sp.IdSorteio = Id
-				) AS NumeroParticipantes,
-				s.IdCriador
-		FROM Sorteio s
+						WHERE sp.IdSorteio = s.Id
+			   ) AS NumeroParticipantes,
+			   s.IdCriador,
+			   u.Nome AS NomeCriador
+			FROM Sorteio s
+				INNER JOIN Usuario u
+					ON u.Id = s.IdCriador
 		WHERE s.Id = @Id
+			AND s.Ativo = 1
+
+		SELECT u.Nome
+			FROM Usuario u
+				INNER JOIN SorteioParticipante sp
+					ON sp.IdUsuario = u.Id
+			WHERE sp.IdSorteio = @Id
 	END
 GO
 
@@ -812,16 +843,47 @@ CREATE PROCEDURE [dbo].[SP_DeletarParticipantesSorteio]
 	Arquivo Fonte.....: Procedures.sql
 	Objetivo..........: Deleta participante do Sorteio
 	Autor.............: Rafael Vilaça
- 	Data..............: 01/01/2015
+ 	Data..............: 25/10/2017
 	Ex................: EXEC [dbo].[SP_DeletarParticipantesSorteio]
 
 	*/
 
-	@Id int
+	@IdSorteio INT,
+	@IdUsuario INT
 
 	AS 
 	BEGIN
 		DELETE FROM SorteioParticipante 
-			   WHERE IdSorteio = @Id
+			   WHERE IdSorteio = @IdSorteio			   
+				AND IdUsuario = @IdUsuario
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_UpdVencedoresSorteios]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_UpdVencedoresSorteios]
+GO
+
+CREATE PROCEDURE [dbo].[SP_UpdVencedoresSorteios]
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Seta participante do Sorteio como Vencedor
+	Autor.............: Rafael Vilaça
+ 	Data..............: 25/10/2017
+	Ex................: EXEC [dbo].[SP_UpdVencedoresSorteios] 1, 1
+
+	*/
+
+	@IdSorteio INT,
+	@IdUsuario INT
+
+	AS 
+	BEGIN
+		UPDATE SorteioParticipante
+			 SET IndSorteado = 1 
+			 WHERE IdSorteio = @IdSorteio
+				AND IdUsuario = @IdUsuario
 	END
 GO

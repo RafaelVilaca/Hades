@@ -1,39 +1,59 @@
-﻿@using Hades.Web.Controllers
-@model Hades.Web.ViewModels.SorteioViewModel
+﻿@model Hades.Web.ViewModels.SorteioViewModel
 
 @{
     ViewBag.Title = "Edit";
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
 }
 
-@using (Html.BeginForm("EditConfirmed", "Sorteio", FormMethod.Post, new { @class = "col s12" }))
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Editar Sorteio</h4>
-        @Html.HiddenFor(model => model.Id)
+<div class="row" style="margin-top: 12px">
+    <div class="col s12">
+        <div class="row">
+            <h4>Novo Sorteio </h4>
 
-        <div class="form-group">
-            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Nome</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
+            @using (Html.BeginForm("EditConfirmed", "Sorteio", FormMethod.Post, new { @class = "well" }))
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" class="btn btn-default" style="border-radius: 20px;" />
+                <div class="form-horizontal">
+                    <div class="input-field col s12">
+                        <input id="NomeUsuario" type="text" name="Nome" maxlength="20" data-length="20" value="@Model.Nome">
+                        <label for="NomeUsuario">Nome</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="DataSorteio" type="text" name="DataSorteio" class="datepicker" value="@Model.DataSorteio">
+                        <label for="DataSorteio">Data Sorteio</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="QtdeItens" type="number" name="QtdeItens" maxlength="5" data-length="5" value="@Model.QtdeItens">
+                        <label for="QtdeItens">Qtde de Itens</label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Criar" class="btn btn-confirm" style="border-radius: 20px;" />
+                        </div>
+                    </div>
+                </div>
+            }
+            <div style="margin-left: 110px; margin-top: -36px;">
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
             </div>
         </div>
     </div>
-}
-
-<p>
-    <button class="btn btn-default" onclick="cancelar()" style="border-radius: 20px;">Cancelar</button>
-</p>
-
+</div>
 <script>
+    $(document).ready(function () {
+        $('input#input_text, textarea#textarea1').characterCounter();
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15, // Creates a dropdown of 15 years to control year,
+            today: 'Hoje',
+            clear: 'Limpar',
+            close: 'Ok',
+            closeOnSelect: false // Close upon selecting a date,
+        });
+    });
+
     function cancelar() {
         buscaTabelaSorteio();
     }

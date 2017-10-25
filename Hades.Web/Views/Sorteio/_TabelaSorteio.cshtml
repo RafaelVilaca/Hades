@@ -1,13 +1,18 @@
-﻿@model IEnumerable<Hades.Web.ViewModels.SorteioViewModel>
+﻿@using Hades.Web.ViewModels
+@model IEnumerable<Hades.Web.ViewModels.SorteioViewModel>
 
 @{
     Layout = null;
+    var ADM = UsuarioLogadoViewModel.Administrador;
+    var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
 }
 
 <table class="table striped bordered responsive-table centered">
     <thead>
     <tr>
         <th>Nome:</th>
+        <th>Data Sorteio:</th>
+        <th>Criador:</th>
         <th>Qtde Participantes:</th>
         <th>Ações</th>
     </tr>
@@ -22,17 +27,26 @@
                 <td style="padding: 0">
                     @Html.DisplayFor(modelItem => sorteio.Nome)
                 </td>
+                <td style="padding: 0">
+                    @Html.DisplayFor(modelItem => sorteio.DataFormatada)
+                </td>
+                <td style="color: grey">
+                    @Html.DisplayFor(modelItem => sorteio.NomeCriador)
+                </td>
                 <td style="color: grey">
                     @Html.DisplayFor(modelItem => sorteio.QtdParticipantes)
                 </td>
                 <td style="padding: 0">
-                    <div style="float: right">
+                    <div style="margin-right: 10px;float: right;">
                         <ul>
                             <li>
-                                <a class="btn-floating red"><i class="material-icons" onclick="editar('@sorteio.Id')">mode_edit</i></a>
                                 <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@sorteio.Id')">description</i></a>
-                                <a class="btn-floating green"><i class="material-icons" onclick="deletar('@sorteio.Id')">delete</i></a>
-                                <a class="btn-floating blue"><i class="material-icons" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                @if (ADM || sorteio.NomeCriador == usuarioLogado)
+                                {
+                                    <a class="btn-floating red"><i class="material-icons" onclick="editar('@sorteio.Id')">mode_edit</i></a>
+                                    <a class="btn-floating green"><i class="material-icons" onclick="deletar('@sorteio.Id')">delete</i></a>
+                                    <a class="btn-floating blue"><i class="material-icons" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                }
                             </li>
                         </ul>
                     </div>
@@ -52,4 +66,15 @@
         $('.modal').modal();
         $('.tooltipped').tooltip({ delay: 50 });
     });
+
+    function sortear(id) {
+        $.get(urlsSorteio.Drawlots, {
+            idSorteio: id
+        }).done(function (data) {
+            escondeModal();
+            $('#divContentSorteio').modal('open').html(data);
+        }).fail(function (xhr) {
+            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
+        });
+    };
 </script>

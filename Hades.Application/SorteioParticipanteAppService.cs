@@ -22,7 +22,17 @@ namespace Hades.Application
 
         public HttpResponseMessage GetAll(int id)
         {
-            return _httpClient.GetAsync("http://localhost:2002/api/sorteioParticipante?id=" + id).Result;
+            return _httpClient.GetAsync($"http://localhost:2002/api/sorteioParticipante/{id}").Result;
+        }
+
+        public void DeletarParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            _httpClient.DeleteAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}");
+        }
+
+        public void VencedorParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            _httpClient.PutAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}", new {}, JsonMediaTypeFormatter);
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

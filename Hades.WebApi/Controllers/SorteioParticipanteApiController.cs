@@ -1,6 +1,6 @@
-﻿using System.Web.Http;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Services;
+using System.Web.Http;
 
 namespace Hades.WebApi.Controllers
 {
@@ -15,7 +15,7 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("sorteioParticipante")]
+        [Route("sorteioParticipante/id")]
         public IHttpActionResult GetAll(int id)
         {
             var sorteio = _sorteioParticipanteService.GetAll(id);
@@ -29,6 +29,22 @@ namespace Hades.WebApi.Controllers
         public IHttpActionResult Participar(SorteioParticipante sorteioParticipante)
         {
             _sorteioParticipanteService.Participar(sorteioParticipante);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("sorteioParticipante/{idSorteio}/{idUsuario}")]
+        public IHttpActionResult VencedorParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            _sorteioParticipanteService.VencedorParticipantesSorteio(idSorteio, idUsuario);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("sorteioParticipante/{idSorteio}/{idUsuario}")]
+        public IHttpActionResult DeletarParticipantesSorteio(int idSorteio, int idUsuario)
+        {
+            _sorteioParticipanteService.DeletarParticipantesSorteio(idSorteio, idUsuario);
             return Ok();
         }
     }

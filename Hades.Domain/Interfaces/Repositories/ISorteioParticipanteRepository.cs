@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Interfaces.Repositories
 {
@@ -7,6 +7,7 @@ namespace Hades.Domain.Interfaces.Repositories
     {
         void Participar(SorteioParticipante sorteioParticipante);
         IEnumerable<SorteioParticipante> GetAll(int id);
-        void DeletarParticipantesSorteio(int id);
+        void DeletarParticipantesSorteio(int idSorteio, int idUsuario);
+        void VencedorParticipantesSorteio(int idSorteio, int idUsuario);
     }
 }
