@@ -22,6 +22,7 @@ namespace Hades.Web.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
             return View();
         }
 
@@ -29,11 +30,10 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                var sorteioViewModel = _sorteioAppService.GetAll();
+                var sorteioViewModel = _sorteioAppService.GetAll(UsuarioLogadoViewModel.Id);
                 if (!sorteioViewModel.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao trazer sorteios");
-                var sorteio =
-                    JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(sorteioViewModel.Content.ReadAsStringAsync().Result);
+                var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(sorteioViewModel.Content.ReadAsStringAsync().Result);
                 return View("_TabelaSorteio", sorteio);
             }
             catch (Exception e)
@@ -120,7 +120,7 @@ namespace Hades.Web.Controllers
                 var retorno = _sorteioAppService.Delete(id);
                 if (!retorno.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao deletar sorteio");
-                var response = _sorteioAppService.GetAll();
+                var response = _sorteioAppService.GetAll(UsuarioLogadoViewModel.Id);
                 var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(response.Content.ReadAsStringAsync().Result);
                 return View("_TabelaSorteio", sorteio);
             }

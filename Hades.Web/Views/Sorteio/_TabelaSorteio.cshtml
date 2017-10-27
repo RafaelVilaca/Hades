@@ -1,63 +1,72 @@
 ﻿@using Hades.Web.ViewModels
-@model IEnumerable<Hades.Web.ViewModels.SorteioViewModel>
+@model IEnumerable<SorteioViewModel>
 
 @{
     Layout = null;
-    var ADM = UsuarioLogadoViewModel.Administrador;
+    var usuarioAdm = UsuarioLogadoViewModel.Administrador;
     var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
+    var idUsuarioLogado = UsuarioLogadoViewModel.Id != 0 ? UsuarioLogadoViewModel.Id : 0;
 }
 
 <table class="table striped bordered responsive-table centered">
     <thead>
-    <tr>
-        <th>Nome:</th>
-        <th>Data Sorteio:</th>
-        <th>Criador:</th>
-        <th>Qtde Participantes:</th>
-        <th>Ações</th>
-    </tr>
+        <tr>
+            <th>Nome:</th>
+            <th>Data Sorteio:</th>
+            <th>Criador:</th>
+            <th style="width: 150px">N° Participantes:</th>
+            <th style="width: 150px">Ações</th>
+        </tr>
     </thead>
 
     <tbody>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var sorteio in Model)
+        @if (Model != null && Model.Any())
         {
-            <tr>
-                <td style="padding: 0">
-                    @Html.DisplayFor(modelItem => sorteio.Nome)
-                </td>
-                <td style="padding: 0">
-                    @Html.DisplayFor(modelItem => sorteio.DataFormatada)
-                </td>
-                <td style="color: grey">
-                    @Html.DisplayFor(modelItem => sorteio.NomeCriador)
-                </td>
-                <td style="color: grey">
-                    @Html.DisplayFor(modelItem => sorteio.QtdParticipantes)
-                </td>
-                <td style="padding: 0">
-                    <div style="margin-right: 10px;float: right;">
-                        <ul>
-                            <li>
-                                <a class="btn-floating grey darken-3"><i class="material-icons" onclick="detalhar('@sorteio.Id')">description</i></a>
-                                @if (ADM || sorteio.NomeCriador == usuarioLogado)
-                                {
-                                    <a class="btn-floating red"><i class="material-icons" onclick="editar('@sorteio.Id')">mode_edit</i></a>
-                                    <a class="btn-floating green"><i class="material-icons" onclick="deletar('@sorteio.Id')">delete</i></a>
-                                    <a class="btn-floating blue"><i class="material-icons" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
-                                }
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
+            foreach (var sorteio in Model)
+            {
+                <tr>
+                    <td style="padding: 0">
+                        @Html.DisplayFor(modelItem => sorteio.Nome)
+                    </td>
+                    <td style="padding: 0">
+                        @Html.DisplayFor(modelItem => sorteio.DataFormatada)
+                    </td>
+                    <td style="color: grey">
+                        @Html.DisplayFor(modelItem => sorteio.NomeCriador)
+                    </td>
+                    <td style="color: grey">
+                        @Html.DisplayFor(modelItem => sorteio.QtdParticipantes)
+                    </td>
+                    <td style="padding: 0">
+                        <div style="margin-right: 10px;float: right;">
+                            <ul>
+                                <li>
+                                    @if (sorteio.IndParticipante == "N")
+                                    {
+                                        <a class="btn-floating green darken-3"><i class="material-icons" data-position="bottom" data-delay="50" data-tooltip="Participar" onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i></a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn-floating red darken-3"><i class="material-icons" data-position="bottom" data-delay="50" data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i></a>
+                                    }
+                                    <a class="btn-floating grey darken-3"><i class="material-icons" id="btnDetalharSorteio" data-position="bottom" data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i></a>
+                                    @if (usuarioAdm || sorteio.NomeCriador == usuarioLogado)
+                                    {
+                                        <a data-position="bottom" data-delay="50" data-tooltip="Editar" class="btn-floating red"><i class="material-icons" onclick="editar('@sorteio.Id')">mode_edit</i></a>
+                                        <a data-position="bottom" data-delay="50" data-tooltip="Deletar" class="btn-floating green"><i class="material-icons" onclick="deletar('@sorteio.Id')">delete</i></a>
+                                        <a data-position="bottom" data-delay="50" data-tooltip="Sortear" class="btn-floating blue"><i class="material-icons" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
         }
-    }
-    else
-    {
-        <tr><td colspan="3" style="text-align: center">Nenhum registro encontrado</td></tr>
-    }
+        else
+        {
+            <tr><td colspan="3" style="text-align: center">Nenhum registro encontrado</td></tr>
+        }
     </tbody>
 </table>
 
@@ -77,4 +86,28 @@
             Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
         });
     };
+
+    function participar(idSorteio, idUsuario) {
+        if (!confirm("Deseja realmente participar deste sorteio?")) return;
+
+        $.post('@Url.Action("Participar","SorteioParticipantes")', {
+            idSorteio: idSorteio,
+            idUsuario: idUsuario
+        }).done(function (data) {
+            sucesso(data);
+            buscaTabelaSorteio();
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    };
+
+    function sucesso(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded green');
+        return true;
+    }
+
+    function erro(message) {
+        Materialize.toast('' + message + '', 4000, 'rounded red');
+        return true;
+    }
 </script>

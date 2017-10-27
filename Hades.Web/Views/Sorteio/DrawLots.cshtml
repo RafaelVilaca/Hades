@@ -10,21 +10,21 @@
             <div>
                 <h4>Nome Sorteio</h4>
                 <dl class="dl-horizontal">
-                    <dt> Nome:  @Html.DisplayFor(model => model.Nome) </dt>
+                    <dt style="text-align: center;"> Nome:  @Html.DisplayFor(model => model.Nome) </dt>
                 </dl>
             </div>
             <div>
                 <h4>Participantes</h4>
                 <table class="striped">
                     <tr>
-                        <th>Nome Vencedor</th>
+                        <th style="text-align: center;">Nome Vencedor</th>
                     </tr>
                     @if (Model.SorteioParticipantes != null)
                     {
                         foreach (var participante in Model.SorteioParticipantes)
                         {
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => participante.NomeUsuario)</td>
+                                <td style="text-align: center;">@Html.DisplayFor(modelItem => participante.NomeUsuario)</td>
                             </tr>
                         }
                     }

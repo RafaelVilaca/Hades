@@ -1,5 +1,4 @@
 ﻿using Hades.Application.Interface;
-using Hades.Domain.Entities;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -15,9 +14,9 @@ namespace Hades.Application
             _httpClient = new HttpClient();
         }
 
-        public void Participar(SorteioParticipante sorteioParticipante)
+        public HttpResponseMessage Participar(int idSorteio, int idUsuario)
         {
-            _httpClient.PostAsync("http://localhost:2002/api/sorteioParticipante", sorteioParticipante, JsonMediaTypeFormatter);
+            return _httpClient.PostAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}", new {}, JsonMediaTypeFormatter).Result;
         }
 
         public HttpResponseMessage GetAll(int id)
@@ -25,14 +24,14 @@ namespace Hades.Application
             return _httpClient.GetAsync($"http://localhost:2002/api/sorteioParticipante/{id}").Result;
         }
 
-        public void DeletarParticipantesSorteio(int idSorteio, int idUsuario)
+        public HttpResponseMessage DeletarParticipantesSorteio(int idSorteio, int idUsuario)
         {
-            _httpClient.DeleteAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}");
+            return _httpClient.DeleteAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}").Result;
         }
 
-        public void VencedorParticipantesSorteio(int idSorteio, int idUsuario)
+        public HttpResponseMessage VencedorParticipantesSorteio(int idSorteio, int idUsuario)
         {
-            _httpClient.PutAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}", new {}, JsonMediaTypeFormatter);
+            return _httpClient.PutAsync($"http://localhost:2002/api/sorteioParticipante/{idSorteio}/{idUsuario}", new {}, JsonMediaTypeFormatter).Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

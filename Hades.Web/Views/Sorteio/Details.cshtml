@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
     var ADM = UsuarioLogadoViewModel.Administrador;
     var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
+    var idUsuarioLogado = UsuarioLogadoViewModel.Id;
 }
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
@@ -13,37 +14,32 @@
             <div>
                 <h4>Detalhes Sorteio</h4>
                 <dl class="dl-horizontal">
-                    <dt> Nome:  @Html.DisplayFor(model => model.Nome) </dt>
+                    <dt style="text-align: center;">Nome: @Html.DisplayFor(model => model.Nome) </dt>
                 </dl>
             </div>
             <div>
                 <h4>Participantes</h4>
                 <table class="striped">
                     <tr>
-                        <th></th>
-                        <th>Nome Usuario</th>
+                        <th style="text-align: center;">Nome Usuario</th>
                     </tr>
                     @if (Model.SorteioParticipantes != null)
                     {
-
                         foreach (var participante in Model.SorteioParticipantes)
                         {
-                            if (ADM || participante.Sorteio.NomeCriador == usuarioLogado)
-                            {
-                                 <tr>
-                                     <td>
-                                         <ul>
-                                             <li>
-                                                 <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativado" style="width: 24px; height: 24px;">
-                                                     <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="excluir('@participante.Id')">perm_identity</i>
-                                                 </a>
-                                                 @Html.DisplayFor(modelItem => participante.NomeUsuario)
-                                             </li>
-                                         </ul>
-                                     </td>
-                                 </tr>
-                             }
-                         }
+                            <tr>
+                                <td style="text-align: center;">
+                                    @if (ADM || participante.Sorteio.NomeCriador == usuarioLogado)
+                                    {
+                                        <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar" style="width: 24px; height: 24px;">
+                                            <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="sairSorteioParticipante('@Model.Id', '@idUsuarioLogado')">perm_identity</i>
+                                        </a>
+                                    }
+                                    @Html.DisplayFor(modelItem => participante.NomeUsuario)
+                                </td>
+                            </tr>
+                        }
+
                     }
                     else
                     {
@@ -56,23 +52,7 @@
 </div>
 
 <script>
-    function excluir(idSorteio, idUsuario) {
-        if (!confirm("Deseja realmente excluir esse participante?")) return;
-
-        $.get('@Url.Action("DeletarParticipante", "SorteioParticipantes")', {
-            idSorteio: idSorteio,
-            idUsuario: idUsuario
-        }).done(function () {
-            $.get(urlsSorteio.Details, {
-                id: idSorteio
-            }).done(function (data) {
-                escondeModal();
-                $('#divContentSorteio').modal('open').html(data);
-            }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
-        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
-    }
-
-    function cancelar() {
-        buscaTabelaSorteio();
+    function deletarUsuarioParticipante(idSorteio, idUsuario) {
+        sairSorteio(idSorteio, idUsuario);
     }
 </script>

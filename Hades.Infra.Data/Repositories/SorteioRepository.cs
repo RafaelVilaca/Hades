@@ -56,14 +56,17 @@ namespace Hades.Infra.Data.Repositories
             return sorteio;
         }
 
-        public IEnumerable<Sorteio> GetAll()
+        public IEnumerable<Sorteio> GetAll(int idUsuario)
         {
+            var listaCompleta = new List<Sorteio>();
+
             ExecuteProcedure(Procedures.SP_ListarSorteio);
-            var sorteios = new List<Sorteio>();
+            AddParameter("@CodUsua", idUsuario);
+            
             using (var r = ExecuteReader())
             {
                 while (r.Read())
-                    sorteios.Add(new Sorteio
+                    listaCompleta.Add(new Sorteio
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
                         Nome = r["Nome"].ToString(),
@@ -71,10 +74,11 @@ namespace Hades.Infra.Data.Repositories
                         QtdParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes")),
                         IdCriador = r.GetInt32(r.GetOrdinal("IdCriador")),
                         DataSorteio = r.GetDateTime(r.GetOrdinal("DataSorteio")),
-                        NomeCriador = r["NomeCriador"].ToString()
+                        NomeCriador = r["NomeCriador"].ToString(),
+                        IndParticipante = r["IndParticipa"].ToString()
                     });
             }
-            return sorteios;
+            return listaCompleta;
         }
 
         public void Put(Sorteio sorteio)

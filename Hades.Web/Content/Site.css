@@ -30,8 +30,7 @@ table td .material-icons {
 #toast-container {
     top: auto !important;
     right: auto !important;
-    bottom: 20%;
-    left: 40%;
+    bottom: 5%;
 }
 
 h4 {

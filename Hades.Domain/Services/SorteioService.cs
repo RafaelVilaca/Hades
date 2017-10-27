@@ -25,9 +25,9 @@ namespace Hades.Domain.Services
             return _sorteioRepository.GetById(id);
         }
 
-        public IEnumerable<Sorteio> GetAll()
+        public IEnumerable<Sorteio> GetAll(int idUsuario)
         {
-            return _sorteioRepository.GetAll();
+            return _sorteioRepository.GetAll(idUsuario);
         }
 
         public string Put(Sorteio sorteio)

@@ -1,10 +1,5 @@
 Use SMN_Hades
 
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_AddVoto]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[SP_AddVoto]
-GO
-
-
 
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_AddVoto]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[SP_AddVoto]
@@ -76,6 +71,7 @@ CREATE PROCEDURE [dbo].[SP_GetVotos]
 					ON u.Id = v.IdUsuario
 			WHERE (@UsuarioId IS NULL OR v.IdUsuario = @UsuarioId)
 				AND (@EnqueteId IS NULL OR v.IdEnquete = @EnqueteId)
+			ORDER BY u.Nome
 					
 	END
 GO
@@ -378,6 +374,8 @@ CREATE PROCEDURE [dbo].[SP_AddParticipante]
 					GETDATE(),
 					0
 				  )
+
+				  SELECT * FROM SorteioParticipante
 	END
 GO
 
@@ -440,11 +438,13 @@ CREATE PROCEDURE [dbo].[SP_ListarEnquetes]
 	AS 
 	BEGIN
 
-		DECLARE @VerificaDatas DateTime = GETDATE();
+		DECLARE @VerificaDatas DateTime = GETDATE()
 
 		UPDATE Enquete
 			SET Ativo = 0
-			WHERE DataEnquete < @VerificaDatas
+			WHERE Id IN (SELECT e.Id
+							FROM  Enquete e
+							WHERE DATEDIFF(MONTH, e.DataEnquete, @VerificaDatas) >= 2)
 
 
 		SELECT e.Id,
@@ -520,7 +520,7 @@ CREATE PROCEDURE [dbo].[SP_ListarEnquetePorId]
 				INNER JOIN Usuario u 
 					ON u.Id = v.IdUsuario
 			WHERE v.IdEnquete = @Id
-			ORDER BY TipoVoto;
+			ORDER BY v.TipoVoto;
 		
 	END
 GO
@@ -611,14 +611,16 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarS
 GO
 
 CREATE PROCEDURE [dbo].[SP_ListarSorteio]
-
+	
+	@CodUsua int = null
+	
 	/*
 	Documentação
 	Arquivo Fonte.....: Procedures.sql
 	Objetivo..........: Listar Sorteios
 	Autor.............: Rafael Vilaça
  	Data..............: 09/10/2017
-	Ex................: EXEC [dbo].[SP_ListarSorteio]
+	Ex................: EXEC [dbo].[SP_ListarSorteio] 1
 
 	*/
 
@@ -631,7 +633,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 			SET Ativo = 0
 			WHERE DataSorteio < @VerificaDatas
 
-		SELECT s.Id,
+		SELECT u.Id as usua,
+			   s.Id,
 			   s.Nome,
 			   s.QtdItens,
 			   s.DataSorteio, 
@@ -642,10 +645,19 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 						WHERE sp.IdSorteio = s.Id
 			   ) AS NumeroParticipantes,
 			   s.IdCriador,
-			   u.Nome AS NomeCriador
+			   u.Nome AS NomeCriador,
+			   (CASE 
+					WHEN x.IdSorteio IS NULL THEN 'N'
+					ELSE 'S' END) IndParticipa
 			FROM Sorteio s
 				INNER JOIN Usuario u
 					ON u.Id = s.IdCriador
+				OUTER APPLY(
+					SELECT TOP 1 sp.IdSorteio
+						FROM SorteioParticipante sp
+						WHERE sp.IdUsuario = @CodUsua	
+							AND sp.IdSorteio = s.Id
+				)x
 			WHERE s.Ativo = 1
 			GROUP BY s.Id, 
 					 s.Nome,
@@ -653,7 +665,10 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 					 s.QtdItens,
 					 s.DataCadastro,
 					 s.IdCriador,
-					 u.Nome
+					 u.Nome,
+					 u.Id,
+					 x.IdSorteio
+	
 	END
 GO
 

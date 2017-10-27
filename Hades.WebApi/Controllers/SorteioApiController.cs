@@ -16,10 +16,10 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("sorteio")]
-        public IHttpActionResult GetAll()
+        [Route("sorteios/{idUsuario}")]
+        public IHttpActionResult GetAll(int idUsuario)
         {
-            var sorteios = _sorteioService.GetAll();
+            var sorteios = _sorteioService.GetAll(idUsuario);
             if (sorteios != null)
                 return Ok(sorteios);
             return BadRequest("Erro ao trazer Sorteios");
@@ -37,12 +37,12 @@ namespace Hades.WebApi.Controllers
 
         [HttpDelete]
         [Route("sorteio/{id}")]
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult Delete(int idSorteio, int idUsuario)
         {
             var sorteioParticipante = new SorteioParticipanteRepository();
-            sorteioParticipante.DeletarParticipantesSorteio(id);
+            sorteioParticipante.DeletarParticipantesSorteio(idSorteio, idUsuario);
 
-            _sorteioService.Delete(id);
+            _sorteioService.Delete(idSorteio);
             return Ok();
         }
 

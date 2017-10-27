@@ -25,9 +25,9 @@ namespace Hades.Application
             return _httpClient.GetAsync("http://localhost:2002/api/sorteio?id=" + id).Result;
         }
 
-        public HttpResponseMessage GetAll()
+        public HttpResponseMessage GetAll(int idUsuario)
         {
-            return _httpClient.GetAsync("http://localhost:2002/api/sorteio").Result;
+            return _httpClient.GetAsync($"http://localhost:2002/api/sorteios/{idUsuario}").Result;
         }
 
         public HttpResponseMessage Put(Sorteio sorteio)
@@ -37,7 +37,7 @@ namespace Hades.Application
 
         public HttpResponseMessage Delete(int id)
         {
-           return _httpClient.DeleteAsync($"http://localhost:2002/api/sorteio/{id}").Result;
+            return _httpClient.DeleteAsync($"http://localhost:2002/api/sorteio/{id}").Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

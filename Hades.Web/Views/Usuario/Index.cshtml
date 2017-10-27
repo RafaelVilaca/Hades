@@ -26,7 +26,9 @@
 <div></div>
 <div id="divContentUsuario" class="modal modal-formatada"></div>
 
-<script>    
+<script>
+
+    var verifica = UsuarioLogadoViewModel.Administrador ? true : false;
 
     $(".modal-overlay").on("click", function () {
         $(this).hide();
@@ -50,6 +52,9 @@
     };
 
     var buscaTabelaUsuario = (function busca() {
+        if (!verifica)
+            return erro("Usuario não tem permições administrativas, consulte um Administrador por gentileza.");
+
         $.get(urlsUsuario.BuscaTabelaUsuario)
             .done(function (data) {
                 $("#tabelaUsuarios").html(data);

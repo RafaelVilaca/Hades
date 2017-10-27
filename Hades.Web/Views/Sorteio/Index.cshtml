@@ -39,7 +39,7 @@
         $('.tooltipped').tooltip({ delay: 50 });
         $('input#input_text, textarea#textarea1').characterCounter();
         $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdown to control month
+            selectMonths: true, // Creates a dropdosssssssswn to control month
             selectYears: 15, // Creates a dropdown of 15 years to control year,
             today: 'Hoje',
             clear: 'Limpar',
@@ -96,7 +96,7 @@
         $.get(urlsSorteio.Details, {
             id: id
         }).done(function (data) {
-            escondeModal();
+            //escondeModal();
             $('#divContentSorteio').modal('open').html(data);
         }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
@@ -112,4 +112,34 @@
             Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
         });
     };
+
+    function sairSorteio(idSorteio, idUsuario) {
+        if (!confirm("Deseja realmente deixar de participar deste sorteio?")) return;
+
+        $.post('@Url.Action("DeletarParticipante","SorteioParticipantes")', {
+            idSorteio: idSorteio,
+            idUsuario: idUsuario
+        }).done(function (data) {
+            sucesso(data);
+            buscaTabelaSorteio();
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    };
+
+    function sairSorteioParticipante(idSorteio, idUsuario) {
+        if (!confirm("Deseja realmente deixar de participar deste sorteio?")) return;
+
+        $.post('@Url.Action("DeletarParticipante","SorteioParticipantes")', {
+            idSorteio: idSorteio,
+            idUsuario: idUsuario
+        }).done(function (data) {
+            sucesso(data);
+            buscaTabelaSorteio();
+            detalhar(idSorteio);
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    };
+
 </script>

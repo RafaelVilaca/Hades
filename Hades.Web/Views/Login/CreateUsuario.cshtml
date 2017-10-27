@@ -58,8 +58,8 @@
     $("#btnSalvar").click(function (e) {
         e.preventDefault();//cancela o post
 
-        if ($("#NomeUsuario").val().length == 0) {
-            erro("Nome não pode ser vazio");
+        if ($("#NomeUsuario").val().length == 0 || $("#NomeUsuario").val().length < 3) {
+            erro("Nome deve conter de 3 à 100 caracteres");
             return false;
         }
 

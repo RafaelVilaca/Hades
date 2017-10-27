@@ -25,10 +25,10 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("sorteioParticipante")]
-        public IHttpActionResult Participar(SorteioParticipante sorteioParticipante)
+        [Route("sorteioParticipante/{idSorteio}/{idUsuario}")]
+        public IHttpActionResult Participar(int idSorteio, int idUsuario)
         {
-            _sorteioParticipanteService.Participar(sorteioParticipante);
+            _sorteioParticipanteService.Participar(idSorteio, idUsuario);
             return Ok();
         }
 

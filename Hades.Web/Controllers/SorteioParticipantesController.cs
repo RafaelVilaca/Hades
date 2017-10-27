@@ -1,12 +1,11 @@
 ﻿using Hades.Application.Interface;
-using Hades.Domain.Entities;
-using Hades.Web.Controllers;
+using Hades.Web.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Hades.Web.ViewModels
+namespace Hades.Web.Controllers
 {
     public class SorteioParticipantesController : BaseController
     {
@@ -18,10 +17,20 @@ namespace Hades.Web.ViewModels
         }
 
         // GET: SorteioParticipantes
-        public ActionResult Participar(SorteioParticipante sorteio)
+        public ActionResult Participar(int idSorteio, int idUsuario)
         {
-            _sorteioParticipanteAppService.Participar(sorteio);
-            return RedirectToAction("Index", "Sorteio");
+            try
+            {
+                var response = _sorteioParticipanteAppService.Participar(idSorteio, idUsuario);
+                if (!response.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao ativar participante, tente novamente");
+
+                return Json("Sucesso, participante incluido com sucesso!", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return ErrorMessage($"Falha ao deletar participante, {e.Message}");
+            }
         }
 
         // GET: SorteioParticipantes/Create
@@ -40,7 +49,7 @@ namespace Hades.Web.ViewModels
                 var response = _sorteioParticipanteAppService.DeletarParticipantesSorteio(idSorteio, idUsuario);
                 if (!response.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao alterar o usuario");
-                return Json("OK");
+                return Json("Sucesso, participante excluido com sucesso!", JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

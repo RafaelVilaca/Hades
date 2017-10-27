@@ -18,6 +18,7 @@ namespace Hades.Domain.Entities
         public bool Adm { get; set; }
         public DateTime DataSorteio { get; set; }
         public int QtdeItens { get; set; }
+        public string IndParticipante { get; set; }
         public List<SorteioParticipante> SorteioParticipantes { get; set; }
     }
 }

@@ -14,9 +14,9 @@ namespace Hades.Domain.Services
             _sorteioParticipanteRepository = sorteioParticipanteRepository;
         }
 
-        public void Participar(SorteioParticipante sorteioParticipante)
+        public void Participar(int idSorteio, int idUsuario)
         {
-            _sorteioParticipanteRepository.Participar(sorteioParticipante);
+            _sorteioParticipanteRepository.Participar(idSorteio, idUsuario);
         }
 
         public IEnumerable<SorteioParticipante> GetAll(int id)

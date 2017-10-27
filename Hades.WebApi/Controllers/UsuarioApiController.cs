@@ -1,6 +1,5 @@
 ﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Services;
-using System;
 using System.Web.Http;
 
 namespace Hades.WebApi.Controllers
@@ -24,13 +23,6 @@ namespace Hades.WebApi.Controllers
             if (usuarios != null)
                 return Ok(usuarios);
             return BadRequest("Erro ao trazer Lista de Usuarios");
-        }
-
-        [HttpGet]
-        [Route("Ping")]
-        public IHttpActionResult Ping()
-        {
-            return Ok($"Evertthing is fine modafoca! {DateTime.Now}");
         }
 
         [HttpGet]

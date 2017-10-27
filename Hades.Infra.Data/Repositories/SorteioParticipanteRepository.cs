@@ -15,11 +15,11 @@ namespace Hades.Infra.Data.Repositories
             SP_UpdVencedoresSorteios
         }
 
-        public void Participar(SorteioParticipante sorteioParticipante)
+        public void Participar(int idSorteio, int idUsuario)
         {
             ExecuteProcedure(Procedures.SP_AddParticipante);
-            AddParameter("@UsuarioId", sorteioParticipante.Usuario.Id);
-            AddParameter("@SorteioId", sorteioParticipante.Sorteio.Id);
+            AddParameter("@IdUsuario", idUsuario);
+            AddParameter("@IdSorteio", idSorteio);
             ExecuteNonQuery();
         }
 
