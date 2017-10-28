@@ -210,7 +210,6 @@ C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\System.
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\System.Web.WebPages.xml
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\System.Web.WebPages.Deployment.xml
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\System.Web.WebPages.Razor.xml
-C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\Antlr3.Runtime.pdb
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\EntityFramework.xml
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\EntityFramework.SqlServer.xml
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.Web\bin\Microsoft.AspNet.Identity.Core.xml
