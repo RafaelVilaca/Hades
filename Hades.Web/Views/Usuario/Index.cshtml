@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     Layout = UsuarioLogadoViewModel.Administrador ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml"; ;
     var mensagem = TempData["mensagem"]?.ToString() ?? "";
+    var verifica = UsuarioLogadoViewModel.Administrador ? true : false;
 }
 
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
@@ -27,9 +28,7 @@
 <div id="divContentUsuario" class="modal modal-formatada"></div>
 
 <script>
-
-    var verifica = UsuarioLogadoViewModel.Administrador ? true : false;
-
+    
     $(".modal-overlay").on("click", function () {
         $(this).hide();
     });
@@ -52,8 +51,10 @@
     };
 
     var buscaTabelaUsuario = (function busca() {
-        if (!verifica)
-            return erro("Usuario não tem permições administrativas, consulte um Administrador por gentileza.");
+        if (!'@verifica') {
+            erro("Usuario não tem permições administrativas, consulte um Administrador por gentileza.");
+            return false;
+        }
 
         $.get(urlsUsuario.BuscaTabelaUsuario)
             .done(function (data) {
