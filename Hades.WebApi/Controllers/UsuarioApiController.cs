@@ -44,6 +44,14 @@ namespace Hades.WebApi.Controllers
             return Ok(_usuarioService.GetByName(nome));
         }
 
+        [HttpGet]
+        [Route("usuarioSenha/{senha}")]
+        // GET: api/UsuarioApi/5
+        public IHttpActionResult SenhaFormatada(string senha)
+        {
+            return Ok(_usuarioService.SenhaFormatada(senha));
+        }
+
         [HttpPost]
         [Route("usuario")]
         // POST: api/UsuarioApi

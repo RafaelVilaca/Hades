@@ -49,7 +49,8 @@ namespace Hades.Infra.Data.Repositories
                     {
                         sorteio.SorteioParticipantes.Add(new SorteioParticipante
                         {
-                            NomeUsuario = r["Nome"].ToString()
+                            Id_Participante = r.GetInt32(r.GetOrdinal("Id_Participante")),
+                            Nome_Participante = r["Nome_Participante"].ToString()
                         });
                     };
             }
@@ -86,6 +87,9 @@ namespace Hades.Infra.Data.Repositories
             ExecuteProcedure(Procedures.SP_UpdSorteio);
             AddParameter("@Id", sorteio.Id);
             AddParameter("@Nome", sorteio.Nome);
+            AddParameter("@QtdItens", sorteio.QtdeItens);
+            AddParameter("@DataSorteio", sorteio.DataSorteio);
+            AddParameter("@Ativo", sorteio.Ativo);
             ExecuteNonQuery();
         }
 

@@ -1,5 +1,6 @@
 Use SMN_Hades
 
+GO
 
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_AddVoto]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[SP_AddVoto]
@@ -42,6 +43,7 @@ CREATE PROCEDURE [dbo].[SP_AddVoto]
 GO
 
 
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_GetVotos]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[SP_GetVotos]
 GO
@@ -75,6 +77,7 @@ CREATE PROCEDURE [dbo].[SP_GetVotos]
 					
 	END
 GO
+
 
 
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_UpdVoto]') AND objectproperty(id, N'IsPROCEDURE')=1)
@@ -138,6 +141,9 @@ CREATE PROCEDURE [dbo].[SP_AddUsuario]
 
 	AS 
 	BEGIN
+
+		DECLARE @SenhaConvertida VARCHAR(50) = (SELECT CONVERT(VARCHAR(32), HashBytes('MD5', @Senha), 2));
+
 		INSERT INTO Usuario (
 								Nome,
 								Email,
@@ -150,7 +156,7 @@ CREATE PROCEDURE [dbo].[SP_AddUsuario]
 						@Nome, 
 						@Email, 
 						GETDATE(), 
-						@Senha, 
+						@SenhaConvertida, 
 						0, 
 						1
 					)
@@ -239,10 +245,13 @@ CREATE PROCEDURE [dbo].[SP_UpdUsuario]
 
 	AS
 	BEGIN
+
+		DECLARE @SenhaConvertida VARCHAR(50) = (SELECT CONVERT(VARCHAR(32), HashBytes('MD5', @Senha), 2));
+	
 		UPDATE Usuario 
 			SET Nome = @Nome, 
 				Email = @Email, 
-				Senha = @Senha, 
+				Senha = @SenhaConvertida, 
 				Administrador = @Administrador, 
 				Ativo = @Ativo
 			WHERE Id = @IdUsua
@@ -600,7 +609,9 @@ CREATE PROCEDURE [dbo].[SP_ListarUsuarioPorId]
 
 	AS 
 	BEGIN
-		SELECT * FROM Usuario WHERE Id = @Id
+		SELECT u.*
+			FROM Usuario u
+			WHERE Id = @Id
 	END
 GO
 
@@ -686,7 +697,7 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteioPorId]
 	Objetivo..........: Listar Sorteios por ID
 	Autor.............: Rafael Vilaça
  	Data..............: 09/10/2017
-	Ex................: EXEC [dbo].[sp_ListarSorteioPorId] 1
+	Ex................: EXEC [dbo].[sp_ListarSorteioPorId] 2
 
 	*/
 
@@ -712,7 +723,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteioPorId]
 		WHERE s.Id = @Id
 			AND s.Ativo = 1
 
-		SELECT u.Nome
+		SELECT  u.Id AS Id_Participante,
+				u.Nome AS Nome_Participante
 			FROM Usuario u
 				INNER JOIN SorteioParticipante sp
 					ON sp.IdUsuario = u.Id
@@ -770,8 +782,8 @@ CREATE PROCEDURE [dbo].[SP_GetParticipantes]
 
 	AS 
 	BEGIN
-		SELECT sp.IdUsuario AS IdUsua, 
-			   u.Nome AS NomeUsuario 
+		SELECT sp.IdUsuario AS Id_Participante, 
+			   u.Nome AS Nome_Participante 
 			FROM SorteioParticipante sp
 				INNER JOIN Sorteio s 
 					ON s.Id = sp.IdSorteio
@@ -900,5 +912,30 @@ CREATE PROCEDURE [dbo].[SP_UpdVencedoresSorteios]
 			 SET IndSorteado = 1 
 			 WHERE IdSorteio = @IdSorteio
 				AND IdUsuario = @IdUsuario
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_FormatandoSenha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_FormatandoSenha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_FormatandoSenha]
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Formata senhas para verificações
+	Autor.............: Rafael Vilaça
+ 	Data..............: 09/10/2017
+	Ex................: EXEC [dbo].[SP_FormatandoSenha] 'rafael'
+
+	*/
+
+	@Senha VARCHAR(20)
+
+	AS 
+	BEGIN
+		SELECT CONVERT(VARCHAR(32), HashBytes('MD5', @Senha), 2) AS SenhaFormatada
 	END
 GO

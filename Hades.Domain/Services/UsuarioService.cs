@@ -65,5 +65,10 @@ namespace Hades.Domain.Services
         {
             _usuarioRepository.StatusUsuario(id, status);
         }
+
+        public string SenhaFormatada(string senha)
+        {
+            return _usuarioRepository.SenhaFormatada(senha);
+        }
     }
 }

@@ -47,6 +47,11 @@ namespace Hades.Application
             return _httpClient.GetAsync($"http://localhost:2002/api/usuarios/{nome}").Result;
         }
 
+        public HttpResponseMessage SenhaFormatada(string senha)
+        {
+            return _httpClient.GetAsync($"http://localhost:2002/api/usuarioSenha/{senha}").Result;
+        }
+
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter
         {
             SerializerSettings = new JsonSerializerSettings

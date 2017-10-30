@@ -20,6 +20,8 @@ namespace Hades.Web.ViewModels
         public string DataFormatada => $"{DataSorteio:dd/MM/yyyy}";
         public int QtdeItens { get; set; }
         public string IndParticipante { get; set; }
+        public bool Ativo { get; set; }
+
         public List<SorteioParticipanteViewModel> SorteioParticipantes { get; set; }
     }
 }

@@ -32,10 +32,10 @@
                                     @if (ADM || participante.Sorteio.NomeCriador == usuarioLogado)
                                     {
                                         <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar" style="width: 24px; height: 24px;">
-                                            <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="sairSorteioParticipante('@Model.Id', '@idUsuarioLogado')">perm_identity</i>
+                                            <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="sairSorteioParticipante('@Model.Id', '@participante.Id_Participante')">perm_identity</i>
                                         </a>
                                     }
-                                    @Html.DisplayFor(modelItem => participante.NomeUsuario)
+                                    @Html.DisplayFor(modelItem => participante.Nome_Participante)
                                 </td>
                             </tr>
                         }
@@ -50,9 +50,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function deletarUsuarioParticipante(idSorteio, idUsuario) {
-        sairSorteio(idSorteio, idUsuario);
-    }
-</script>

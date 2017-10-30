@@ -96,7 +96,7 @@
         $.get(urlsSorteio.Details, {
             id: id
         }).done(function (data) {
-            //escondeModal();
+            escondeModal();
             $('#divContentSorteio').modal('open').html(data);
         }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
     };
@@ -136,7 +136,7 @@
         }).done(function (data) {
             sucesso(data);
             buscaTabelaSorteio();
-            detalhar(idSorteio);
+            setTimeout(function () { detalhar(idSorteio); }, 100);
         }).fail(function (xhr) {
             erro(xhr.responseText);
         });

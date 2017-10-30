@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
-
-namespace Hades.Web.ViewModels
+﻿namespace Hades.Web.ViewModels
 {
     public class SorteioParticipanteViewModel
     {
-        public int Id { get; set; }
+        public int Id_Participante { get; set; }
         public UsuarioViewModel Usuario { get; set; }
         public SorteioViewModel Sorteio { get; set; }
-        public string NomeUsuario { get; set; }
+        public string Nome_Participante { get; set; }
 
         public SorteioParticipanteViewModel()
         {

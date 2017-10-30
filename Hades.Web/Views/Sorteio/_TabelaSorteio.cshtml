@@ -14,6 +14,7 @@
             <th>Nome:</th>
             <th>Data Sorteio:</th>
             <th>Criador:</th>
+            <th>Qtde Itens:</th>
             <th style="width: 150px">N° Participantes:</th>
             <th style="width: 150px">Ações</th>
         </tr>
@@ -33,6 +34,9 @@
                     </td>
                     <td style="color: grey">
                         @Html.DisplayFor(modelItem => sorteio.NomeCriador)
+                    </td>
+                    <td style="color: grey">
+                        @Html.DisplayFor(modelItem => sorteio.QtdeItens)
                     </td>
                     <td style="color: grey">
                         @Html.DisplayFor(modelItem => sorteio.QtdParticipantes)
@@ -65,7 +69,7 @@
         }
         else
         {
-            <tr><td colspan="5" style="text-align: center">Nenhum registro encontrado</td></tr>
+            <tr><td colspan="6" style="text-align: center">Nenhum registro encontrado</td></tr>
         }
     </tbody>
 </table>

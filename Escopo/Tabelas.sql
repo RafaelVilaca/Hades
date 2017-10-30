@@ -11,7 +11,7 @@ CREATE TABLE Usuario (
 	Nome VARCHAR(100) NOT NULL,
 	Email VARCHAR(100) NOT NULL,
 	DataCadastro DATETIME NOT NULL,
-	Senha VARCHAR(20) NOT NULL,
+	Senha VARCHAR(50) NOT NULL,
 	Administrador BIT NOT NULL,
 	Ativo BIT NOT NULL )
 GO
@@ -21,7 +21,7 @@ INSERT INTO Usuario
 	VALUES ('Administrador',
 			'adm@smn.com.br',
 			GETDATE(),
-			'adm123', 
+			(SELECT CONVERT(VARCHAR(32), HashBytes('MD5', '123123'), 2)), 
 			1, 
 			1)
 GO

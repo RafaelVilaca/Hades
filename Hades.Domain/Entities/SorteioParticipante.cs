@@ -2,10 +2,10 @@
 {
     public class SorteioParticipante
     {
-        public int Id { get; set; }
+        public int Id_Participante { get; set; }
         public Usuario Usuario { get; set; }
         public Sorteio Sorteio { get; set; }
-        public string NomeUsuario { get; set; }
+        public string Nome_Participante { get; set; }
 
         public SorteioParticipante()
         {

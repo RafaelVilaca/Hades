@@ -14,7 +14,8 @@ namespace Hades.Infra.Data.Repositories
             SP_AddUsuario,
             SP_UpdUsuario,
             SP_AlteraStatusUsuario,
-            SP_ListarUsuarioPorNome
+            SP_ListarUsuarioPorNome,
+            SP_FormatandoSenha
         }
 
         public void Post(Usuario usuario)
@@ -100,6 +101,16 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@Id", id);
             AddParameter("@Ativo", status ? 1 : 0);
             ExecuteNonQuery();
+        }
+
+        public string SenhaFormatada(string senha)
+        {
+            ExecuteProcedure(Procedures.SP_FormatandoSenha);
+            AddParameter("@Senha", senha);
+            using (var r = ExecuteReader())
+                if (r.Read())
+                    return r["SenhaFormatada"].ToString();
+            return string.Empty;
         }
     }
 }

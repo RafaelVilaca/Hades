@@ -151,9 +151,9 @@ namespace Hades.Web.Controllers
 
                 var aleatorio = new Random();
                 var participantes = dadosParticipantesSorteio.SorteioParticipantes;
-                var vencedores = new string[dadosParticipantesSorteio.SorteioParticipantes.Count];
+                var vencedores = new string[dadosParticipantesSorteio.QtdeItens];
                 var contadorRotina = 0;
-                var posicoesSorteadas = new int[dadosParticipantesSorteio.QtdeItens];
+                var posicoesSorteadas = new int?[dadosParticipantesSorteio.QtdeItens];
 
                 do
                 {
@@ -161,24 +161,24 @@ namespace Hades.Web.Controllers
                     if (!posicoesSorteadas.Contains(posicao))
                     {
                         posicoesSorteadas[contadorRotina] = posicao;
-                        vencedores[contadorRotina] = participantes[posicao].NomeUsuario;
-                        dadosParticipantesSorteio.QtdeItens -= dadosParticipantesSorteio.QtdeItens - 1;
-                        _sorteioParticipanteAppService.VencedorParticipantesSorteio(idSorteio, participantes[posicao].Id);
+                        vencedores[contadorRotina] = participantes[posicao].Nome_Participante;
+                        dadosParticipantesSorteio.QtdeItens -= 1;
+                        _sorteioParticipanteAppService.VencedorParticipantesSorteio(idSorteio, participantes[posicao].Id_Participante);
                         contadorRotina ++;
                     }
-                } while (dadosParticipantesSorteio.QtdeItens != 0);
+                } while (dadosParticipantesSorteio.QtdeItens > 0);
 
-                var getVencedores = new SorteioViewModel();
+                var getVencedores = new SorteioViewModel { Nome = dadosParticipantesSorteio.Nome };
                 foreach (var vencedor in vencedores)
                 {
-                    getVencedores.SorteioParticipantes.Add(new SorteioParticipanteViewModel {NomeUsuario = vencedor});
+                    getVencedores.SorteioParticipantes.Add(new SorteioParticipanteViewModel {Nome_Participante = vencedor});
                 }
 
                 return View(getVencedores);
             }
             catch (Exception e)
             {
-                return ErrorMessage("Erro ao efetuar sorteio, " + e.Message);
+                return ErrorMessage("Falha ao efetuar sorteio, " + e.Message);
             }
         }
     }

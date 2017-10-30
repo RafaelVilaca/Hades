@@ -11,5 +11,6 @@ namespace Hades.Application.Interface
         HttpResponseMessage Put(Usuario usuario);
         HttpResponseMessage StatusUsuario(int id, bool status);
         HttpResponseMessage GetByName(string nome);
+        HttpResponseMessage SenhaFormatada(string senha);
     }
 }

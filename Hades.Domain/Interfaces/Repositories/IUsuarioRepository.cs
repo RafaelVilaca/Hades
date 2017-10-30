@@ -11,5 +11,6 @@ namespace Hades.Domain.Interfaces.Repositories
         void Put(Usuario usuario);
         void StatusUsuario(int id, bool status);
         Usuario GetByName(string nome);
+        string SenhaFormatada(string senha);
     }
 }

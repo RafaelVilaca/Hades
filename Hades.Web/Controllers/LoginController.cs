@@ -31,7 +31,7 @@ namespace Hades.Web.Controllers
                     var usuarioViewModel = _usuarioAppService.GetByName(nome);
                     if (!usuarioViewModel.IsSuccessStatusCode)
                     {
-                        TempData["mensagem"] = "Usuario Inexistente!";
+                        TempData["mensagem"] = "Erro ao fazer busca no banco de dados!";
                         return RedirectToAction("Index");
                     }
                     var mostraUsuario = JsonConvert.DeserializeObject<UsuarioViewModel>(usuarioViewModel.Content.ReadAsStringAsync().Result);
@@ -42,7 +42,17 @@ namespace Hades.Web.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    if (mostraUsuario.Senha != senha)
+                    var verifica = _usuarioAppService.SenhaFormatada(senha);
+
+                    if (!verifica.IsSuccessStatusCode)
+                    {
+                        TempData["mensagem"] = "Erro ao verificar Senha!";
+                        return RedirectToAction("Index");
+                    }
+
+                    var verificaSenha = JsonConvert.DeserializeObject(verifica.Content.ReadAsStringAsync().Result).ToString();
+
+                    if (mostraUsuario.Senha != verificaSenha)
                     {
                         TempData["mensagem"] = "Senha não confere com o Usuário";
                         return RedirectToAction("Index");
