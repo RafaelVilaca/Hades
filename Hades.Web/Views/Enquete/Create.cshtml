@@ -21,12 +21,14 @@
 
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20">
+                        <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20"
+                               onkeypress="verificaCaracteres(this)">
                         <label for="Titulo">Titulo:</label>
                     </div>
 
                     <div class="input-field col s12">
-                        <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150"></textarea>
+                        <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150"
+                                  onkeypress="verificaCaracteres(this)"></textarea>
                         <label for="Assunto">Assunto:</label>
                     </div>
 
@@ -35,7 +37,8 @@
                         <label for="Valor">Valor R$:</label>
                     </div>
                     <div class="input-field col s6">
-                        <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50" data-length="50"></textarea>
+                        <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50" data-length="50"
+                                  onkeypress="verificaCaracteres(this)"></textarea>
                         <label for="LocalCotado">Local Cotado:</label>
                     </div>
 
@@ -87,15 +90,5 @@
             erro(xhr.responseText);
         });
     });
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 
 </script>

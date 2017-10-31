@@ -47,18 +47,18 @@
                                 <li>
                                     @if (sorteio.IndParticipante == "N")
                                     {
-                                        <a class="btn-floating green darken-3"><i class="material-icons" data-position="bottom" data-delay="50" data-tooltip="Participar" onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i></a>
+                                        <a class="btn-floating green darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar" onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i></a>
                                     }
                                     else
                                     {
-                                        <a class="btn-floating red darken-3"><i class="material-icons" data-position="bottom" data-delay="50" data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i></a>
+                                        <a class="btn-floating red darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i></a>
                                     }
-                                    <a class="btn-floating grey darken-3"><i class="material-icons" id="btnDetalharSorteio" data-position="bottom" data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i></a>
+                                    <a class="btn-floating grey darken-3"><i class="material-icons tooltipped" id="btnDetalharSorteio" data-position="bottom" data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i></a>
                                     @if (usuarioAdm || sorteio.NomeCriador == usuarioLogado)
                                     {
-                                        <a data-position="bottom" data-delay="50" data-tooltip="Editar" class="btn-floating red"><i class="material-icons" onclick="editar('@sorteio.Id')">mode_edit</i></a>
-                                        <a data-position="bottom" data-delay="50" data-tooltip="Deletar" class="btn-floating green"><i class="material-icons" onclick="deletar('@sorteio.Id')">delete</i></a>
-                                        <a data-position="bottom" data-delay="50" data-tooltip="Sortear" class="btn-floating blue"><i class="material-icons" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                        <a class="btn-floating red"><i class="material-icons tooltipped"   data-position="bottom" data-delay="50" data-tooltip="Editar" onclick="editar('@sorteio.Id')">mode_edit</i></a>
+                                        <a class="btn-floating green"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Deletar" onclick="deletar('@sorteio.Id')">delete</i></a>
+                                        <a class="btn-floating blue"><i class="material-icons tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Sortear" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
                                     }
                                 </li>
                             </ul>
@@ -104,14 +104,4 @@
             erro(xhr.responseText);
         });
     };
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 </script>

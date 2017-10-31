@@ -14,7 +14,7 @@
                 <h5><span class="card-title" style="left: 130px; text-align: center; font-family: Algerian; color: black;">HADES</span></h5>
             </div>
             <div class="input-field col s12">
-                <input id="NomeLogin" type="text" name="Nome" maxlength="100" class="text-box">
+                <input id="NomeLogin" type="text" name="Nome" maxlength="100" class="text-box" onkeypress="verificaCaracteres(this)">
                 <label for="NomeLogin" data-error="wrong" data-success="right">Nome</label>
             </div>
 
@@ -52,13 +52,9 @@
         $('.modal').modal();
     });
 
-    (function () {
-        var msg = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
+    var mensagemAviso = '@(!string.IsNullOrEmpty(mensagem)?mensagem:"")';
 
-        if (msg != '') {
-            Materialize.toast('' + msg + '', 4000, 'rounded red');
-        }
-    })();
+    mensagem(mensagemAviso);
 
     $("#Novo").click(function () {
         $.get(urlsLogin.Create)

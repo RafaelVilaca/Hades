@@ -1,5 +1,4 @@
-﻿using Hades.Web.ViewModels;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
 {
@@ -8,8 +7,8 @@ namespace Hades.Web.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "HADES";
-            ViewBag.IdUsuario = UsuarioLogadoViewModel.Id;
-            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
+            ViewBag.IdUsuario = Session["IdUsuario"];
+            ViewBag.NomeUsuario = Session["NomeUsuario"];
             return View();
         }
     }

@@ -21,12 +21,14 @@
 
                     <div class="form-horizontal">
                         <div class="input-field col s12">
-                            <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20" value="@Model.Titulo">
+                            <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20" value="@Model.Titulo"
+                                   onkeypress="verificaCaracteres(this)">
                             <label for="Titulo">Titulo:</label>
                         </div>
 
                         <div class="input-field col s12">
-                            <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150">@Model.Assunto</textarea>
+                            <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150"
+                                      onkeypress="verificaCaracteres(this)">@Model.Assunto</textarea>
                             <label for="Assunto">Assunto:</label>
                         </div>
 
@@ -42,7 +44,8 @@
                             <label for="Valor">Valor R$:</label>
                         </div>
                         <div class="input-field col s6">
-                            <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" data-length="50" maxlength="50">@Model.Nom_LocalCotado</textarea>
+                            <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" data-length="50" maxlength="50"
+                                      onkeypress="verificaCaracteres(this)">@Model.Nom_LocalCotado</textarea>
                             <label for="LocalCotado">Local Cotado:</label>
                         </div>
 
@@ -115,15 +118,5 @@
             });
 
     });
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 
 </script>

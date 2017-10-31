@@ -1,6 +1,5 @@
 ﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Services;
-using Hades.Infra.Data.Repositories;
 using System.Web.Http;
 
 namespace Hades.WebApi.Controllers
@@ -36,12 +35,9 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("sorteio/{id}")]
-        public IHttpActionResult Delete(int idSorteio, int idUsuario)
+        [Route("sorteio/{idSorteio}")]
+        public IHttpActionResult Delete(int idSorteio)
         {
-            var sorteioParticipante = new SorteioParticipanteRepository();
-            sorteioParticipante.DeletarParticipantesSorteio(idSorteio, idUsuario);
-
             _sorteioService.Delete(idSorteio);
             return Ok();
         }

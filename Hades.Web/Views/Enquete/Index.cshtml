@@ -59,18 +59,12 @@
         return tabelaEnquete;
     })();
 
-    (function mensagem() {
-        if (mensagemAviso != '') {
-            Materialize.toast('' + msg + '', 4000, 'rounded red');
-        }
-    })();
-
-    function erro(xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red'); }
+    mensagem(mensagemAviso);
 
     $("#Novo").click(function () {
         $.get(urlsEnquete.Create)
             .done(function (data) { $('#divContentEnquete').modal('open').html(data); })
-            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+            .fail(function (xhr) { erro(xhr.responseText) });
     });
 
     function editar(id) {
@@ -79,7 +73,7 @@
         }).done(function (data) {
             escondeModal();
             $('#divContentEnquete').modal('open').html(data);
-        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+        }).fail(function (xhr) { erro(xhr.responseText) });
     };
 
     function detalhar(id) {
@@ -88,7 +82,7 @@
         }).done(function (data) {
             escondeModal();
             $('#divContentEnqueteDetail').modal('open').html(data);
-        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+        }).fail(function (xhr) { erro(xhr.responseText) });
     };
 
     function desativar(id) {
@@ -99,7 +93,7 @@
         }).done(function () {
             buscaTabelaEnquete();
         }).fail(function (xhr) {
-            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
+            erro(xhr.responseText);
         });
     };
 

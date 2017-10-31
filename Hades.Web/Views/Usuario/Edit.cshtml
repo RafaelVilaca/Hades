@@ -19,11 +19,13 @@
                     @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
 
                     <div class="input-field col s12">
-                        <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome" data-length="100">
+                        <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome" data-length="100"
+                               onkeypress="verificaCaracteres(this)">
                         <label for="Nome" data-error="wrong" data-success="right">Nome</label>
                     </div>
                     <div class="input-field col s12">
-                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email" data-length="100">
+                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email" data-length="100"
+                               onkeypress="verificaCaracteres(this)">
                         <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
                     </div>
 
@@ -114,15 +116,5 @@
             erro(xhr.responseText);
         });
     });
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 
 </script>

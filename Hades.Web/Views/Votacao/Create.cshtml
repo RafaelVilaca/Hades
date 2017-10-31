@@ -21,16 +21,17 @@
                 <div class="form-horizontal">
                     <h4>Votação</h4>
                     <div class="input-field col s12">
-                        <textarea id="Justificativa" name="Justificativa" class="materialize-textarea" maxlength="200" data-length="200" >@Model.Justificativa</textarea>
+                        <textarea id="Justificativa" name="Justificativa" class="materialize-textarea" maxlength="200" data-length="200"
+                                  onkeypress="verificaCaracteres(this)">@Model.Justificativa</textarea>
                         <label for="Justificativa">Justificativa do Voto:</label>
                     </div>
 
                     <div class="input-field col s12" style="width: auto; position: relative; margin-top: 0; margin-bottom: 10px; left: 58px; float: left;">
-                            <input name="TipoVoto" type="radio" id="Favor" value="true" style="margin-left: 35px;" checked />
-                            <label for="Favor">Favor</label>
-                        
-                            <input name="TipoVoto" type="radio" id="Contra" value="false" style="margin-left: 20px; position: inherit;" />
-                            <label for="Contra">Contra</label>
+                        <input name="TipoVoto" type="radio" id="Favor" value="true" style="margin-left: 35px;" checked />
+                        <label for="Favor">Favor</label>
+
+                        <input name="TipoVoto" type="radio" id="Contra" value="false" style="margin-left: 20px; position: inherit;" />
+                        <label for="Contra">Contra</label>
                     </div>
 
                     <div class="form-group">
@@ -45,7 +46,7 @@
 </div>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         if ('@Model.IndicadorTipoVoto' == "S")
             $("#Favor").prop("checked", true);
         else
@@ -57,13 +58,14 @@
     var idEnquete = '@Model.IdEnquete';
 
     var urlsVotacao = {
-            create : '@Url.Action("CreateConfirmed", "Votacao")'
-        }
+        create: '@Url.Action("CreateConfirmed", "Votacao")'
+    }
 
     var indicadorCadastro = '@Model.IndicadorCadastro';
 
-    $("#Votar").click(function(e) {
+    $("#Votar").click(function (e) {
         e.preventDefault(); //cancela o post
+
 
         if ($("#Justificativa").val().length <= 10 && $("#Contra").prop("checked", true)) {
             erro("Justificativa deve conter dentre 10 à 200 caracteres");
@@ -84,15 +86,5 @@
             erro(xhr.responseText);
         });
     });
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 
 </script>

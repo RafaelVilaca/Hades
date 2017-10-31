@@ -31,7 +31,7 @@ namespace Hades.Web.Controllers
         //    base.OnActionExecuting(filterContext);
         //}
 
-        public UsuarioLogado usuarioLogado { get; set; }
+        public UsuarioLogado UsuarioLogado { get; set; }
 
         protected ActionResult ViewResponse(HttpStatusCode status, string value = "")
         {

@@ -42,7 +42,8 @@ namespace Hades.Infra.Data.Repositories
                         QtdParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes")),
                         IdCriador = r.GetInt32(r.GetOrdinal("IdCriador")),
                         DataSorteio = r.GetDateTime(r.GetOrdinal("DataSorteio")),
-                        NomeCriador = r["NomeCriador"].ToString()
+                        NomeCriador = r["NomeCriador"].ToString(),
+                        Ativo = r.GetBoolean(r.GetOrdinal("Ativo"))
                     };
                 if (r.NextResult())
                     while (r.Read())

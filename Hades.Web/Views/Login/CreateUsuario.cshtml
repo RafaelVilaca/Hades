@@ -21,11 +21,11 @@
                 @Html.AntiForgeryToken()
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="NomeUsuario" type="text" name="Nome" maxlength="100" data-length="100">
+                        <input id="NomeUsuario" type="text" name="Nome" maxlength="100" data-length="100" onkeypress="verificaCaracteres(this)">
                         <label for="NomeUsuario" data-error="wrong" data-success="right">Nome</label>
                     </div>
                     <div class="input-field col s12">
-                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" data-length="100">
+                        <input id="Email" name="Email" type="email" class="validate" maxlength="100" data-length="100" onkeypress="verificaCaracteres(this)">
                         <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
                     </div>
                     <div class="input-field col s12">
@@ -90,15 +90,5 @@
             erro(xhr.responseText);
         });
     });
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 
 </script>

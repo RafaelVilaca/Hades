@@ -16,19 +16,21 @@
 
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="NomeSorteio" type="text" name="NomeSorteio" maxlength="20" data-length="20" value="@Model.Nome">
+                        <input id="NomeSorteio" type="text" name="NomeSorteio" maxlength="20" data-length="20" value="@Model.Nome"
+                               onkeypress="verificaCaracteres(this)">
                         <label for="NomeSorteio">Nome</label>
                     </div>
-                    <div class="input-field col s4">
-                        <input id="DataSorteio" type="text" name="DataSorteio" style="text-align: center;" class="datepicker" value="@Model.DataFormatada">
+                    <div class="input-field col s6">
+                        <input id="DataSorteio" type="text" name="DataSorteio" style="text-align: center;" class="datepicker"
+                               value="@Model.DataFormatada">
                         <label for="DataSorteio">Data Sorteio</label>
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s3">
                         <input id="QtdeItens" type="number" style="text-align: center;" name="QtdeItens" maxlength="5" data-length="5" value="@Model.QtdeItens">
                         <label for="QtdeItens">Qtde de Itens</label>
                     </div>
 
-                    <div class="input-field col s4">
+                    <div class="input-field col s3">
                         <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
                         <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
                     </div>
@@ -52,7 +54,7 @@
         $('.datepicker').pickadate({
             monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-            weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabádo'],
+            weekdaysFull: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
             weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
             today: 'Hoje',
             clear: 'Limpar',
@@ -62,11 +64,19 @@
             labelMonthSelect: 'Selecione um mês',
             labelYearSelect: 'Selecione um ano',
             selectMonths: true,
-            selectYears: 15
+            selectYears: 15,
+            format: 'dd/mm/yyyy'
         });
     });
 
-    var dataHoje = '@DateTime.Today';
+    var currentTime = new Date();
+    var month = currentTime.getMonth() + 1;
+    var day = currentTime.getDate();
+    var year = currentTime.getFullYear();
+
+    var dataHoje = day + "/" + month + "/" + year;
+
+    var IdSorteio = '@Model.Id';
 
     $("#btnSalvarEdicao").click(function() {
         if ($("#NomeSorteio").val().length <= 3) {
@@ -74,8 +84,10 @@
             return false;
         }
 
-        if ($("#DataSorteio").val() == "" || $("#DataSorteio").val() < dataHoje) {
-            erro("Data do Sorteio deve ser válida");
+        var dataInput = $("#DataSorteio").val() != "" ? new Date($("#DataSorteio").val()) : "";
+
+        if (dataInput == "" || dataInput < dataHoje) {
+            erro("Data do Sorteio deve ser maior que hoje");
             return false;
         }
 
@@ -85,6 +97,7 @@
         }
 
         $.post('@Url.Action("EditConfirmed", "Sorteio")', {
+            Id: IdSorteio,
             Nome: $("#NomeSorteio").val(),
             DataSorteio: $("#DataSorteio").val(),
             QtdeItens: $("#QtdeItens").val(),
@@ -97,15 +110,5 @@
             erro(xhr.responseText);
         });
     });
-
-    function sucesso(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded green');
-        return true;
-    }
-
-    function erro(message) {
-        Materialize.toast('' + message + '', 4000, 'rounded red');
-        return true;
-    }
 
 </script>

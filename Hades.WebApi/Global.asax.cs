@@ -1,7 +1,7 @@
-﻿using System.Web;
+﻿using SimpleInjector.Integration.WebApi;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using SimpleInjector.Integration.WebApi;
 
 namespace Hades.WebApi
 {

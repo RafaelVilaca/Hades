@@ -46,25 +46,11 @@
                     }
                 </dl>
             </div>
-            <button class="btn btn-confirm" onclick="editar($('#Id').val())">Editar</button>
-            <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
+            <div>
+                <button class="btn btn-default" style="width: -webkit-fill-available;" onclick="escondeModal()">Fechar</button>
             </div>
 
         </div>
     </div>
 </div>
 
-<script>
-
-    function editar(id) {
-        $.get(urlsUsuario.Edit, {
-            id: id
-        }).done(function (data) {
-            escondeModal();
-            $('#divContentUsuario').modal('open').html(data);
-        }).fail(function (xhr) {
-            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red')
-        });
-    };
-</script>

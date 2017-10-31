@@ -40,7 +40,7 @@
         $('.tooltipped').tooltip({ delay: 50 });
         $('input#input_text, textarea#textarea1').characterCounter();
     });
-
+    
     var urlsUsuario = {
         Edit: '@Url.Action("Edit", "Usuario")',
         Details: '@Url.Action("Details", "Usuario")',
@@ -63,14 +63,8 @@
         return busca;
     })();
 
-    (function mensagem() {
-        if (mensagemAviso != '') {
-            Materialize.toast('' + msg + '', 4000, 'rounded red');
-        }
-    })();
-
-    function erro(xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red'); }
-
+    mensagem(mensagemAviso);
+    
     function editar(id) {
         $('#divContentUsuario').modal('close');
         $.get(urlsUsuario.Edit, {

@@ -184,7 +184,6 @@
     <Compile Include="Controllers\SorteioParticipantesController.cs" />
     <Compile Include="ViewModels\SorteioParticipanteViewModel.cs" />
     <Compile Include="ViewModels\SorteioViewModel.cs" />
-    <Compile Include="ViewModels\UsuarioLogadoViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +204,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="images\Bastet_CatScratch.png" />
     <Content Include="images\gifs-gifs-de-fogo-23.gif" />
+    <Content Include="Scripts\Common.js" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />

@@ -70,9 +70,9 @@ namespace Hades.Web.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    UsuarioLogadoViewModel.Id = mostraUsuario.Id;
-                    UsuarioLogadoViewModel.Nome = mostraUsuario.Nome;
-                    UsuarioLogadoViewModel.Administrador = mostraUsuario.Administrador;
+                    Session["IdUsuario"] = mostraUsuario.Id;
+                    Session["NomeUsuario"] = mostraUsuario.Nome;
+                    Session["Administrador"] = mostraUsuario.Administrador;
 
                     return RedirectToAction("Index", "Home");
 

@@ -402,9 +402,11 @@ CREATE PROCEDURE [dbo].[SP_UpdSorteio]
 	Objetivo..........: Atualiza o Sorteio
 	Autor.............: Rafael Vilaça
  	Data..............: 09/10/2017
-	Ex................: EXEC [dbo].[SP_UpdSorteio]  'Sorteando Caderninhos',
+	Ex................: EXEC [dbo].[SP_UpdSorteio]  1,
+													'Sorteando Caderninhos',
 													1,
-													'10/10/2017'
+													'10/10/2017',
+													1
 
 	*/
 
@@ -642,7 +644,9 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 
 		UPDATE Sorteio
 			SET Ativo = 0
-			WHERE DataSorteio < @VerificaDatas
+			WHERE Id IN (SELECT s.Id
+							FROM  Sorteio s
+							WHERE DATEDIFF(DAY, s.DataSorteio, @VerificaDatas) > 1)
 
 		SELECT u.Id as usua,
 			   s.Id,
@@ -697,7 +701,7 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteioPorId]
 	Objetivo..........: Listar Sorteios por ID
 	Autor.............: Rafael Vilaça
  	Data..............: 09/10/2017
-	Ex................: EXEC [dbo].[sp_ListarSorteioPorId] 2
+	Ex................: EXEC [dbo].[sp_ListarSorteioPorId] 1
 
 	*/
 
@@ -716,7 +720,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteioPorId]
 						WHERE sp.IdSorteio = s.Id
 			   ) AS NumeroParticipantes,
 			   s.IdCriador,
-			   u.Nome AS NomeCriador
+			   u.Nome AS NomeCriador,
+			   s.Ativo
 			FROM Sorteio s
 				INNER JOIN Usuario u
 					ON u.Id = s.IdCriador

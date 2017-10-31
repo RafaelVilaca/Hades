@@ -1,7 +1,7 @@
 ﻿@using Hades.Web.ViewModels
 
 @{
-    Layout = UsuarioLogadoViewModel.Administrador ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml"; ;
+    Layout = (bool) Session["Administrador"] ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml"; ;
 }
 
 <body></body>

@@ -87,3 +87,17 @@ h4 {
 input, textarea {
     max-width: 1000px;
 }
+
+
+td, th {
+    padding: 5px;
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 2px;
+}
+
+
+.picker__day {
+    padding: 0;
+}

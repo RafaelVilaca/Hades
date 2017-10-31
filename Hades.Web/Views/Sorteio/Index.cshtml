@@ -38,24 +38,18 @@
         $('.modal').modal();
         $('.tooltipped').tooltip({ delay: 50 });
         $('input#input_text, textarea#textarea1').characterCounter();
-        $('.datepicker').pickadate({
-            selectMonths: true, // Creates a dropdosssssssswn to control month
-            selectYears: 15, // Creates a dropdown of 15 years to control year,
-            today: 'Hoje',
-            clear: 'Limpar',
-            close: 'Ok',
-            closeOnSelect: false // Close upon selecting a date,
-        });
+        //$('.datepicker').pickadate({
+        //    selectMonths: true, // Creates a dropdosssssssswn to control month
+        //    selectYears: 15, // Creates a dropdown of 15 years to control year,
+        //    today: 'Hoje',
+        //    clear: 'Limpar',
+        //    close: 'Ok',
+        //    closeOnSelect: false // Close upon selecting a date,
+        //});
     });
 
-    (function mensagem() {
-        if (mensagemAviso != '') {
-            Materialize.toast('' + msg + '', 4000, 'rounded red');
-        }
-    })();
-
-    function erro(xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red'); }
-
+    mensagem(mensagemAviso);
+    
     var urlsSorteio = {
         Edit: '@Url.Action("Edit", "Sorteio")',
         Details: '@Url.Action("Details", "Sorteio")',
@@ -68,7 +62,7 @@
     $("#Novo").click(function () {
         $.get(urlsSorteio.Create)
             .done(function (data) { $('#divContentSorteio').modal('open').html(data); })
-            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+            .fail(function (xhr) { erro(xhr.responseText) });
     });
 
     function escondeModal() {
@@ -79,17 +73,17 @@
         $.get(urlsSorteio.BuscaGrid)
             .done(function (data) {
                 $("#tabelaSorteios").html(data);
-            }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+            }).fail(function (xhr) { erro(xhr.responseText) });
         return tabelaSorteio;
     })();
 
     function editar(id) {
         $.post(urlsSorteio.Edit, {
-            id: id
+            Id: id
         }).done(function (data) {
             escondeModal();
             $('#divContentSorteio').modal('open').html(data);
-        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+        }).fail(function (xhr) { erro(xhr.responseText) });
     };
 
     function detalhar(id) {
@@ -98,7 +92,7 @@
         }).done(function (data) {
             escondeModal();
             $('#divContentSorteio').modal('open').html(data);
-        }).fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+        }).fail(function (xhr) { erro(xhr.responseText) });
     };
 
     function deletar(id) {
@@ -109,7 +103,7 @@
         }).done(function () {
             buscaTabelaSorteio();
         }).fail(function (xhr) {
-            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
+            erro(xhr.responseText);
         });
     };
 
