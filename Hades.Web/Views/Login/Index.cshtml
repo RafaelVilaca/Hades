@@ -62,7 +62,7 @@
                 escondeCreate();
                 $('#modalCreateCliente').modal('open').html(data);
             })
-            .fail(function (xhr) { Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red') });
+            .fail(function (xhr) { erro(xhr.responseText) });
     });
 
     function escondeCreate() {

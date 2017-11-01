@@ -1,8 +1,9 @@
-﻿@model Hades.Web.ViewModels.SorteioViewModel
+﻿@model IEnumerable<Hades.Web.ViewModels.SorteioParticipanteViewModel>
 
 @{
-    ViewBag.Title = "Drawlots";
+    ViewBag.Title = "Winners";
     Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
+    var idSorteio = @Model.Select(x => x.Sorteio.Id).FirstOrDefault();
 }
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
@@ -10,7 +11,7 @@
             <div>
                 <h4>Nome Sorteio</h4>
                 <dl class="dl-horizontal">
-                    <dt style="text-align: center;"> Nome:  @Html.DisplayFor(model => model.Nome) </dt>
+                    <dt style="text-align: center;"> Nome: @Model.Select(x => x.Sorteio.Nome).FirstOrDefault() </dt>
                 </dl>
             </div>
             <div>
@@ -19,9 +20,9 @@
                     <tr>
                         <th style="text-align: center;">Nome Vencedor</th>
                     </tr>
-                    @if (Model.SorteioParticipantes != null)
+                    @if (Model != null)
                     {
-                        foreach (var participante in Model.SorteioParticipantes)
+                        foreach (var participante in Model)
                         {
                             <tr>
                                 <td style="text-align: center;">@Html.DisplayFor(modelItem => participante.Nome_Participante)</td>
@@ -33,6 +34,12 @@
                         <tr><td colspan="1" style="text-align: center;">Nenhum ganhador encontrado...</td></tr>
                     }
                 </table>
+                <p></p>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Sortear Novamente" class="btn btn-confirm" onclick="sortearNovamente('@idSorteio')" style="width: -webkit-fill-available;"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

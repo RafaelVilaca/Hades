@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = UsuarioLogadoViewModel.Administrador ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml";
+    Layout = (bool)Session["Administrador"] ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutUsuario.cshtml";
     var mensagem = TempData["mensagem"]?.ToString() ?? "";
 }
 

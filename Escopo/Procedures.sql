@@ -334,7 +334,8 @@ CREATE PROCEDURE [dbo].[SP_AddSorteio]
 								DataSorteio,
 								DataCadastro,
 								Ativo,
-								IdCriador
+								IdCriador,
+								FoiSorteado
 							)
 			VALUES(
 					@Nome,
@@ -342,7 +343,8 @@ CREATE PROCEDURE [dbo].[SP_AddSorteio]
 					@DataSorteio,
 					GETDATE(),
 					1,
-					@IdCriador
+					@IdCriador,
+					0
 				  )
 	END
 GO
@@ -663,7 +665,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 			   u.Nome AS NomeCriador,
 			   (CASE 
 					WHEN x.IdSorteio IS NULL THEN 'N'
-					ELSE 'S' END) IndParticipa
+					ELSE 'S' END) IndParticipa,
+			   s.FoiSorteado
 			FROM Sorteio s
 				INNER JOIN Usuario u
 					ON u.Id = s.IdCriador
@@ -682,7 +685,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 					 s.IdCriador,
 					 u.Nome,
 					 u.Id,
-					 x.IdSorteio
+					 x.IdSorteio,
+					 s.FoiSorteado
 	
 	END
 GO
@@ -913,10 +917,41 @@ CREATE PROCEDURE [dbo].[SP_UpdVencedoresSorteios]
 
 	AS 
 	BEGIN
+		UPDATE Sorteio
+			SET FoiSorteado = 1
+			WHERE Id = @IdSorteio
+
 		UPDATE SorteioParticipante
-			 SET IndSorteado = 1 
-			 WHERE IdSorteio = @IdSorteio
+			SET IndSorteado = 1 
+			WHERE IdSorteio = @IdSorteio
 				AND IdUsuario = @IdUsuario
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_UpdVencedoresSorteiosNovamente]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_UpdVencedoresSorteiosNovamente]
+GO
+
+CREATE PROCEDURE [dbo].[SP_UpdVencedoresSorteiosNovamente]
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Seta participante do Sorteio para um novo sorteio
+	Autor.............: Rafael Vilaça
+ 	Data..............: 25/10/2017
+	Ex................: EXEC [dbo].[SP_UpdVencedoresSorteiosNovamente] 1
+
+	*/
+
+	@IdSorteio INT
+
+	AS 
+	BEGIN
+		UPDATE SorteioParticipante
+			SET IndSorteado = 0
+			WHERE IdSorteio = @IdSorteio
 	END
 GO
 
@@ -942,5 +977,39 @@ CREATE PROCEDURE [dbo].[SP_FormatandoSenha]
 	AS 
 	BEGIN
 		SELECT CONVERT(VARCHAR(32), HashBytes('MD5', @Senha), 2) AS SenhaFormatada
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_GetVencedores]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_GetVencedores]
+GO
+
+CREATE PROCEDURE [dbo].[SP_GetVencedores]
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Lista vencedores do sorteio
+	Autor.............: Rafael Vilaça
+ 	Data..............: 01/11/2017
+	Ex................: EXEC [dbo].[SP_GetVencedores] 1
+
+	*/
+
+	@idSorteio INT
+
+	AS 
+	BEGIN
+		SELECT u.Nome AS Nom_Vencedor,
+			   s.Id as IdSorteio,
+			   s.Nome as Nom_Sorteio
+			FROM Usuario u
+			INNER JOIN SorteioParticipante sp
+				ON sp.IdUsuario = u.Id
+					AND sp.IndSorteado = 1
+			INNER JOIN Sorteio s
+				ON s.Id = sp.IdSorteio
+					AND s.Id = @idSorteio
 	END
 GO

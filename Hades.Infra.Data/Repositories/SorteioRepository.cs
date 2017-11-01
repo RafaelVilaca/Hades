@@ -77,7 +77,8 @@ namespace Hades.Infra.Data.Repositories
                         IdCriador = r.GetInt32(r.GetOrdinal("IdCriador")),
                         DataSorteio = r.GetDateTime(r.GetOrdinal("DataSorteio")),
                         NomeCriador = r["NomeCriador"].ToString(),
-                        IndParticipante = r["IndParticipa"].ToString()
+                        IndParticipante = r["IndParticipa"].ToString(),
+                        FoiSorteado = r.GetBoolean(r.GetOrdinal("FoiSorteado"))
                     });
             }
             return listaCompleta;

@@ -22,7 +22,7 @@ namespace Hades.Web.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
+            ViewBag.NomeUsuario = Session["Nome"].ToString();
             return View();
         }
 
@@ -30,7 +30,7 @@ namespace Hades.Web.Controllers
         {
             try
             {
-                var sorteioViewModel = _sorteioAppService.GetAll(UsuarioLogadoViewModel.Id);
+                var sorteioViewModel = _sorteioAppService.GetAll((int)Session["IdUsuario"]);
                 if (!sorteioViewModel.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao trazer sorteios");
                 var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(sorteioViewModel.Content.ReadAsStringAsync().Result);
@@ -120,7 +120,7 @@ namespace Hades.Web.Controllers
                 var retorno = _sorteioAppService.Delete(id);
                 if (!retorno.IsSuccessStatusCode)
                     return ErrorMessage("Erro ao deletar sorteio");
-                var response = _sorteioAppService.GetAll(UsuarioLogadoViewModel.Id);
+                var response = _sorteioAppService.GetAll((int)Session["IdUsuario"]);
                 var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(response.Content.ReadAsStringAsync().Result);
                 return View("_TabelaSorteio", sorteio);
             }
@@ -155,6 +155,10 @@ namespace Hades.Web.Controllers
                 var contadorRotina = 0;
                 var posicoesSorteadas = new int?[dadosParticipantesSorteio.QtdeItens];
 
+                var sortearNovamente = _sorteioParticipanteAppService.SortearNovamente(idSorteio);
+                if (!sortearNovamente.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao zerar Vencedores");
+
                 do
                 {
                     var posicao = aleatorio.Next(0, participantes.Count);
@@ -164,14 +168,14 @@ namespace Hades.Web.Controllers
                         vencedores[contadorRotina] = participantes[posicao].Nome_Participante;
                         dadosParticipantesSorteio.QtdeItens -= 1;
                         _sorteioParticipanteAppService.VencedorParticipantesSorteio(idSorteio, participantes[posicao].Id_Participante);
-                        contadorRotina ++;
+                        contadorRotina++;
                     }
                 } while (dadosParticipantesSorteio.QtdeItens > 0);
 
                 var getVencedores = new SorteioViewModel { Nome = dadosParticipantesSorteio.Nome };
                 foreach (var vencedor in vencedores)
                 {
-                    getVencedores.SorteioParticipantes.Add(new SorteioParticipanteViewModel {Nome_Participante = vencedor});
+                    getVencedores.SorteioParticipantes.Add(new SorteioParticipanteViewModel { Nome_Participante = vencedor });
                 }
 
                 return View(getVencedores);
@@ -179,6 +183,40 @@ namespace Hades.Web.Controllers
             catch (Exception e)
             {
                 return ErrorMessage("Falha ao efetuar sorteio, " + e.Message);
+            }
+        }
+
+        public ActionResult Winners(int idSorteio)
+        {
+            try
+            {
+                var vencedores = _sorteioParticipanteAppService.GetVencedores(idSorteio);
+                if (!vencedores.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao buscar vencedores");
+                
+                var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioParticipanteViewModel>>(vencedores.Content.ReadAsStringAsync().Result);
+                return View("Winners", sorteio);
+            }
+            catch (Exception e)
+            {
+                return ErrorMessage($"Falha ao buscar vencedores, {e.Message}");
+            }
+        }
+
+        public ActionResult WinnersUsuarios(int idSorteio)
+        {
+            try
+            {
+                var vencedores = _sorteioParticipanteAppService.GetVencedores(idSorteio);
+                if (!vencedores.IsSuccessStatusCode)
+                    return ErrorMessage("Erro ao buscar vencedores");
+
+                var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioParticipanteViewModel>>(vencedores.Content.ReadAsStringAsync().Result);
+                return View("WinnersUsers", sorteio);
+            }
+            catch (Exception e)
+            {
+                return ErrorMessage($"Falha ao buscar vencedores, {e.Message}");
             }
         }
     }

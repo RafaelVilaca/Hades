@@ -3,8 +3,8 @@
 
 @{
     Layout = null;
-    var ADM = UsuarioLogadoViewModel.Administrador;
-    var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
+    var adm = (bool)Session["Administrador"];
+    var usuarioLogado = Session["Nome"].ToString() != "" ? Session["Nome"].ToString() : "";
 }
 
 <table class="striped responsive-table">
@@ -56,7 +56,7 @@
                             <ul>
                                 <li>
                                     <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar"><i class="material-icons" onclick="detalhar('@enquete.Id')">description</i></a>
-                                    @if (ADM || enquete.Criador == usuarioLogado)
+                                    @if (adm || enquete.Criador == usuarioLogado)
                                     {
                                         <a class="btn-floating orange darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
                                         <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>

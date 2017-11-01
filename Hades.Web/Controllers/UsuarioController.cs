@@ -20,29 +20,20 @@ namespace Hades.Web.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
-            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
+            ViewBag.NomeUsuario = Session["Nome"];
             return View();
         }
 
         // GET: Usuario/Details/5
         public ActionResult Details(int id)
         {
-            try
-            {
-                var usuario = _usuarioAppService.GetById(id);
-                if (!usuario.IsSuccessStatusCode)
-                    return ErrorMessage("Erro ao trazer Usuario");
-                var mostraUsuario =
-                    JsonConvert.DeserializeObject<UsuarioViewModel>(usuario.Content.ReadAsStringAsync().Result);
+            var usuario = _usuarioAppService.GetById(id);
+            if (!usuario.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao trazer Usuario");
+            var mostraUsuario =
+                JsonConvert.DeserializeObject<UsuarioViewModel>(usuario.Content.ReadAsStringAsync().Result);
 
-                return View(mostraUsuario);
-            }
-            catch (Exception e)
-            {
-
-                return ErrorMessage("Erro ao trazer Usuario, " + e.Message);
-            }
-
+            return View(mostraUsuario);
         }
 
         // GET: Usuario/Create
@@ -54,27 +45,20 @@ namespace Hades.Web.Controllers
         // POST: Usuario/Create
         public ActionResult CreateConfirmed(Usuario usuario)
         {
-            try
-            {
-                var request = _usuarioAppService.GetByName(usuario.Nome);
-                if (!request.IsSuccessStatusCode)
-                    return ErrorMessage("Erro ao verificar se usuário já existe");
+            var request = _usuarioAppService.GetByName(usuario.Nome);
+            if (!request.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao verificar se usuário já existe");
 
-                var usuarioViewModel = JsonConvert.DeserializeObject<Usuario>(request.Content.ReadAsStringAsync().Result);
+            var usuarioViewModel = JsonConvert.DeserializeObject<Usuario>(request.Content.ReadAsStringAsync().Result);
 
-                if (usuarioViewModel != null)
-                    if (usuario.Nome == usuarioViewModel.Nome)
-                        return ErrorMessage("Usuario já existe, insira outro nome.");
+            if (usuarioViewModel != null)
+                if (usuario.Nome == usuarioViewModel.Nome)
+                    return ErrorMessage("Usuario já existe, insira outro nome.");
 
-                var response = _usuarioAppService.Post(usuario);
-                if (response.IsSuccessStatusCode)
-                    return Json("Cadastro Efetuado com sucesso" );
-                return ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
-            }
-            catch (Exception e)
-            {
-                return ErrorMessage($"Falha ao criar usuario: {e.Message}");
-            }
+            var response = _usuarioAppService.Post(usuario);
+            return response.IsSuccessStatusCode 
+                ? Json("Cadastro Efetuado com sucesso" ) 
+                : ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
         }
 
         // GET: Usuario/Edit/5
@@ -90,10 +74,8 @@ namespace Hades.Web.Controllers
             }
             catch (Exception e)
             {
-
                 return ErrorMessage("Erro ao trazer Usuario, " + e.Message);
             }
-
         }
 
         // PUT: Usuario/Edit/5
@@ -102,9 +84,9 @@ namespace Hades.Web.Controllers
             try
             {
                 var response = _usuarioAppService.Put(usuario);
-                if (response.IsSuccessStatusCode)
-                    return Json("Cadastro Atualizado com sucesso");
-                return ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
+                return response.IsSuccessStatusCode 
+                    ? Json("Cadastro Atualizado com sucesso") 
+                    : ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
             }
             catch (Exception e)
             {
@@ -123,7 +105,7 @@ namespace Hades.Web.Controllers
                     JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
 
                 ViewBag.Title = "HADES";
-                ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
+                ViewBag.NomeUsuario = Session["Nome"];
 
                 return View("_TabelaUsuarios", usuarios);
             }

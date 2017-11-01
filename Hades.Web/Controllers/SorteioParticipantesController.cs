@@ -57,5 +57,13 @@ namespace Hades.Web.Controllers
                 return ErrorMessage($"Falha ao deletar participante, {e.Message}");
             }
         }
+
+        //public IEnumerable<SorteioParticipanteViewModel> GetVencedores(int idSorteio)
+        //{
+        //    var response = _sorteioParticipanteAppService.GetVencedores(idSorteio);
+        //    var participantes =
+        //        JsonConvert.DeserializeObject<IEnumerable<SorteioParticipanteViewModel>>(response.Content.ReadAsStringAsync().Result);
+        //    return participantes;
+        //} 
     }
 }

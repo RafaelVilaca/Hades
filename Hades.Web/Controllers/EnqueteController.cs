@@ -23,8 +23,8 @@ namespace Hades.Web.Controllers
         // GET: Enquete
         public ActionResult Index()
         {
-            ViewBag.NomeUsuario = UsuarioLogadoViewModel.Nome;
-            ViewBag.Adm = UsuarioLogadoViewModel.Administrador;
+            ViewBag.NomeUsuario = Session["Nome"];
+            ViewBag.Adm = Session["Administrador"];
             return View();
         }
 

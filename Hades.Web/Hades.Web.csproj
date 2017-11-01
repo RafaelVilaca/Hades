@@ -253,6 +253,8 @@
     <Content Include="Views\Login\CreateUsuario.cshtml" />
     <Content Include="Views\Shared\_LayoutUsuario.cshtml" />
     <Content Include="Views\Sorteio\DrawLots.cshtml" />
+    <Content Include="Views\Sorteio\Winners.cshtml" />
+    <Content Include="Views\Sorteio\WinnersUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

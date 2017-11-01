@@ -1,5 +1,4 @@
-﻿using Hades.Domain.Entities;
-using Hades.Domain.Interfaces.Services;
+﻿using Hades.Domain.Interfaces.Services;
 using System.Web.Http;
 
 namespace Hades.WebApi.Controllers
@@ -24,6 +23,16 @@ namespace Hades.WebApi.Controllers
             return BadRequest("Erro ao trazer Lista de Enquetes");
         }
 
+        [HttpGet]
+        [Route("sorteioParticipante/Vencedores/{idSorteio}")]
+        public IHttpActionResult GetVencedores(int idSorteio)
+        {
+            var sorteio = _sorteioParticipanteService.GetVencedores(idSorteio);
+            if (sorteio != null)
+                return Ok(sorteio);
+            return BadRequest("Erro ao trazer Lista de Vencedores");
+        }
+
         [HttpPost]
         [Route("sorteioParticipante/{idSorteio}/{idUsuario}")]
         public IHttpActionResult Participar(int idSorteio, int idUsuario)
@@ -37,6 +46,14 @@ namespace Hades.WebApi.Controllers
         public IHttpActionResult VencedorParticipantesSorteio(int idSorteio, int idUsuario)
         {
             _sorteioParticipanteService.VencedorParticipantesSorteio(idSorteio, idUsuario);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("sorteioParticipante/SortearNovamente/{idSorteio}")]
+        public IHttpActionResult SortearNovamente(int idSorteio)
+        {
+            _sorteioParticipanteService.SortearNovamente(idSorteio);
             return Ok();
         }
 

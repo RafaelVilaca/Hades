@@ -8,5 +8,7 @@ namespace Hades.Application.Interface
         HttpResponseMessage GetAll(int id);
         HttpResponseMessage DeletarParticipantesSorteio(int idSorteio, int idUsuario);
         HttpResponseMessage VencedorParticipantesSorteio(int idSorteio, int idUsuario);
+        HttpResponseMessage SortearNovamente(int idSorteio);
+        HttpResponseMessage GetVencedores(int idSorteio);
     }
 }

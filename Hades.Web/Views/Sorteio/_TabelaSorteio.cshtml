@@ -3,9 +3,9 @@
 
 @{
     Layout = null;
-    var usuarioAdm = UsuarioLogadoViewModel.Administrador;
-    var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
-    var idUsuarioLogado = UsuarioLogadoViewModel.Id != 0 ? UsuarioLogadoViewModel.Id : 0;
+    var usuarioAdm = (bool)Session["Administrador"];
+    var usuarioLogado = Session["Nome"].ToString() != "" ? Session["Nome"].ToString() : "";
+    var idUsuarioLogado = (int)Session["IdUsuario"] != 0 ? (int)Session["IdUsuario"] : 0;
 }
 
 <table class="table striped bordered responsive-table centered">
@@ -26,7 +26,10 @@
             foreach (var sorteio in Model)
             {
                 <tr>
-                    <td style="padding: 0">
+                    <td style="padding: 0; padding-left: 10px; text-align: left;">
+                        <a class="btn-floating blue">
+                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Vencedores" onclick="vencedoresUsuario('@sorteio.Id')">ac_unit</i>
+                        </a>
                         @Html.DisplayFor(modelItem => sorteio.Nome)
                     </td>
                     <td style="padding: 0">
@@ -56,9 +59,17 @@
                                     <a class="btn-floating grey darken-3"><i class="material-icons tooltipped" id="btnDetalharSorteio" data-position="bottom" data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i></a>
                                     @if (usuarioAdm || sorteio.NomeCriador == usuarioLogado)
                                     {
-                                        <a class="btn-floating red"><i class="material-icons tooltipped"   data-position="bottom" data-delay="50" data-tooltip="Editar" onclick="editar('@sorteio.Id')">mode_edit</i></a>
-                                        <a class="btn-floating green"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Deletar" onclick="deletar('@sorteio.Id')">delete</i></a>
-                                        <a class="btn-floating blue"><i class="material-icons tooltipped"  data-position="bottom" data-delay="50" data-tooltip="Sortear" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                        <a class="btn-floating green"><i class="material-icons tooltipped"   data-position="bottom" data-delay="50" data-tooltip="Editar" onclick="editar('@sorteio.Id')">mode_edit</i></a>
+                                        <a class="btn-floating red"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Deletar" onclick="deletar('@sorteio.Id')">delete</i></a>
+                                        if (!sorteio.FoiSorteado)
+                                        {
+                                            <a class="btn-floating blue"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sortear" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn-floating blue"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Vencedores" onclick="vencedores('@sorteio.Id')">ac_unit</i></a>
+                                        }
+
                                     }
                                 </li>
                             </ul>
@@ -79,6 +90,24 @@
         $('.modal').modal();
         $('.tooltipped').tooltip({ delay: 50 });
     });
+    
+    function vencedores(id) {
+        $.get(urlsSorteio.Vencedores, {
+            idSorteio: id
+        }).done(function (data) {
+            escondeModal();
+            $('#divContentSorteio').modal('open').html(data);
+        }).fail(function (xhr) { erro(xhr.responseText) });
+    };
+
+    function vencedoresUsuario(id) {
+        $.get(urlsSorteio.VencedoresUsuarios, {
+            idSorteio: id
+        }).done(function (data) {
+            escondeModal();
+            $('#divContentSorteio').modal('open').html(data);
+        }).fail(function (xhr) { erro(xhr.responseText) });
+    };
 
     function sortear(id) {
         $.get(urlsSorteio.Drawlots, {

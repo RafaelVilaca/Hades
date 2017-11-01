@@ -59,6 +59,7 @@ CREATE TABLE Sorteio(
 	DataCadastro DATETIME,
 	Ativo BIT, 
 	IdCriador INT,
+	FoiSorteado BIT DEFAULT 0,
 	CONSTRAINT FK_Usuario_Sorteio FOREIGN KEY (IdCriador) REFERENCES Usuario(Id) )
 GO
 

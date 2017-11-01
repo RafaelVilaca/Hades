@@ -29,6 +29,16 @@ namespace Hades.Domain.Services
             _sorteioParticipanteRepository.VencedorParticipantesSorteio(idSorteio, idUsuario);
         }
 
+        public void SortearNovamente(int idSorteio)
+        {
+            _sorteioParticipanteRepository.SortearNovamente(idSorteio);
+        }
+
+        public IEnumerable<SorteioParticipante> GetVencedores(int idSorteio)
+        {
+            return _sorteioParticipanteRepository.GetVencedores(idSorteio);
+        } 
+
         public void DeletarParticipantesSorteio(int idSorteio, int idUsuario)
         {
             _sorteioParticipanteRepository.DeletarParticipantesSorteio(idSorteio, idUsuario);

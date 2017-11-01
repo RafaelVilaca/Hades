@@ -71,7 +71,7 @@ namespace Hades.Web.Controllers
                     }
 
                     Session["IdUsuario"] = mostraUsuario.Id;
-                    Session["NomeUsuario"] = mostraUsuario.Nome;
+                    Session["Nome"] = mostraUsuario.Nome;
                     Session["Administrador"] = mostraUsuario.Administrador;
 
                     return RedirectToAction("Index", "Home");

@@ -15,7 +15,7 @@ function verificaCaracteres(campo) {
 
 function mensagem(mensagemAviso) {
     if (mensagemAviso != '') {
-        Materialize.toast('' + mensagemAviso + '', 4000, 'rounded red');
+        Materialize.toast('' + mensagemAviso + '', 4000, 'rounded yellow');
     }
 };
 

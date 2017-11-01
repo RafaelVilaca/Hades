@@ -4,9 +4,8 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_LayoutSemNavBar.cshtml";
-    var ADM = UsuarioLogadoViewModel.Administrador;
-    var usuarioLogado = UsuarioLogadoViewModel.Nome != "" ? UsuarioLogadoViewModel.Nome : "";
-    var idUsuarioLogado = UsuarioLogadoViewModel.Id;
+    var adm = (bool)Session["Administrador"];
+    var usuarioLogado = Session["Nome"].ToString() != "" ? Session["Nome"] : "";
 }
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
@@ -29,7 +28,7 @@
                         {
                             <tr>
                                 <td style="text-align: center;">
-                                    @if (ADM || participante.Sorteio.NomeCriador == usuarioLogado)
+                                    @if (adm || participante.Sorteio.NomeCriador == usuarioLogado)
                                     {
                                         <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar" style="width: 24px; height: 24px;">
                                             <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="sairSorteioParticipante('@Model.Id', '@participante.Id_Participante')">perm_identity</i>

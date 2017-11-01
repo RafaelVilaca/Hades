@@ -8,7 +8,7 @@ namespace Hades.Web.Controllers
         {
             ViewBag.Title = "HADES";
             ViewBag.IdUsuario = Session["IdUsuario"];
-            ViewBag.NomeUsuario = Session["NomeUsuario"];
+            ViewBag.NomeUsuario = Session["Nome"];
             return View();
         }
     }

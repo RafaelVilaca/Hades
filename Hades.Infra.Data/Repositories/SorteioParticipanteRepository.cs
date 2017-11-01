@@ -1,7 +1,7 @@
 ﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Infra.Data.Context;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 
 namespace Hades.Infra.Data.Repositories
 {
@@ -12,7 +12,9 @@ namespace Hades.Infra.Data.Repositories
             SP_GetParticipantes,
             SP_AddParticipante,
             SP_DeletarParticipantesSorteio,
-            SP_UpdVencedoresSorteios
+            SP_UpdVencedoresSorteios,
+            SP_UpdVencedoresSorteiosNovamente,
+            SP_GetVencedores
         }
 
         public void Participar(int idSorteio, int idUsuario)
@@ -52,6 +54,32 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@IdSorteio", idSorteio);
             AddParameter("@IdUsuario", idUsuario);
             ExecuteNonQuery();
+        }
+
+        public void SortearNovamente(int idSorteio)
+        {
+            ExecuteProcedure(Procedures.SP_UpdVencedoresSorteiosNovamente);
+            AddParameter("@idSorteio", idSorteio);
+            ExecuteNonQuery();
+        }
+
+        public IEnumerable<SorteioParticipante> GetVencedores(int idSorteio)
+        {
+            ExecuteProcedure(Procedures.SP_GetVencedores);
+            AddParameter("@idSorteio", idSorteio);
+            var sorteios = new List<SorteioParticipante>();
+            using (var r = ExecuteReader())
+                while (r.Read())
+                    sorteios.Add(new SorteioParticipante
+                    {
+                        Nome_Participante = r["Nom_Vencedor"].ToString(),
+                        Sorteio = new Sorteio
+                        {
+                            Id = r.GetInt32(r.GetOrdinal("IdSorteio")),
+                            Nome = r["Nom_Sorteio"].ToString()
+                        }
+                    });
+            return sorteios;
         }
     }
 }

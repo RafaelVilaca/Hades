@@ -9,5 +9,7 @@ namespace Hades.Domain.Interfaces.Repositories
         IEnumerable<SorteioParticipante> GetAll(int id);
         void DeletarParticipantesSorteio(int idSorteio, int idUsuario);
         void VencedorParticipantesSorteio(int idSorteio, int idUsuario);
+        void SortearNovamente(int idSorteio);
+        IEnumerable<SorteioParticipante> GetVencedores(int idSorteio);
     }
 }
