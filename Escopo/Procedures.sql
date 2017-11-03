@@ -284,7 +284,7 @@ CREATE PROCEDURE [dbo].[SP_UpdEnquete]
 	@Titulo VARCHAR(20),
 	@Descricao VARCHAR(150),
 	@Ativo BIT,
-	@Valor DECIMAL(10,2),
+	@Valor DECIMAL(15,2),
 	@LocalCotado VARCHAR(50)
 	
 	AS 
@@ -512,7 +512,8 @@ CREATE PROCEDURE [dbo].[SP_ListarEnquetePorId]
 
 	AS 
 	BEGIN
-		SELECT e.Titulo,
+		SELECT e.Id,
+			   e.Titulo,
 			   e.Descricao,
 			   e.IdUsuario,
 			   e.DataEnquete,
@@ -559,7 +560,8 @@ CREATE PROCEDURE [dbo].[SP_ListarUsuarios]
 	AS 
 	BEGIN
 		SELECT * 
-			FROM Usuario 
+			FROM Usuario 			
+			WHERE Nome NOT LIKE 'Administrador'
 			ORDER BY Nome
 	END
 GO
@@ -584,9 +586,9 @@ CREATE PROCEDURE [dbo].[SP_ListarUsuarioPorNome]
 
 	AS 
 	BEGIN
-		SELECT TOP 1 * 
+		SELECT TOP 1 *
 			FROM Usuario 
-			WHERE Nome = @Nome
+			WHERE (Nome = @Nome OR Email = @Nome)
 			ORDER BY Nome
 	END
 GO
@@ -993,8 +995,7 @@ CREATE PROCEDURE [dbo].[SP_GetVencedores]
 	Objetivo..........: Lista vencedores do sorteio
 	Autor.............: Rafael Vilaça
  	Data..............: 01/11/2017
-	Ex................: EXEC [dbo].[SP_GetVencedores] 1
-
+	Ex................: EXEC [dbo].[SP_GetVencedores] 3
 	*/
 
 	@idSorteio INT
@@ -1008,8 +1009,10 @@ CREATE PROCEDURE [dbo].[SP_GetVencedores]
 			INNER JOIN SorteioParticipante sp
 				ON sp.IdUsuario = u.Id
 					AND sp.IndSorteado = 1
-			INNER JOIN Sorteio s
+			RIGHT JOIN Sorteio s
 				ON s.Id = sp.IdSorteio
 					AND s.Id = @idSorteio
+			WHERE s.Id = @idSorteio
+			ORDER BY u.Nome
 	END
 GO

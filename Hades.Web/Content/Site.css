@@ -35,7 +35,7 @@ table td .material-icons {
 
 h4 {
     text-align: center;
-    font-family: Algerian;
+    /*font-family: Arial Rounded MT Bold;*/
     color: #b71c1c;
 }
 
@@ -100,4 +100,18 @@ td, th {
 
 .picker__day {
     padding: 0;
+}
+
+
+.preloader-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }

@@ -48,18 +48,21 @@
                         <div style="margin-right: 10px;float: right;">
                             <ul>
                                 <li>
-                                    @if (sorteio.IndParticipante == "N")
+                                    @if (!sorteio.FoiSorteado)
                                     {
-                                        <a class="btn-floating green darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar" onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i></a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn-floating red darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i></a>
+                                        if (sorteio.IndParticipante == "N")
+                                         {
+                                             <a class="btn-floating green darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar" onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i></a>
+                                         }
+                                         else
+                                         {
+                                             <a class="btn-floating red darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i></a>
+                                         }
                                     }
                                     <a class="btn-floating grey darken-3"><i class="material-icons tooltipped" id="btnDetalharSorteio" data-position="bottom" data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i></a>
                                     @if (usuarioAdm || sorteio.NomeCriador == usuarioLogado)
                                     {
-                                        <a class="btn-floating green"><i class="material-icons tooltipped"   data-position="bottom" data-delay="50" data-tooltip="Editar" onclick="editar('@sorteio.Id')">mode_edit</i></a>
+                                        <a class="btn-floating green"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar" onclick="editar('@sorteio.Id')">mode_edit</i></a>
                                         <a class="btn-floating red"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Deletar" onclick="deletar('@sorteio.Id')">delete</i></a>
                                         if (!sorteio.FoiSorteado)
                                         {
@@ -90,47 +93,4 @@
         $('.modal').modal();
         $('.tooltipped').tooltip({ delay: 50 });
     });
-    
-    function vencedores(id) {
-        $.get(urlsSorteio.Vencedores, {
-            idSorteio: id
-        }).done(function (data) {
-            escondeModal();
-            $('#divContentSorteio').modal('open').html(data);
-        }).fail(function (xhr) { erro(xhr.responseText) });
-    };
-
-    function vencedoresUsuario(id) {
-        $.get(urlsSorteio.VencedoresUsuarios, {
-            idSorteio: id
-        }).done(function (data) {
-            escondeModal();
-            $('#divContentSorteio').modal('open').html(data);
-        }).fail(function (xhr) { erro(xhr.responseText) });
-    };
-
-    function sortear(id) {
-        $.get(urlsSorteio.Drawlots, {
-            idSorteio: id
-        }).done(function (data) {
-            escondeModal();
-            $('#divContentSorteio').modal('open').html(data);
-        }).fail(function (xhr) {
-            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
-        });
-    };
-
-    function participar(idSorteio, idUsuario) {
-        if (!confirm("Deseja realmente participar deste sorteio?")) return;
-
-        $.post('@Url.Action("Participar","SorteioParticipantes")', {
-            idSorteio: idSorteio,
-            idUsuario: idUsuario
-        }).done(function (data) {
-            sucesso(data);
-            buscaTabelaSorteio();
-        }).fail(function (xhr) {
-            erro(xhr.responseText);
-        });
-    };
 </script>

@@ -39,7 +39,7 @@ namespace Hades.Infra.Data.Repositories
                 {
                     enquete = new Enquete
                     {
-                        //Id = r.GetInt32(r.GetOrdinal("Id")),
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
                         Assunto = r.GetString(r.GetOrdinal("Descricao")),
                         Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),

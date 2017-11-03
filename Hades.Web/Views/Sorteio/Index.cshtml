@@ -140,4 +140,47 @@
         }).fail(function (xhr) { erro(xhr.responseText) });
     };
 
+    function vencedores(id) {
+        $.get(urlsSorteio.Vencedores, {
+            idSorteio: id
+        }).done(function (data) {
+            escondeModal();
+            $('#divContentSorteio').modal('open').html(data);
+        }).fail(function (xhr) { erro(xhr.responseText) });
+    };
+
+    function vencedoresUsuario(id) {
+        $.get(urlsSorteio.VencedoresUsuarios, {
+            idSorteio: id
+        }).done(function (data) {
+            escondeModal();
+            $('#divContentSorteio').modal('open').html(data);
+        }).fail(function (xhr) { erro(xhr.responseText) });
+    };
+
+    function sortear(id) {
+        $.get(urlsSorteio.Drawlots, {
+            idSorteio: id
+        }).done(function (data) {
+            buscaTabelaSorteio();
+            setTimeout(function () { $('#divContentSorteio').modal('open').html(data); }, 100);
+        }).fail(function (xhr) {
+            Materialize.toast('' + xhr.responseText + '', 4000, 'rounded red');
+        });
+    };
+
+    function participar(idSorteio, idUsuario) {
+        if (!confirm("Deseja realmente participar deste sorteio?")) return;
+
+        $.post('@Url.Action("Participar","SorteioParticipantes")', {
+            idSorteio: idSorteio,
+            idUsuario: idUsuario
+        }).done(function (data) {
+            sucesso(data);
+            buscaTabelaSorteio();
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    };
+
 </script>

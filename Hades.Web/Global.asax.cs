@@ -12,7 +12,7 @@ namespace Hades.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            BaseModelBinder.Init();
             DependencyResolver.SetResolver(SimpleInjectorContainer.RegisterContainer());
         }
     }

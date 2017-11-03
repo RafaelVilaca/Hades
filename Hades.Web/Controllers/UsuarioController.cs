@@ -56,63 +56,42 @@ namespace Hades.Web.Controllers
                     return ErrorMessage("Usuario já existe, insira outro nome.");
 
             var response = _usuarioAppService.Post(usuario);
-            return response.IsSuccessStatusCode 
-                ? Json("Cadastro Efetuado com sucesso" ) 
+            return response.IsSuccessStatusCode
+                ? Json("Cadastro Efetuado com sucesso")
                 : ErrorMessage($"Erro ao criar usuario: {response.Content.ReadAsStringAsync().Result}");
         }
 
         // GET: Usuario/Edit/5
         public ActionResult Edit(int id)
         {
-            try
-            {
-                var response = _usuarioAppService.GetById(id);
-                if (!response.IsSuccessStatusCode)
-                    return ErrorMessage("Erro ao buscar usuario");
-                var usuario = JsonConvert.DeserializeObject<Usuario>(response.Content.ReadAsStringAsync().Result);
-                return View(new UsuarioViewModel(usuario));
-            }
-            catch (Exception e)
-            {
-                return ErrorMessage("Erro ao trazer Usuario, " + e.Message);
-            }
+            var response = _usuarioAppService.GetById(id);
+            if (!response.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao buscar usuario");
+            var usuario = JsonConvert.DeserializeObject<Usuario>(response.Content.ReadAsStringAsync().Result);
+            return View(new UsuarioViewModel(usuario));
         }
 
         // PUT: Usuario/Edit/5
         public ActionResult EditConfirmed(Usuario usuario)
         {
-            try
-            {
-                var response = _usuarioAppService.Put(usuario);
-                return response.IsSuccessStatusCode 
-                    ? Json("Cadastro Atualizado com sucesso") 
-                    : ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
-            }
-            catch (Exception e)
-            {
-                return ErrorMessage($"Falha ao editar Usuario, {e.Message}");
-            }
+            var response = _usuarioAppService.Put(usuario);
+            return response.IsSuccessStatusCode
+                ? Json("Cadastro Atualizado com sucesso")
+                : ErrorMessage($"Erro ao editar usuario: {response.Content.ReadAsStringAsync().Result}");
         }
 
         public ActionResult BuscaGridUsuario()
         {
-            try
-            {
-                var usuarioViewModel = _usuarioAppService.GetAll();
-                if (!usuarioViewModel.IsSuccessStatusCode)
-                    return ErrorMessage("Erro ao buscar usuarios.");
-                var usuarios =
-                    JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
+            var usuarioViewModel = _usuarioAppService.GetAll();
+            if (!usuarioViewModel.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao buscar usuarios.");
+            var usuarios =
+                JsonConvert.DeserializeObject<IEnumerable<UsuarioViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
 
-                ViewBag.Title = "HADES";
-                ViewBag.NomeUsuario = Session["Nome"];
+            ViewBag.Title = "HADES";
+            ViewBag.NomeUsuario = Session["Nome"];
 
-                return View("_TabelaUsuarios", usuarios);
-            }
-            catch (Exception e)
-            {
-                return ErrorMessage("Erro ao montar tabela de usuarios, " + e.Message);
-            }
+            return View("_TabelaUsuarios", usuarios);
         }
 
         public ActionResult AtivarUsuario(int id)
@@ -133,19 +112,10 @@ namespace Hades.Web.Controllers
 
         public ActionResult DesativarUsuario(int id)
         {
-            try
-            {
-                var response = _usuarioAppService.StatusUsuario(id, false);
-                if (!response.IsSuccessStatusCode)
-                    return ErrorMessage("Erro ao alterar o usuario");
-                return RedirectToAction("BuscaGridUsuario");
-            }
-
-            catch (Exception e)
-            {
-
-                return ErrorMessage("Erro ao alterar o usuario, " + e.Message);
-            }
+            var response = _usuarioAppService.StatusUsuario(id, false);
+            if (!response.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao alterar o usuario");
+            return RedirectToAction("BuscaGridUsuario");
         }
     }
 }

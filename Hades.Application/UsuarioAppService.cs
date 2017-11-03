@@ -44,7 +44,7 @@ namespace Hades.Application
 
         public HttpResponseMessage GetByName(string nome)
         {
-            return _httpClient.GetAsync($"http://localhost:2002/api/usuarios/{nome}").Result;
+            return _httpClient.GetAsync($"http://localhost:2002/api/UsuarioApi/GetByName?nome={nome}").Result;
         }
 
         public HttpResponseMessage SenhaFormatada(string senha)

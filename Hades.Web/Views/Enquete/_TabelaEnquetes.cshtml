@@ -11,13 +11,10 @@
     <tr>
         <th style="text-align: center;">Titulo:</th>
         <th style="text-align: center;">Assunto:</th>
-        <th style="text-align: center;">Criador:</th>
-        <th style="width: 105px; text-align: center;">Data Enquete:</th>
-        <th style="text-align: center;">Local</th>
-        <th style="text-align: center;">Valor</th>
+        <th style="text-align: center;">Valor R$</th>
         <th style="width: 50px; text-align: center;">Favor:</th>
         <th style="width: 50px; text-align: center;">Contra:</th>
-        <th style="width: 108px; text-align: center;">Ações:</th>
+        <th style="width: 110px; text-align: center;">Ações:</th>
     </tr>
 
     @if (Model != null && Model.Any())
@@ -31,17 +28,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => enquete.Assunto)
                 </td>
-                <td style="color: gray">
-                    @Html.DisplayFor(modelItem => enquete.Criador)
-                </td>
                 <td>
-                    @Html.DisplayFor(modelItem => enquete.DataFormatada)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => enquete.Nom_LocalCotado)
-                </td>
-                <td>
-                    R$@Html.DisplayFor(modelItem => enquete.Valor)
+                    @Html.DisplayFor(modelItem => enquete.Valor)
                 </td>
                 <td style="color: blue; text-align: center;">
                     @Html.DisplayFor(modelItem => enquete.VotoFavor)
@@ -58,8 +46,8 @@
                                     <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar"><i class="material-icons" onclick="detalhar('@enquete.Id')">description</i></a>
                                     @if (adm || enquete.Criador == usuarioLogado)
                                     {
-                                        <a class="btn-floating orange darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
-                                        <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
+                                        <a class="btn-floating red darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
+                                        <a class="btn-floating orange tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
                                     }
                                     <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Votar">
                                         <i class="material-icons" onclick="votar('@enquete.Id', '@enquete.Titulo')">note_add</i>
