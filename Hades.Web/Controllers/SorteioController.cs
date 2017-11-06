@@ -1,10 +1,12 @@
-﻿using Hades.Application.Interface;
+﻿using Hades.Application;
+using Hades.Application.Interface;
 using Hades.Domain.Entities;
 using Hades.Web.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
@@ -13,13 +15,15 @@ namespace Hades.Web.Controllers
     {
         private readonly ISorteioAppService _sorteioAppService;
         private readonly ISorteioParticipanteAppService _sorteioParticipanteAppService;
+        private readonly IUsuarioAppService _usuarioAppService;
 
-        public SorteioController(ISorteioAppService sorteioAppService, ISorteioParticipanteAppService sorteioParticipanteAppService)
+        public SorteioController(ISorteioAppService sorteioAppService, ISorteioParticipanteAppService sorteioParticipanteAppService, UsuarioAppService usuarioAppService)
         {
             _sorteioAppService = sorteioAppService;
             _sorteioParticipanteAppService = sorteioParticipanteAppService;
+            _usuarioAppService = usuarioAppService;
         }
-
+        
         public ActionResult Index()
         {
             ViewBag.NomeUsuario = Session["Nome"].ToString();
@@ -104,8 +108,14 @@ namespace Hades.Web.Controllers
             if (dadosParticipantesSorteio.QtdParticipantes <= dadosParticipantesSorteio.QtdeItens)
             {
                 foreach (var vencedor in dadosParticipantesSorteio.SorteioParticipantes)
+                {
                     _sorteioParticipanteAppService.VencedorParticipantesSorteio(idSorteio, vencedor.Id_Participante);
 
+                    var sorteado = _usuarioAppService.GetByName(vencedor.Nome_Participante);
+                    var sorteadoEmail = JsonConvert.DeserializeObject<UsuarioViewModel>(sorteado.Content.ReadAsStringAsync().Result);
+
+                    EnviarEmail(sorteadoEmail.Email, sorteadoEmail.Nome, dadosParticipantesSorteio.Nome, dadosParticipantesSorteio.NomeCriador);
+                }
                 return View(dadosParticipantesSorteio); ;
             }
 
@@ -129,6 +139,11 @@ namespace Hades.Web.Controllers
                     dadosParticipantesSorteio.QtdeItens -= 1;
                     _sorteioParticipanteAppService.VencedorParticipantesSorteio(idSorteio, participantes[posicao].Id_Participante);
                     contadorRotina++;
+
+                    var sorteado = _usuarioAppService.GetByName(participantes[posicao].Nome_Participante);
+                    var sorteadoEmail = JsonConvert.DeserializeObject<UsuarioViewModel>(sorteado.Content.ReadAsStringAsync().Result);
+
+                    EnviarEmail(sorteadoEmail.Email, sorteadoEmail.Nome, dadosParticipantesSorteio.Nome, participantes[posicao].Sorteio.NomeCriador);
                 }
             } while (dadosParticipantesSorteio.QtdeItens > 0);
 
@@ -139,6 +154,50 @@ namespace Hades.Web.Controllers
             }
 
             return View(getVencedores);
+        }
+
+        //private void EnviarEmail(string email, string nomeGanhador, string nomSorteio, string nomeCriadorSorteio)
+        //{
+        //    var client = new SmtpClient("smtp.gmail.com", 587)
+        //    {
+        //        Host = "smtp.gmail.com",
+        //        EnableSsl = true,
+        //        Credentials = new System.Net.NetworkCredential("hades.suporte.2017@gmail.com", "hades2017")
+        //    };
+
+        //    var mail = new MailMessage
+        //    {
+        //        Sender = new MailAddress($"{email}", $"{nomeGanhador}"),
+        //        From = new MailAddress("hades.suporte.2017@gmail.com", "HADES")
+        //    };
+
+        //    mail.To.Add(new MailAddress($"{email}", $"{nomeGanhador}"));
+        //    mail.Subject = "Contato Sorteio";
+        //    mail.Body = $"Mensagem do site:<br/> HADES<br/><br/> Mensagem : <br>   Parabéns {nomeGanhador}, você acabou de ganhar no sorteio: {nomSorteio}, " +
+        //        $"um(a) ótimo(a) item, entre em contato com o {nomeCriadorSorteio}, e resgate seu prêmio." +
+        //        "<br/><br/><br/><br/><br/><br/><br/> Atenciosamente, Equipe HADES.";
+        //    mail.IsBodyHtml = true;
+
+        //    client.Send(mail);
+        //}
+
+        private void EnviarEmail(string email, string nomeGanhador, string nomSorteio, string nomeCriadorSorteio)
+        {
+            var body = $"Mensagem do site:<br/> HADES<br/><br/> Mensagem : <br>   Parabéns {nomeGanhador}, você acabou de ganhar no sorteio: {nomSorteio}, " +
+               $"um(a) ótimo(a) item, entre em contato com o {nomeCriadorSorteio}, e resgate seu prêmio." +
+               "<br/><br/><br/><br/><br/><br/> Atenciosamente,<br/> Equipe HADES.";
+
+            var client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                EnableSsl = true,
+                Credentials = new System.Net.NetworkCredential("hades.suporte.2017@gmail.com", "hades2017")
+            };
+            client.Send(new MailMessage(new MailAddress($"{email}", "HADES"), new MailAddress($"{email}", $"{nomeGanhador}"))
+            {
+                Subject = "Contato Sorteio",
+                Body = body,
+                IsBodyHtml = true
+            });
         }
 
         public ActionResult Winners(int idSorteio)

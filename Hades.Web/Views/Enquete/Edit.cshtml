@@ -9,7 +9,7 @@
     <div class="col s12">
         <div class="row">
 
-            <h4>Editar Enquete</h4>
+            <h4>EDITAR ENQUETE</h4>
 
             @using (Html.BeginForm("EditConfirmed", "Enquete", FormMethod.Post, new { @class = "col s12" }))
             {
@@ -23,17 +23,17 @@
                         <div class="input-field col s12">
                             <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20" value="@Model.Titulo"
                                    onkeypress="verificaCaracteres(this)">
-                            <label for="Titulo">Titulo:</label>
+                            <label for="Titulo">TÍTULO:</label>
                         </div>
 
                         <div class="input-field col s12">
                             <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150"
                                       onkeypress="verificaCaracteres(this)">@Model.Assunto</textarea>
-                            <label for="Assunto">Assunto:</label>
+                            <label for="Assunto">ASSUNTO:</label>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Enquete</label>
+                            <label class="control-label col-md-2" style="color: black; font-weight: bold;">DATA ENQUETE</label>
                             <div class="col-md-10">
                                 @Html.EditorFor(model => model.DataEnquete, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
                             </div>
@@ -41,28 +41,28 @@
 
                         <div class="input-field col s6">
                             <input id="Valor" name="Valor" type="text" maxlength="10" data-length="10" value="@Model.Valor">
-                            <label for="Valor">Valor R$:</label>
+                            <label for="Valor">VALOR R$:</label>
                         </div>
                         <div class="input-field col s6">
                             <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" data-length="50" maxlength="50"
                                       onkeypress="verificaCaracteres(this)">@Model.Nom_LocalCotado</textarea>
-                            <label for="LocalCotado">Local Cotado:</label>
+                            <label for="LocalCotado">LOCAL COTADO:</label>
                         </div>
 
                         <div class="form-group">
                             <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty) />
-                            <label for="Ativo" style="color: black;font-weight: bold;top: -20px;position: relative;">Ativo</label>
+                            <label for="Ativo" style="color: black;font-weight: bold;top: -20px;position: relative;">ATIVO</label>
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <button id="btnEditarEnquete" class="btn btn-confirm" style="float: left;">Salvar</button>
+                                <button id="btnEditarEnquete" class="btn btn-confirm" style="float: left;">SALVAR</button>
                             </div>
                         </div>
                     </div>
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" style="float: right; margin-top: inherit;" onclick="escondeModal()">Cancelar</button>
+                <button class="btn btn-default" style="float: right; margin-top: inherit;" onclick="escondeModal()">CANCELAR</button>
             </div>
         </div>
     </div>

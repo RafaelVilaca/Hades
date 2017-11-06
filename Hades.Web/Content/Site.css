@@ -102,6 +102,18 @@ td, th {
     padding: 0;
 }
 
+.picker__box {
+    border-radius: 10px;
+}
+
+.picker__calendar-container {
+    padding: 0;
+}
+
+
+.picker__date-display {
+    display: none;
+}
 
 .preloader-background {
     display: flex;

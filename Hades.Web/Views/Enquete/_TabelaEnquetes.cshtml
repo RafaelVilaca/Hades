@@ -8,62 +8,55 @@
 }
 
 <table class="striped responsive-table">
-    <tr>
-        <th style="text-align: center;">Titulo:</th>
-        <th style="text-align: center;">Assunto:</th>
-        <th style="text-align: center;">Valor R$</th>
-        <th style="width: 50px; text-align: center;">Favor:</th>
-        <th style="width: 50px; text-align: center;">Contra:</th>
-        <th style="width: 110px; text-align: center;">Ações:</th>
-    </tr>
-
-    @if (Model != null && Model.Any())
-    {
-        foreach (var enquete in Model)
+    <thead>
+        <tr>
+            <th style="text-align: center; text-align: center;">Titulo:</th>
+            <th style="text-align: center; text-align: center;">Assunto:</th>
+            <th style="text-align: center; text-align: center;">Valor R$</th>
+            <th style="width: 50px; text-align: center;">Favor:</th>
+            <th style="width: 50px; text-align: center;">Contra:</th>
+            <th style="width: 110px; text-align: center;">Ações:</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
         {
-            <tr @(enquete.Ativo == false ? "style=color:#f00" : "")>
-                <td>
-                    @Html.DisplayFor(modelItem => enquete.Titulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => enquete.Assunto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => enquete.Valor)
-                </td>
-                <td style="color: blue; text-align: center;">
-                    @Html.DisplayFor(modelItem => enquete.VotoFavor)
-                </td>
-                <td style="color: red; text-align: center;">
-                    @Html.DisplayFor(modelItem => enquete.VotoContra)
-                </td>
-                @if (usuarioLogado != "")
-                {
-                    <td style="padding: 0">
-                        <div style="float: right">
-                            <ul>
-                                <li>
-                                    <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar"><i class="material-icons" onclick="detalhar('@enquete.Id')">description</i></a>
-                                    @if (adm || enquete.Criador == usuarioLogado)
-                                    {
-                                        <a class="btn-floating red darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
-                                        <a class="btn-floating orange tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
-                                    }
-                                    <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Votar">
-                                        <i class="material-icons" onclick="votar('@enquete.Id', '@enquete.Titulo')">note_add</i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </td>
-                }
-            </tr>
+            foreach (var enquete in Model)
+            {
+                <tr @(enquete.Ativo == false ? "style=color:#f00" : "")>
+                    <td> @Html.DisplayFor(modelItem => enquete.Titulo) </td>
+                    <td> @Html.DisplayFor(modelItem => enquete.Assunto) </td>
+                    <td style="text-align: center;"> @Html.DisplayFor(modelItem => enquete.Valor) </td>
+                    <td style="color: blue; text-align: center;"> @Html.DisplayFor(modelItem => enquete.VotoFavor) </td>
+                    <td style="color: red; text-align: center;"> @Html.DisplayFor(modelItem => enquete.VotoContra) </td>
+                    @if (usuarioLogado != "")
+                    {
+                        <td style="padding: 0">
+                            <div style="float: right">
+                                <ul>
+                                    <li>
+                                        <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar"><i class="material-icons" onclick="detalhar('@enquete.Id')">description</i></a>
+                                        @if (adm || enquete.Criador == usuarioLogado)
+                                        {
+                                            <a class="btn-floating red darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar"><i class="material-icons" onclick="desativar('@enquete.Id')">delete</i></a>
+                                            <a class="btn-floating orange tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"><i class="material-icons" onclick="editar('@enquete.Id')">mode_edit</i></a>
+                                        }
+                                        <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Votar">
+                                            <i class="material-icons" onclick="votar('@enquete.Id', '@enquete.Titulo')">note_add</i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
         }
-    }
-    else
-    {
-        <tr><td colspan="9" style="text-align: center">Nenhum registro encontrado</td></tr>
-    }
+        else
+        {
+            <tr><td colspan="9" style="text-align: center">Nenhum registro encontrado</td></tr>
+        }
+    </tbody>
 </table>
 
 <script>

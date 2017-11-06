@@ -8,7 +8,7 @@
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
         <div class="row">
-            <h4>Novo Sorteio </h4>
+            <h4>NOVO SORTEIO</h4>
 
             @using (Html.BeginForm("CreateConfirmed", "Sorteio", FormMethod.Post, new { @class = "well" }))
             {
@@ -18,25 +18,25 @@
                     <div class="input-field col s12">
                         <input id="NomeSorteio" type="text" name="NomeSorteio" maxlength="20" data-length="20"
                                onkeypress="verificaCaracteres(this)">
-                        <label for="NomeSorteio">Nome Sorteio</label>
+                        <label for="NomeSorteio">NOME SORTEIO</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="DataSorteio" type="text" name="DataSorteio" min="@DateTime.Now" class="datepicker"/>
-                        <label for="DataSorteio">Data Sorteio</label>
+                        <label for="DataSorteio">DATA SORTEIO</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="QtdeItens" type="number" name="QtdeItens" min="1" max="100" maxlength="3"/>
-                        <label for="QtdeItens">Qtde de Itens</label>
+                        <label for="QtdeItens">QTDE DE ITENS</label>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="button" value="Criar" class="btn btn-confirm" id="btnCriarSorteio" style="border-radius: 20px;"/>
+                            <input type="button" value="CRIAR" class="btn btn-confirm" id="btnCriarSorteio" style="border-radius: 20px;"/>
                         </div>
                     </div>
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">CANCELAR</button>
             </div>
         </div>
     </div>

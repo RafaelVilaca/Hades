@@ -8,7 +8,7 @@
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
         <div class="row">
-            <h4>Nova Enquete</h4>
+            <h4>NOVA ENQUETE</h4>
 
             @using (Ajax.BeginForm("CreateConfirmed", "Enquete", null, new AjaxOptions
             {
@@ -23,34 +23,34 @@
                     <div class="input-field col s12">
                         <input id="Titulo" name="Titulo" type="text" maxlength="20" data-length="20"
                                onkeypress="verificaCaracteres(this)">
-                        <label for="Titulo">Titulo:</label>
+                        <label for="Titulo">TÍTULO:</label>
                     </div>
 
                     <div class="input-field col s12">
                         <textarea id="Assunto" name="Assunto" class="materialize-textarea" maxlength="150" data-length="150"
                                   onkeypress="verificaCaracteres(this)"></textarea>
-                        <label for="Assunto">Assunto:</label>
+                        <label for="Assunto">ASSUNTO:</label>
                     </div>
 
                     <div class="input-field col s6">
                         <input id="Valor" name="Valor" type="text" maxlength="10" data-length="10">
-                        <label for="Valor">Valor R$:</label>
+                        <label for="Valor">VALOR R$:</label>
                     </div>
                     <div class="input-field col s6">
                         <textarea id="LocalCotado" name="LocalCotado" class="materialize-textarea" maxlength="50" data-length="50"
                                   onkeypress="verificaCaracteres(this)"></textarea>
-                        <label for="LocalCotado">Local Cotado:</label>
+                        <label for="LocalCotado">LOCAL COTADO:</label>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Criar" id="btnSalvar" class="btn btn-confirm" />
+                            <input type="submit" value="CRIAR" id="btnSalvar" class="btn btn-confirm" />
                         </div>
                     </div>
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">CANCELAR</button>
             </div>
         </div>
     </div>

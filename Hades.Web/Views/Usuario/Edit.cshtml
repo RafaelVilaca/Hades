@@ -9,7 +9,7 @@
     <div class="col s12">
         <div class="row">
 
-            <h4>Editar</h4>
+            <h4>EDITAR USUÁRIO</h4>
 
             @using (Html.BeginForm("EditConfirmed", "Usuario", FormMethod.Post, new { @class = "well" }))
             {
@@ -21,16 +21,16 @@
                     <div class="input-field col s12">
                         <input id="Nome" type="text" name="Nome" maxlength="100" value="@Model.Nome" data-length="100"
                                onkeypress="verificaCaracteres(this)">
-                        <label for="Nome" data-error="wrong" data-success="right">Nome</label>
+                        <label for="Nome" data-error="wrong" data-success="right">NOME</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="Email" name="Email" type="email" class="validate" maxlength="100" value="@Model.Email" data-length="100"
                                onkeypress="verificaCaracteres(this)">
-                        <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
+                        <label for="Email" data-error="Email Inválido" data-success="Correto">EMAIL</label>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2" style="color: black; font-weight: bold;">Data Cadastro</label>
+                        <label class="control-label col-md-2" style="color: black; font-weight: bold;">DATA CADASTRO</label>
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
                         </div>
@@ -38,30 +38,30 @@
 
                     <div class="input-field col s12">
                         <input id="Senha" type="password" maxlength="20" @*value="@Model.Senha"*@ data-length="20">
-                        <label for="Senha" data-error="wrong" data-success="right">Senha</label>
+                        <label for="Senha" data-error="wrong" data-success="right">SENHA</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="ConfirmarSenha" type="password" maxlength="20">
-                        <label for="ConfirmarSenha" data-error="wrong" data-success="right" data-length="20">Confirmar Senha</label>
+                        <label for="ConfirmarSenha" data-error="wrong" data-success="right" data-length="20">CONFIRMAR SENHA</label>
                     </div>
 
                     <div class="form-group">
                         <input type="checkbox" id="Administrador" name="Administrador" @(Model.Administrador ? "checked" : string.Empty)/>
-                        <label for="Administrador" style="color: black; font-weight: bold;">Administrador &nbsp;</label>
+                        <label for="Administrador" style="color: black; font-weight: bold;">ADMINISTRADOR &nbsp;</label>
 
                         <input type="checkbox" id="Ativo" name="Ativo" @(Model.Ativo ? "checked" : string.Empty)/>
-                        <label for="Ativo" style="color: black; font-weight: bold;">Ativo</label>
+                        <label for="Ativo" style="color: black; font-weight: bold;">ATIVO</label>
                     </div>
                     <p></p>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="button" value="Salvar" id="btnEditar" class="btn btn-confirm" />
+                            <input type="button" value="SALVAR" id="btnEditar" class="btn btn-confirm" />
                         </div>
                     </div>
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">CANCELAR</button>
             </div>
         </div>
     </div>

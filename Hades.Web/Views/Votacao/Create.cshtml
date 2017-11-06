@@ -15,28 +15,28 @@
 
                 <div class="input-field col s12">
                     <input id="Titulo" name="Titulo" type="text" maxlength="20" value="@Model.Enquete" readonly="readonly" style="text-align: center;">
-                    <label for="Titulo">Titulo Enquete:</label>
+                    <label for="Titulo">TITÚLO ENQUETE:</label>
                 </div>
 
                 <div class="form-horizontal">
-                    <h4>Votação</h4>
+                    <h4>VOTAÇÃO</h4>
                     <div class="input-field col s12">
                         <textarea id="Justificativa" name="Justificativa" class="materialize-textarea" maxlength="200" data-length="200"
                                   onkeypress="verificaCaracteres(this)">@Model.Justificativa</textarea>
-                        <label for="Justificativa">Justificativa do Voto:</label>
+                        <label for="Justificativa">JUSTIFICATIVA DO VOTO:</label>
                     </div>
 
                     <div class="input-field col s12" style="width: auto; position: relative; margin-top: 0; margin-bottom: 10px; left: 58px; float: left;">
                         <input name="TipoVoto" type="radio" id="Favor" value="true" style="margin-left: 35px;" checked />
-                        <label for="Favor">Favor</label>
+                        <label for="Favor">FAVOR</label>
 
                         <input name="TipoVoto" type="radio" id="Contra" value="false" style="margin-left: 20px; position: inherit;" />
-                        <label for="Contra">Contra</label>
+                        <label for="Contra">CONTRA</label>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="button" id="Votar" value="Votar" class="btn btn-confirm" style="width: -webkit-fill-available;border-radius: 20px;top: 22px;position: relative;" />
+                            <input type="button" id="Votar" value="VOTAR" class="btn btn-confirm" style="width: -webkit-fill-available;border-radius: 20px;top: 22px;position: relative;" />
                         </div>
                     </div>
                 </div>

@@ -8,21 +8,21 @@
     <div class="col s12">
         <div class="row">
 
-            <h4>Detalhes Enquete</h4>
+            <h4>DETALHES ENQUETE</h4>
 
             <div>
                 <dl class="dl-horizontal">
-                    <dt>Titulo: @Html.DisplayFor(model => model.Titulo)</dt>
+                    <dt>TÍTULO: @Html.DisplayFor(model => model.Titulo)</dt>
 
-                    <dt>Assunto: @Html.DisplayFor(model => model.Assunto)</dt>
+                    <dt>ASSUNTO: @Html.DisplayFor(model => model.Assunto)</dt>
 
-                    <dt>Data Enquete: @Html.DisplayFor(model => model.DataFormatada)</dt>
+                    <dt>DATA ENQUETE: @Html.DisplayFor(model => model.DataFormatada)</dt>
 
-                    <dt>Local: @Html.DisplayFor(model => model.Nom_LocalCotado)</dt>
+                    <dt>LOCAL: @Html.DisplayFor(model => model.Nom_LocalCotado)</dt>
 
-                    <dt>Valor: R$@Html.DisplayFor(model => model.Valor)</dt>
+                    <dt>VALOR: R$@Html.DisplayFor(model => model.Valor)</dt>
 
-                    <dt>Criador: @Html.DisplayFor(model => model.Criador)</dt>
+                    <dt>CRIADOR: @Html.DisplayFor(model => model.Criador)</dt>
                 </dl>
             </div>
             <div>
@@ -33,9 +33,9 @@
                 <h4>Tabela de Votos</h4>
                 <table class="striped">
                     <tr>
-                        <th>Nome Usuario</th>
-                        <th>Tipo Voto</th>
-                        <th>Justificativa</th>
+                        <th>NOME USUÁRIO</th>
+                        <th>TIPO VOTO</th>
+                        <th>JUSTIFICATIVA</th>
                     </tr>
                     @if (Model.ListaVotacao != null)
                     {
@@ -45,11 +45,11 @@
                                 <td>@Html.DisplayFor(modelItem => voto.NomeUsuario)</td>
                                 @if (voto.TipoVoto)
                     {
-                                    <td>Favor</td>
+                                    <td>FAVOR</td>
                                 }
                                 else
                                 {
-                                    <td>Contra</td>
+                                    <td>CONTRA</td>
                                 }
                                 <td>@Html.DisplayFor(modelItem => voto.Justificativa)</td>
                             </tr>

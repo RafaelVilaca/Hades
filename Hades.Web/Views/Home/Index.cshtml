@@ -7,6 +7,6 @@
 <body></body>
 
 <script>
-    sessionStorage.setItem('NomeUsuarioLogado', '@ViewBag.NomeUsuario');
+    sessionStorage.setItem('NomeUsuarioLogado', '@Html.Raw(ViewBag.NomeUsuario)');
     sessionStorage.setItem('IdUsuarioLogado', '@ViewBag.IdUsuario');
 </script>

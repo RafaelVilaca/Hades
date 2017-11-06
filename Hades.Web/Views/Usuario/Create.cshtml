@@ -8,7 +8,7 @@
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
         <div class="row">
-            <h4>Novo Usuário</h4>
+            <h4>NOVO USUÁRIO</h4>
 
             @using (Ajax.BeginForm("CreateConfirmed", "Usuario", null, new AjaxOptions
             {
@@ -21,29 +21,29 @@
                 <div class="form-horizontal">
                     <div class="input-field col s12">
                         <input id="NomeUsuario" type="text" name="Nome" maxlength="100" data-length="100" onkeypress="verificaCaracteres(this)">
-                        <label for="NomeUsuario" data-error="wrong" data-success="right">Nome</label>
+                        <label for="NomeUsuario" data-error="wrong" data-success="right">NOME</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="Email" name="Email" type="email" class="validate" maxlength="100" data-length="100" onkeypress="verificaCaracteres(this)">
-                        <label for="Email" data-error="Email Inválido" data-success="Correto">Email</label>
+                        <label for="Email" data-error="Email Inválido" data-success="Correto">EMAIL</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="SenhaUsuario" type="password" maxlength="20" data-length="20">
-                        <label for="SenhaUsuario" data-error="wrong" data-success="right">Senha</label>
+                        <label for="SenhaUsuario" data-error="wrong" data-success="right">SENHA</label>
                     </div>
                     <div class="input-field col s12">
                         <input id="ConfirmarSenha" type="password" maxlength="20" data-length="20">
-                        <label for="ConfirmarSenha" data-error="wrong" data-success="right">Confirmar Senha</label>
+                        <label for="ConfirmarSenha" data-error="wrong" data-success="right">CONFIRMAR SENHA</label>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Criar" id="btnSalvar" class="btn btn-confirm"/>
+                            <input type="submit" value="CRIAR" id="btnSalvar" class="btn btn-confirm"/>
                         </div>
                     </div>
                 </div>
             }
             <div style="margin-left: 110px; margin-top: -36px;">
-                <button class="btn btn-default" style="float: right" onclick="escondeModal()">Cancelar</button>
+                <button class="btn btn-default" style="float: right" onclick="escondeModal()">CANCELAR</button>
             </div>
         </div>
     </div>

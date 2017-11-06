@@ -13,24 +13,24 @@
     <script src="~/Scripts/Common.js"></script>
     @RenderSection("scripts", required: false)
 </head>
-<body style="background-color: white; padding-top: 0px;">
+<body style="background-color: #cfd8dc; padding-top: 0px;">
     <nav style="height: 75px;">
-        <div class="nav-wrapper accent-4" style="background-color: azure;">
+        <div class="nav-wrapper accent-4" style="background-color: #455a64;">
             <img src="~/images/Bastet_CatScratch.png" style="margin-left: 20px; width: 75px;">
-            <label id="LayoutNomeUsuarioLogado" style="text-align: center; font-size: 1rem; color: #b71c1c; position: relative; top: -29px;"></label>
+            <label id="LayoutNomeUsuarioLogado" style="text-align: center; font-size: 1rem; color: white; position: relative; top: -29px;"></label>
 
             <a href="#" data-activates="mobile-demo" class="button-collapse">
-                <i class="material-icons" style="font-size: 40px;color: crimson; border-radius: 40px;width: 5px;height: 55px;position: relative;top: 10px;">reorder</i>
+                <i class="material-icons" style="font-size: 40px;color: white; border-radius: 40px;width: 5px;height: 55px;position: relative;top: 10px;">reorder</i>
             </a>
             <ul id="nav-mobile" class="right hide-on-med-and-down" style="margin-top: 10px;">
-                <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Enquete")">Enquete</a></li>
-                <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
-                <li><a style="font-size: large; color: #8B0000" href="@Url.Action("Index", "Login")">Sair</a></li>
+                <li><a style="font-size: large; color: white" href="@Url.Action("Index", "Enquete")">ENQUETE</a></li>
+                <li><a style="font-size: large; color: white" href="@Url.Action("Index", "Sorteio")">SORTEIO</a></li>
+                <li><a style="font-size: large; color: white" href="@Url.Action("Index", "Login")">SAIR</a></li>
             </ul>
             <ul class="side-nav" id="mobile-demo">
-                <li><a href="@Url.Action("Index", "Enquete")">Enquete</a></li>
-                <li><a href="@Url.Action("Index", "Sorteio")">Sorteio</a></li>
-                <li><a href="@Url.Action("Index", "Login")">Sair</a></li>
+                <li><a href="@Url.Action("Index", "Enquete")">ENQUETE</a></li>
+                <li><a href="@Url.Action("Index", "Sorteio")">SORTEIO</a></li>
+                <li><a href="@Url.Action("Index", "Login")">SAIR</a></li>
             </ul>
         </div>
     </nav>

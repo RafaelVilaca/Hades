@@ -8,46 +8,37 @@
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
         <div class="row">
-            <h4>Detalhes Usuario</h4>
+            <h4>DETALHES USUÁRIO</h4>
 
             <div>
                 @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @id = "Id" } })
                 <dl class="dl-horizontal">
-                    <dt>
-                        Nome: @*</dt><dd>*@
-                        @Html.DisplayFor(model => model.Nome)
-                    </dt>
+                    <dt> NOME: @*</dt><dd>*@ @Html.DisplayFor(model => model.Nome) </dt>
 
-                    <dt>
-                        Email: @*</dt><dd>*@
-                        @Html.DisplayFor(model => model.Email)
-                    </dt>
+                    <dt> EMAIL: @*</dt><dd>*@ @Html.DisplayFor(model => model.Email) </dt>
 
-                    <dt>
-                        Data Cadastro: @*</dt><dd>*@
-                        @Html.DisplayFor(model => model.DataCadastro)
-                    </dt>
+                    <dt> DATA CADASTRO: @*</dt><dd>*@ @Html.DisplayFor(model => model.DataCadastro) </dt>
                     @if (@Model.Ativo)
                     {
-                        <dt>Ativo: Sim</dt>
+                        <dt>ATIVO: Sim</dt>
                     }
                     else
                     {
-                        <dt>Ativo: Não</dt>
+                        <dt>ATIVO: Não</dt>
                     }
 
                     @if (@Model.Administrador)
                     {
-                        <dt>Administrador: Sim</dt>
+                        <dt>ADMINISTRADOR: Sim</dt>
                     }
                     else
                     {
-                        <dt>Administrador: Não</dt>
+                        <dt>ADMINISTRADOR: Não</dt>
                     }
                 </dl>
             </div>
             <div>
-                <button class="btn btn-default" style="width: -webkit-fill-available;" onclick="escondeModal()">Fechar</button>
+                <button class="btn btn-default" style="width: -webkit-fill-available;" onclick="escondeModal()">FECHAR</button>
             </div>
 
         </div>
