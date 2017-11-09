@@ -12,10 +12,21 @@
     <script src="~/Scripts/Common.js"></script>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     @RenderSection("scripts", required: false)
+    <style>
+        .nav-gradient {
+            /*height: 70px;*/
+            background: #455a64; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(black, #455a64); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(black, #455a64); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(black, #455a64); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(black, #455a64); /* Standard syntax (must be last) */
+        }
+
+    </style>
 </head>
-<body style="background-color: #cfd8dc; padding-top: 0px;">
+<body style="background-color: #455a64; padding-top: 0px;">
     <nav style="height: 75px;">
-        <div class="nav-wrapper accent-4" style="background-color: #455a64;">
+        <div class="nav-wrapper accent-4 nav-gradient" style="background-color: #455a64;">
             <img src="~/images/Bastet_CatScratch.png" style="margin-left: 20px; width: 75px;">
             <label id="LayoutNomeUsuarioLogado" style="text-align: center; font-size: 1rem; color: white; position: relative; top: -29px;"></label>
 
@@ -37,19 +48,6 @@
         </div>
     </nav>
     <div class="container" id="divContainerPrincipal">
-
-        @*<div class="preloader-wrapper big active">
-            <div class="spinner-layer spinner-blue-only">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                    <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-            </div>
-        </div>*@
-
         @RenderBody()
         <footer>
             @*<p>&copy; @DateTime.Now.Year - HADES Application</p>*@

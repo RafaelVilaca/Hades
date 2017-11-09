@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
 using Hades.Domain.Interfaces.Repositories;
 using Hades.Domain.Interfaces.Services;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Services
 {
@@ -16,13 +16,6 @@ namespace Hades.Domain.Services
 
         public string Post(Enquete enquete)
         {
-            if (enquete.IsValid() != 0)
-                switch (enquete.IsValid())
-                {
-                    case 1: return "Título deve conter de 5 à 20 caracteres";
-                    case 2: return "Assunto deve conter de 10 à 150 caracteres";
-                }
-
             _enqueteRepository.Post(enquete);
             return string.Empty;
         }
@@ -39,15 +32,6 @@ namespace Hades.Domain.Services
 
         public string Put(Enquete enquete)
         {
-            if (enquete.IsValid() != 0)
-            {
-                switch (enquete.IsValid())
-                {
-                    case 1: return "Título deve conter de 5 à 20 caracteres";
-                    case 2: return "Assunto deve conter de 10 à 150 caracteres";
-                }
-            }
-
             _enqueteRepository.Put(enquete);
             return string.Empty;
         }

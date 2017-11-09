@@ -31,17 +31,5 @@ namespace Hades.Domain.Entities
         public int VotoContra { get; set; }
 
         public List<Votacao> ListaVotacao { get; set; }
-        //Votos        
-
-        public int IsValid()
-        {
-            if (string.IsNullOrEmpty(Titulo) || this.Titulo.Trim().Length < 5)
-                return 1;
-
-            if (string.IsNullOrEmpty(Assunto) || this.Assunto.Trim().Length < 10)
-                return 2;
-
-            return 0;
-        }
     }
 }

@@ -23,12 +23,6 @@ namespace Hades.Domain.Entities
             if (!rg.IsMatch(email) || string.IsNullOrEmpty(email))
                 return 1;
 
-            if (string.IsNullOrEmpty(Senha) || this.Senha.Trim().Length < 5)
-                return 2;
-
-            if (string.IsNullOrEmpty(Nome) || this.Nome.Trim().Length < 3)
-                return 3;
-
             return 0;
         }
     }

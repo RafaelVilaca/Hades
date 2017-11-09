@@ -16,16 +16,6 @@ namespace Hades.Domain.Services
 
         public string Post(Usuario usuario)
         {
-            if (usuario.IsValid() != 0)
-                switch (usuario.IsValid())
-                {
-                    case 1:
-                        return "Email inválido, corrija por favor!";
-                    case 2:
-                        return "Senha deve conter de 5 à 20 caracteres";
-                    case 3:
-                        return "Nome deve conter de 3 à 100 caracteres";
-                }
             _usuarioRepository.Post(usuario);
             return string.Empty;
         }
@@ -47,16 +37,6 @@ namespace Hades.Domain.Services
 
         public string Put(Usuario usuario)
         {
-            if (usuario.IsValid() != 0)
-                switch (usuario.IsValid())
-                {
-                    case 1:
-                        return "Email inválido, corrija por favor!";
-                    case 2:
-                        return "Senha deve conter de 5 à 20 caracteres";
-                    case 3:
-                        return "Nome deve conter de 3 à 100 caracteres";
-                }
             _usuarioRepository.Put(usuario);
             return string.Empty;
         }
