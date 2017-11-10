@@ -19,7 +19,7 @@ namespace Hades.Domain.Services
             _sorteioParticipanteRepository.Participar(idSorteio, idUsuario);
         }
 
-        public IEnumerable<SorteioParticipante> GetAll(int id)
+        public IEnumerable<SorteioParticipanteDto> GetAll(int id)
         {
             return _sorteioParticipanteRepository.GetAll(id);
         }
@@ -34,7 +34,7 @@ namespace Hades.Domain.Services
             _sorteioParticipanteRepository.SortearNovamente(idSorteio);
         }
 
-        public IEnumerable<SorteioParticipante> GetVencedores(int idSorteio)
+        public IEnumerable<SorteioParticipanteDto> GetVencedores(int idSorteio)
         {
             return _sorteioParticipanteRepository.GetVencedores(idSorteio);
         } 

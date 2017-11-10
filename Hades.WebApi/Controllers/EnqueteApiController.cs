@@ -33,7 +33,7 @@ namespace Hades.WebApi.Controllers
         [HttpPost]
         [Route("enquete")]
         // POST: api/EnqueteApi
-        public void Post(Enquete enquete)
+        public void Post(EnqueteDto enquete)
         {
             _enqueteService.Post(enquete);
         }
@@ -41,7 +41,7 @@ namespace Hades.WebApi.Controllers
         [HttpPut]
         [Route("enquete")]
         // PUT: api/EnqueteApi/5
-        public void Put(Enquete enquete)
+        public void Put(EnqueteDto enquete)
         {
             _enqueteService.Put(enquete);
         }

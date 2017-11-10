@@ -28,23 +28,24 @@
                 <tr>
                     <td style="padding: 0; padding-left: 10px; text-align: left;">
                         <a class="btn-floating blue">
-                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Vencedores" onclick="vencedoresUsuario('@sorteio.Id')">ac_unit</i>
+                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Vencedores" 
+                               onclick="vencedoresUsuario('@sorteio.Id')">ac_unit</i>
                         </a>
                         @Html.DisplayFor(modelItem => sorteio.Nome)
                     </td>
-                    <td style="padding: 0">
+                    <td style="padding: 0; text-align: center;">
                         @Html.DisplayFor(modelItem => sorteio.DataFormatada)
                     </td>
                     <td style="color: grey">
                         @Html.DisplayFor(modelItem => sorteio.NomeCriador)
                     </td>
-                    <td style="color: grey">
+                    <td style="color: grey; text-align: center;">
                         @Html.DisplayFor(modelItem => sorteio.QtdeItens)
                     </td>
-                    <td style="color: grey">
+                    <td style="color: grey; text-align: center;">
                         @Html.DisplayFor(modelItem => sorteio.QtdParticipantes)
                     </td>
-                    <td style="padding: 0">
+                    <td style="padding: 0; text-align: center;">
                         <div style="margin-right: 10px;float: right;">
                             <ul>
                                 <li>
@@ -52,25 +53,49 @@
                                     {
                                         if (sorteio.IndParticipante == "N")
                                          {
-                                             <a class="btn-floating green darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar" onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i></a>
+                                             <a class="btn-floating green darken-3">
+                                                 <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar" 
+                                                    onclick="participar('@sorteio.Id', '@idUsuarioLogado')">add_circle_outline</i>
+                                             </a>
                                          }
                                          else
                                          {
-                                             <a class="btn-floating red darken-3"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i></a>
+                                             <a class="btn-floating red darken-3">
+                                                 <i class="material-icons tooltipped" data-position="bottom" data-delay="50"
+                                                         data-tooltip="Sair Sorteio" onclick="sairSorteio('@sorteio.Id', '@idUsuarioLogado')">remove_circle_outline</i>
+                                             </a>
                                          }
                                     }
-                                    <a class="btn-floating grey darken-3"><i class="material-icons tooltipped" id="btnDetalharSorteio" data-position="bottom" data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i></a>
+                                    <a class="btn-floating grey darken-3">
+                                        <i class="material-icons tooltipped" id="btnDetalharSorteio" data-position="bottom"
+                                                data-delay="50" data-tooltip="Detalhes" onclick="detalhar('@sorteio.Id')">description</i>
+                                    </a>
                                     @if (usuarioAdm || sorteio.NomeCriador == usuarioLogado)
                                     {
-                                        <a class="btn-floating green"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar" onclick="editar('@sorteio.Id')">mode_edit</i></a>
-                                        <a class="btn-floating red"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Deletar" onclick="deletar('@sorteio.Id')">delete</i></a>
+                                        if (sorteio.QtdParticipantes == 0)
+                                        {
+                                            <a class="btn-floating green">
+                                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar"
+                                                   onclick="editar('@sorteio.Id')">mode_edit</i>
+                                            </a>
+                                        }
+                                        <a class="btn-floating red">
+                                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Deletar" 
+                                               onclick="deletar('@sorteio.Id')">delete</i>
+                                        </a>
                                         if (!sorteio.FoiSorteado)
                                         {
-                                            <a class="btn-floating blue"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sortear" onclick="sortear('@sorteio.Id')">play_arrow</i></a>
+                                            <a class="btn-floating blue">
+                                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Sortear"
+                                                        onclick="sortear('@sorteio.Id')">play_arrow</i>
+                                            </a>
                                         }
                                         else
                                         {
-                                            <a class="btn-floating blue"><i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Vencedores" onclick="vencedores('@sorteio.Id')">ac_unit</i></a>
+                                            <a class="btn-floating blue">
+                                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Vencedores" 
+                                                   onclick="vencedores('@sorteio.Id')">ac_unit</i>
+                                            </a>
                                         }
 
                                     }

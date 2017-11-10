@@ -16,7 +16,7 @@ namespace Hades.Infra.Data.Repositories
             SP_AlteraStatusEnquete
         }
 
-        public void Post(Enquete enquete)
+        public void Post(EnqueteDto enquete)
         {
             ExecuteProcedure(Procedures.SP_AddEnquete);
             AddParameter("@Titulo", enquete.Titulo);
@@ -27,17 +27,17 @@ namespace Hades.Infra.Data.Repositories
             ExecuteNonQuery();
         }
 
-        public Enquete GetById(int id)
+        public EnqueteDto GetById(int id)
         {
             ExecuteProcedure(Procedures.SP_ListarEnquetePorId);
             AddParameter("@Id", id);
-            var enquete = new Enquete();
+            var enquete = new EnqueteDto();
 
             using (var r = ExecuteReader())
             {
                 if (r.Read())
                 {
-                    enquete = new Enquete
+                    enquete = new EnqueteDto
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
@@ -64,14 +64,14 @@ namespace Hades.Infra.Data.Repositories
             }
         }
 
-        public IEnumerable<Enquete> GetAll()
+        public IEnumerable<EnqueteDto> GetAll()
         {
             ExecuteProcedure(Procedures.SP_ListarEnquetes);
-            var enquetes = new List<Enquete>();
+            var enquetes = new List<EnqueteDto>();
             using (var r = ExecuteReader())
             {
                 while (r.Read())
-                    enquetes.Add(new Enquete()
+                    enquetes.Add(new EnqueteDto()
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
                         Titulo = r.GetString(r.GetOrdinal("Titulo")),
@@ -89,7 +89,7 @@ namespace Hades.Infra.Data.Repositories
             return enquetes;
         }
 
-        public void Put(Enquete enquete)
+        public void Put(EnqueteDto enquete)
         {
             ExecuteProcedure(Procedures.SP_UpdEnquete);
             AddParameter("@IdEnq", enquete.Id);

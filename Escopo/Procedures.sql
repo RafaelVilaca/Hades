@@ -1016,3 +1016,268 @@ CREATE PROCEDURE [dbo].[SP_GetVencedores]
 			ORDER BY u.Nome
 	END
 GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarCampanhas]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_ListarCampanhas]
+GO
+
+CREATE PROCEDURE [dbo].[SP_ListarCampanhas]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Lista todas as campanhas existentes ativas
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_ListarCampanhas]
+	*/
+	
+	AS 	
+
+	BEGIN
+		
+		DECLARE @VerificaDatas DateTime = GETDATE()
+
+		UPDATE [dbo].[Campanha]
+			SET IndAtivo = 0
+			WHERE IdCampanha IN (SELECT c.IdCampanha
+									FROM  Campanha c
+									WHERE DATEDIFF(Day, c.DataLimite, @VerificaDatas) >= 1)
+
+		SELECT c.DescCampanha,
+			   c.IdCampanha,
+			   c.DataCadastro,
+			   c.DataLimite,
+			   c.ValorCampanha,
+			   c.IndAtivo,
+			   c.IdCriador,
+			   u.Nome AS NomeUsuario
+			FROM [dbo].[Campanha] c WITH(NOLOCK)
+			INNER JOIN Usuario u
+				ON c.IdCriador = u.Id								
+			WHERE c.IndAtivo = 1
+			ORDER BY c.DescCampanha
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_ListarCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_ListarCampanha]
+
+	@idCampanha INT
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Lista todas as campanha existente ativa
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_ListarCampanha] 1
+	*/
+	
+	AS 
+
+	BEGIN
+		SELECT c.DescCampanha,
+			   c.IdCampanha,
+			   c.DataCadastro,
+			   c.DataLimite,
+			   c.ValorCampanha,
+			   c.IndAtivo,
+			   c.IdCriador,
+			   u.Nome AS NomeUsuario
+			FROM [dbo].[Campanha] c WITH(NOLOCK)
+			INNER JOIN Usuario u
+				ON c.IdCriador = u.Id								
+			WHERE c.IdCampanha = @idCampanha
+
+		SELECT u.Nome AS Nom_Vencedor,
+			   c.IdCampanha,
+			   c.DescCampanha
+			FROM Usuario u
+			INNER JOIN CampanhaParticipante cp
+				ON cp.IdUsuario = u.Id
+			RIGHT JOIN Campanha c
+				ON c.IdCampanha = cp.IdCampanha
+			WHERE c.IdCampanha = @idCampanha
+			ORDER BY u.Nome
+	END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_InsCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_InsCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_InsCampanha]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Insere a campanha
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_InsCampanha] 1 , 'Açucar para ONG', '01/12/2018', '11,82', 1
+	*/
+
+	@DescCampanha VARCHAR(100), 
+	@DataLimite DATETIME,
+	@ValorCampanha decimal(10,2),
+	@IdCriador INT
+
+	AS 
+	BEGIN
+		INSERT INTO [dbo].[Campanha] ( DescCampanha, DataCadastro, DataLimite, ValorCampanha, IndAtivo, IdCriador )
+							   VALUES( @DescCampanha, GETDATE(), @DataLimite, @ValorCampanha, 1, @IdCriador )
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_UpdCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_UpdCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_UpdCampanha]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Altera a campanha
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_UpdCampanha] 1 , 'Açucar para ONG', '01/12/2018', '11,82', 1
+	*/
+
+	@IdCampanha INT,
+	@DescCampanha VARCHAR(100), 
+	@DataLimite DATETIME,
+	@ValorCampanha decimal(10,2),
+	@IndAtivo BIT
+
+	AS 
+	BEGIN
+		UPDATE Campanha
+			SET IndAtivo = @IndAtivo,
+				DescCampanha = @DescCampanha, 
+				DataLimite = @DataLimite,
+				ValorCampanha = @ValorCampanha
+			WHERE IdCampanha = @IdCampanha
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_DelCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_DelCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_DelCampanha]
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Procedures.sql
+	Objetivo..........: Seta inativo a campanha
+	Autor.............: Rafael Vilaça
+ 	Data..............: 25/10/2017
+	Ex................: EXEC [dbo].[SP_DelCampanha] 1
+
+	*/
+
+	@IdCampanha INT
+
+	AS 
+	BEGIN
+		UPDATE Campanha
+			SET IndAtivo = 0
+			WHERE IdCampanha = @IdCampanha
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_GetParticipantesCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_GetParticipantesCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_GetParticipantesCampanha]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Lista de participantes da Campanha
+		Autor.............: Rafael Vilaça
+ 		Data..............: 01/11/2017
+		Ex................: EXEC [dbo].[SP_GetParticipantesCampanha] 3
+	*/
+
+	@idCampanha INT
+
+	AS 
+	BEGIN
+		SELECT u.Nome AS Nom_Vencedor,
+			   c.IdCampanha,
+			   c.DescCampanha
+			FROM Usuario u
+			INNER JOIN CampanhaParticipante cp
+				ON cp.IdUsuario = u.Id
+			RIGHT JOIN Campanha c
+				ON c.IdCampanha = cp.IdCampanha
+			WHERE c.IdCampanha = @idCampanha
+			ORDER BY u.Nome
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_InsParticipanteCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_InsParticipanteCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_InsParticipanteCampanha]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Insere participante na campanha
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_InsParticipanteCampanha] 1 , 2, '01/12/2018'
+	*/
+
+	@IdUsuario INT,
+	@IdCampanha INT
+
+	AS 
+	BEGIN
+		INSERT INTO [dbo].[CampanhaParticipante] ( IdUsuario, IdCampanha, DataCadastro )
+										   VALUES( @IdUsuario, @IdCampanha, GETDATE() )
+	END
+GO
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_DelParticipanteCampanha]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_DelParticipanteCampanha]
+GO
+
+CREATE PROCEDURE [dbo].[SP_DelParticipanteCampanha]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: deleta participante na campanha
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_DelParticipanteCampanha] 1 , 2
+	*/
+
+	@IdUsuario INT,
+	@IdCampanha INT
+
+	AS 
+	BEGIN
+		DELETE FROM [dbo].[CampanhaParticipante] 
+			WHERE IdUsuario = @IdUsuario AND IdCampanha = @IdCampanha
+	END
+GO

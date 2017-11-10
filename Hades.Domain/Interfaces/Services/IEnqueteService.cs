@@ -5,10 +5,10 @@ namespace Hades.Domain.Interfaces.Services
 {
     public interface IEnqueteService
     {
-        string Post(Enquete enquete);
-        Enquete GetById(int id);
-        IEnumerable<Enquete> GetAll();
-        string Put(Enquete enquete);
+        string Post(EnqueteDto enquete);
+        EnqueteDto GetById(int id);
+        IEnumerable<EnqueteDto> GetAll();
+        string Put(EnqueteDto enquete);
         void StatusEnquete(int id);
     }
 }

@@ -5,10 +5,10 @@ namespace Hades.Application.Interface
 {
     public interface ISorteioAppService
     {
-        HttpResponseMessage Post(Sorteio sorteio);
+        HttpResponseMessage Post(SorteioDto sorteio);
         HttpResponseMessage GetById(int id);
         HttpResponseMessage GetAll(int idUsuario);
-        HttpResponseMessage Put(Sorteio sorteio);
+        HttpResponseMessage Put(SorteioDto sorteio);
         HttpResponseMessage Delete(int id);
     }
 }

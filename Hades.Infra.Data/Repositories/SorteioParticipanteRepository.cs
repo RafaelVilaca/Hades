@@ -25,14 +25,14 @@ namespace Hades.Infra.Data.Repositories
             ExecuteNonQuery();
         }
 
-        public IEnumerable<SorteioParticipante> GetAll(int id)
+        public IEnumerable<SorteioParticipanteDto> GetAll(int id)
         {
             ExecuteProcedure(Procedures.SP_GetParticipantes);
             AddParameter("@Id", id);
-            var sorteios = new List<SorteioParticipante>();
+            var sorteios = new List<SorteioParticipanteDto>();
             using (var r = ExecuteReader())
                 while (r.Read())
-                    sorteios.Add(new SorteioParticipante
+                    sorteios.Add(new SorteioParticipanteDto
                     {
                         Id_Participante = r.GetInt32(r.GetOrdinal("Id_Participante")),
                         Nome_Participante = r["Nome_Participante"].ToString()
@@ -63,17 +63,17 @@ namespace Hades.Infra.Data.Repositories
             ExecuteNonQuery();
         }
 
-        public IEnumerable<SorteioParticipante> GetVencedores(int idSorteio)
+        public IEnumerable<SorteioParticipanteDto> GetVencedores(int idSorteio)
         {
             ExecuteProcedure(Procedures.SP_GetVencedores);
             AddParameter("@idSorteio", idSorteio);
-            var sorteios = new List<SorteioParticipante>();
+            var sorteios = new List<SorteioParticipanteDto>();
             using (var r = ExecuteReader())
                 while (r.Read())
-                    sorteios.Add(new SorteioParticipante
+                    sorteios.Add(new SorteioParticipanteDto
                     {
                         Nome_Participante = r["Nom_Vencedor"].ToString(),
-                        Sorteio = new Sorteio
+                        Sorteio = new SorteioDto
                         {
                             Id = r.GetInt32(r.GetOrdinal("IdSorteio")),
                             Nome = r["Nom_Sorteio"].ToString()

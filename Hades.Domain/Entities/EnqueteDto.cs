@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Hades.Domain.Entities
 {
-    public class Enquete
+    public class EnqueteDto
     {
-        public Enquete()
+        public EnqueteDto()
         {
             Usuario = new Usuario();
             ListaVotacao = new List<Votacao>();

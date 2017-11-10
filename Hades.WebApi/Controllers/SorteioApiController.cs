@@ -44,7 +44,7 @@ namespace Hades.WebApi.Controllers
 
         [HttpPost]
         [Route("sorteio")]
-        public IHttpActionResult Post(Sorteio sorteio)
+        public IHttpActionResult Post(SorteioDto sorteio)
         {
             _sorteioService.Post(sorteio);
             return Ok();
@@ -52,7 +52,7 @@ namespace Hades.WebApi.Controllers
 
         [HttpPut]
         [Route("sorteio")]
-        public IHttpActionResult Put(Sorteio sorteio)
+        public IHttpActionResult Put(SorteioDto sorteio)
         {
             _sorteioService.Put(sorteio);
             return Ok();

@@ -5,10 +5,10 @@ namespace Hades.Application.Interface
 {
     public interface IEnqueteAppService
     {
-        HttpResponseMessage Post(Enquete enquete);
+        HttpResponseMessage Post(EnqueteDto enquete);
         HttpResponseMessage GetById(int id);
         HttpResponseMessage GetAll();
-        HttpResponseMessage Put(Enquete enquete);
+        HttpResponseMessage Put(EnqueteDto enquete);
         HttpResponseMessage StatusEnquete(int id);
     }
 }

@@ -6,10 +6,10 @@ namespace Hades.Domain.Interfaces.Services
     public interface ISorteioParticipanteService
     {
         void Participar(int idSorteio, int idUsuario);
-        IEnumerable<SorteioParticipante> GetAll(int id);
+        IEnumerable<SorteioParticipanteDto> GetAll(int id);
         void VencedorParticipantesSorteio(int idSorteio, int idUsuario);
         void SortearNovamente(int idSorteio);
-        IEnumerable<SorteioParticipante> GetVencedores(int idSorteio);
+        IEnumerable<SorteioParticipanteDto> GetVencedores(int idSorteio);
         void DeletarParticipantesSorteio(int idSorteio, int idUsuario);
     }
 }

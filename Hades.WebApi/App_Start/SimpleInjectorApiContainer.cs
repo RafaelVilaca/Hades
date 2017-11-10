@@ -27,6 +27,12 @@ namespace Hades.WebApi
             container.Register<IVotacaoRepository, VotacaoRepository>();
             container.Register<IVotacaoService, VotacaoService>();
 
+            container.Register<ICampanhaService, CampanhaService>();
+            container.Register<ICampanhaRepository, CampanhaRepository>();
+
+            container.Register<ICampanhaParticipanteService, CampanhaParticipanteService>();
+            container.Register<ICampanhaParticipanteRepository, CampanhaParticipanteRepository>();
+
             container.Verify();
             return container;
         }

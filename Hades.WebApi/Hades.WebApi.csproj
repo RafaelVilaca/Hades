@@ -169,6 +169,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorApiContainer.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CampanhaApiController.cs" />
+    <Compile Include="Controllers\CampanhaParticipantesApiController.cs" />
     <Compile Include="Controllers\EnqueteApiController.cs" />
     <Compile Include="Controllers\SorteioApiController.cs" />
     <Compile Include="Controllers\SorteioParticipanteApiController.cs" />

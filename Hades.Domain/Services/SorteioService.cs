@@ -14,23 +14,23 @@ namespace Hades.Domain.Services
             _sorteioRepository = sorteioRepository;
         }
 
-        public string Post(Sorteio sorteio)
+        public string Post(SorteioDto sorteio)
         {
             _sorteioRepository.Post(sorteio);
             return string.Empty;
         }
 
-        public Sorteio GetById(int id)
+        public SorteioDto GetById(int id)
         {
             return _sorteioRepository.GetById(id);
         }
 
-        public IEnumerable<Sorteio> GetAll(int idUsuario)
+        public IEnumerable<SorteioDto> GetAll(int idUsuario)
         {
             return _sorteioRepository.GetAll(idUsuario);
         }
 
-        public string Put(Sorteio sorteio)
+        public string Put(SorteioDto sorteio)
         {
             _sorteioRepository.Put(sorteio);
             return string.Empty;

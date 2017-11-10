@@ -15,7 +15,7 @@ namespace Hades.Application
             _httpClient = new HttpClient();
         }
 
-        public HttpResponseMessage Post(Sorteio sorteio)
+        public HttpResponseMessage Post(SorteioDto sorteio)
         {
             return _httpClient.PostAsync("http://localhost:2002/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
         }
@@ -30,7 +30,7 @@ namespace Hades.Application
             return _httpClient.GetAsync($"http://localhost:2002/api/sorteios/{idUsuario}").Result;
         }
 
-        public HttpResponseMessage Put(Sorteio sorteio)
+        public HttpResponseMessage Put(SorteioDto sorteio)
         {
             return _httpClient.PutAsync("http://localhost:2002/api/sorteio", sorteio, JsonMediaTypeFormatter).Result;
         }

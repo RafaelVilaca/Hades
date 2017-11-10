@@ -73,3 +73,28 @@ CREATE TABLE SorteioParticipante(
 	CONSTRAINT FK_Participante_Sorteio FOREIGN KEY (IdSorteio) REFERENCES Sorteio(Id),
 	CONSTRAINT PK_UsuaSortPK PRIMARY KEY (IdUsuario, IdSorteio) )
 GO
+
+
+CREATE TABLE Campanha(
+	IdCampanha INT IDENTITY PRIMARY KEY,
+	DescCampanha VARCHAR(100),
+	DataCadastro DATETIME,
+	DataLimite DATETIME,
+	ValorCampanha DECIMAL(10,2),
+	IndAtivo BIT,
+	IdCriador INT,
+	CONSTRAINT FK_Usuario_CampanhaCriador FOREIGN KEY (IdCriador) REFERENCES Usuario(Id)
+)
+GO
+
+
+
+CREATE TABLE CampanhaParticipante(
+	IdUsuario INT NOT NULL,
+	IdCampanha INT NOT NULL,
+	DataCadastro DATETIME,
+	CONSTRAINT FK_Usuario_CampanhaParticipante FOREIGN KEY (IdUsuario) REFERENCES Usuario(Id),
+	CONSTRAINT FK_Participante_Campanha FOREIGN KEY (IdCampanha) REFERENCES Campanha(IdCampanha),
+	CONSTRAINT PK_UsuaCampPK PRIMARY KEY (IdUsuario, IdCampanha) 
+)
+GO

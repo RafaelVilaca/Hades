@@ -58,7 +58,7 @@ namespace Hades.Web.Controllers
         }
 
         // POST: Enquete/Create
-        public ActionResult CreateConfirmed(Enquete enquete)
+        public ActionResult CreateConfirmed(EnqueteDto enquete)
         {
             var request = _enqueteAppService.GetAll();
             if (!request.IsSuccessStatusCode)
@@ -89,7 +89,7 @@ namespace Hades.Web.Controllers
         }
 
         // POST: Enquete/Edit/5
-        public ActionResult EditConfirmed(Enquete enquete)
+        public ActionResult EditConfirmed(EnqueteDto enquete)
         {
             //Valor com . precisa conter o ModelBinder, senão, ele nao salvará corretamente
             var response = _enqueteAppService.Put(enquete);

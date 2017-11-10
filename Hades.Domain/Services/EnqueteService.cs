@@ -14,23 +14,23 @@ namespace Hades.Domain.Services
             _enqueteRepository = enqueteRepository;
         }
 
-        public string Post(Enquete enquete)
+        public string Post(EnqueteDto enquete)
         {
             _enqueteRepository.Post(enquete);
             return string.Empty;
         }
 
-        public Enquete GetById(int id)
+        public EnqueteDto GetById(int id)
         {
             return _enqueteRepository.GetById(id);
         }
 
-        public IEnumerable<Enquete> GetAll()
+        public IEnumerable<EnqueteDto> GetAll()
         {
             return _enqueteRepository.GetAll();
         }
 
-        public string Put(Enquete enquete)
+        public string Put(EnqueteDto enquete)
         {
             _enqueteRepository.Put(enquete);
             return string.Empty;

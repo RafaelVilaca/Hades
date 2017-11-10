@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Hades.Domain.Entities
 {
-    public class Sorteio
+    public class SorteioDto
     {
-        public Sorteio()
+        public SorteioDto()
         {
-            SorteioParticipantes = new List<SorteioParticipante>();
+            SorteioParticipantes = new List<SorteioParticipanteDto>();
         }
 
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace Hades.Domain.Entities
         public string IndParticipante { get; set; }
         public bool Ativo { get; set; }
         public bool FoiSorteado { get; set; }
-        public List<SorteioParticipante> SorteioParticipantes { get; set; }
+        public List<SorteioParticipanteDto> SorteioParticipantes { get; set; }
     }
 }

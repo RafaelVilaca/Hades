@@ -42,10 +42,10 @@
                     <td style="width: 30%; padding-top: 3px; padding-bottom: 3px;">
                         @Html.DisplayFor(modelItem => usuario.Email)
                     </td>
-                    <td style="width: 17%; padding-top: 3px; padding-bottom: 3px;">
+                    <td style="width: 17%; padding-top: 3px; padding-bottom: 3px; text-align: center;">
                         @Html.DisplayFor(modelItem => usuario.DataCadastro)
                     </td>
-                    @if (@usuario.Administrador)
+                    @if (usuario.Administrador)
                     {
                         <td style="width: 5%; padding-top: 3px; padding-bottom: 3px;">Sim</td>
                     }

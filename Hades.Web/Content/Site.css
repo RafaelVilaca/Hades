@@ -90,6 +90,9 @@ input, textarea {
 
 
 td, th {
+    border: 1px; 
+    border-style: inset;
+    border-color: #e0e0e0;
     padding: 5px;
     display: table-cell;
     text-align: left;

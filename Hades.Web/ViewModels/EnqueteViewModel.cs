@@ -11,7 +11,7 @@ namespace Hades.Web.ViewModels
             Usuario = new UsuarioViewModel();
         }
         
-        public EnqueteViewModel(Enquete enquete)
+        public EnqueteViewModel(EnqueteDto enquete)
         {
             Id = enquete.Id;
             Titulo = enquete.Titulo;

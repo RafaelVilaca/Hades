@@ -55,7 +55,7 @@ namespace Hades.Web.Controllers
             return View();
         }
 
-        public ActionResult CreateConfirmed(Sorteio sorteio)
+        public ActionResult CreateConfirmed(SorteioDto sorteio)
         {
             var response = _sorteioAppService.Post(sorteio);
             if (response.IsSuccessStatusCode)
@@ -73,7 +73,7 @@ namespace Hades.Web.Controllers
             return View(sorteio);
         }
 
-        public ActionResult EditConfirmed(Sorteio sorteio)
+        public ActionResult EditConfirmed(SorteioDto sorteio)
         {
             var response = _sorteioAppService.Put(sorteio);
             if (response.IsSuccessStatusCode)

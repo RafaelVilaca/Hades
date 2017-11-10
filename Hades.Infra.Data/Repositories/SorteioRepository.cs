@@ -16,7 +16,7 @@ namespace Hades.Infra.Data.Repositories
             SP_DelSorteio
         }
 
-        public void Post(Sorteio sorteio)
+        public void Post(SorteioDto sorteio)
         {
             ExecuteProcedure(Procedures.SP_AddSorteio);
             AddParameter("@Nome", sorteio.Nome);
@@ -26,15 +26,15 @@ namespace Hades.Infra.Data.Repositories
             ExecuteNonQuery();
         }
 
-        public Sorteio GetById(int id)
+        public SorteioDto GetById(int id)
         {
             ExecuteProcedure(Procedures.SP_ListarSorteioPorId);
             AddParameter("@Id", id);
-            var sorteio = new Sorteio();
+            var sorteio = new SorteioDto();
             using (var r = ExecuteReader())
             {
                 if (r.Read())
-                    sorteio = new Sorteio
+                    sorteio = new SorteioDto
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
                         Nome = r["Nome"].ToString(),
@@ -48,7 +48,7 @@ namespace Hades.Infra.Data.Repositories
                 if (r.NextResult())
                     while (r.Read())
                     {
-                        sorteio.SorteioParticipantes.Add(new SorteioParticipante
+                        sorteio.SorteioParticipantes.Add(new SorteioParticipanteDto
                         {
                             Id_Participante = r.GetInt32(r.GetOrdinal("Id_Participante")),
                             Nome_Participante = r["Nome_Participante"].ToString()
@@ -58,9 +58,9 @@ namespace Hades.Infra.Data.Repositories
             return sorteio;
         }
 
-        public IEnumerable<Sorteio> GetAll(int idUsuario)
+        public IEnumerable<SorteioDto> GetAll(int idUsuario)
         {
-            var listaCompleta = new List<Sorteio>();
+            var listaCompleta = new List<SorteioDto>();
 
             ExecuteProcedure(Procedures.SP_ListarSorteio);
             AddParameter("@CodUsua", idUsuario);
@@ -68,7 +68,7 @@ namespace Hades.Infra.Data.Repositories
             using (var r = ExecuteReader())
             {
                 while (r.Read())
-                    listaCompleta.Add(new Sorteio
+                    listaCompleta.Add(new SorteioDto
                     {
                         Id = r.GetInt32(r.GetOrdinal("Id")),
                         Nome = r["Nome"].ToString(),
@@ -84,7 +84,7 @@ namespace Hades.Infra.Data.Repositories
             return listaCompleta;
         }
 
-        public void Put(Sorteio sorteio)
+        public void Put(SorteioDto sorteio)
         {
             ExecuteProcedure(Procedures.SP_UpdSorteio);
             AddParameter("@Id", sorteio.Id);

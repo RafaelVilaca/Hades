@@ -5,10 +5,10 @@ namespace Hades.Domain.Interfaces.Services
 {
     public interface ISorteioService
     {
-        string Post(Sorteio sorteio);
-        Sorteio GetById(int id);
-        IEnumerable<Sorteio> GetAll(int idUsuario);
-        string Put(Sorteio sorteio);
+        string Post(SorteioDto sorteio);
+        SorteioDto GetById(int id);
+        IEnumerable<SorteioDto> GetAll(int idUsuario);
+        string Put(SorteioDto sorteio);
         void Delete(int id);
     }
 }
