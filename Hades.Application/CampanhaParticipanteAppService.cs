@@ -1,6 +1,6 @@
 ﻿using Hades.Application.Interface;
+using Hades.Domain.Entities;
 using Newtonsoft.Json;
-using System;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 
@@ -25,9 +25,9 @@ namespace Hades.Application
             return _httpClient.GetAsync($"http://localhost:2002/api/campanhaParticipante/{idCampanha}").Result;
         }
 
-        public HttpResponseMessage Post(int idUsuario, int idCampanha)
+        public HttpResponseMessage Post(CampanhaDto campanha)
         {
-            return _httpClient.PostAsync("http://localhost:2002/api/campanhaParticipante", new { idUsuario, idCampanha }, JsonMediaTypeFormatter).Result;
+            return _httpClient.PostAsync("http://localhost:2002/api/campanhaParticipante", campanha, JsonMediaTypeFormatter).Result;
         }
 
         private static readonly JsonMediaTypeFormatter JsonMediaTypeFormatter = new JsonMediaTypeFormatter

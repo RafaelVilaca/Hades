@@ -1,4 +1,4 @@
-﻿@model Hades.Web.ViewModels.SorteioViewModel
+﻿@model Hades.Web.ViewModels.CampanhaViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -8,29 +8,29 @@
 <div class="row" style="margin-top: 12px">
     <div class="col s12">
         <div class="row">
-            <h4>NOVO SORTEIO</h4>
+            <h4>NOVO CAMPANHA</h4>
 
-            @using (Html.BeginForm("CreateConfirmed", "Sorteio", FormMethod.Post, new { @class = "well" }))
+            @using (Html.BeginForm("CreateConfirmed", "Campanha", FormMethod.Post, new { @class = "well" }))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
                     <div class="input-field col s12">
-                        <input id="NomeSorteio" type="text" name="NomeSorteio" maxlength="20" data-length="20"
-                               onkeypress="verificaCaracteres(this)">
-                        <label for="NomeSorteio">NOME SORTEIO</label>
+                        <textarea id="DescCampanha" name="DescCampanha" 
+                                  class="materialize-textarea" maxlength="100" data-length="100" onkeypress="verificaCaracteres(this)"></textarea>
+                        <label for="DescCampanha">DESCRIÇÃO:</label>
                     </div>
-                    <div class="input-field col s12">
-                        <input id="DataSorteio" type="text" name="DataSorteio" min="@DateTime.Now" class="datepicker"/>
-                        <label for="DataSorteio">DATA SORTEIO</label>
+                    <div class="input-field col s6">
+                        <input id="DataLimite" type="text" name="DataLimite" class="datepicker" />
+                        <label for="DataLimite">DATA LIMITE</label>
                     </div>
-                    <div class="input-field col s12">
-                        <input id="QtdeItens" type="number" name="QtdeItens" min="1" max="100" maxlength="3"/>
-                        <label for="QtdeItens">QTDE DE ITENS</label>
+                    <div class="input-field col s6">
+                        <input id="Valor" name="Valor" type="text" maxlength="10" data-length="10">
+                        <label for="Valor">VALOR R$</label>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="button" value="CRIAR" class="btn btn-confirm" id="btnCriarSorteio" style="border-radius: 20px;"/>
+                            <input type="button" value="CRIAR" class="btn btn-confirm" id="btnCriarCampanha" style="border-radius: 20px;" />
                         </div>
                     </div>
                 </div>
@@ -47,6 +47,7 @@
 
     $(document).ready(function () {
         $('input#input_text, textarea#textarea1').characterCounter();
+        $('#Valor').mask("###.###,##", { reverse: true });
         $('.datepicker').pickadate({
             monthsFull: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             monthsShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
@@ -60,38 +61,38 @@
             labelMonthSelect: 'Selecione um mês',
             labelYearSelect: 'Selecione um ano',
             selectMonths: true,
-            selectYears: 15
+            selectYears: 15,
+            format: 'dd/mm/yyyy'
         });
     });
     
-    $("#btnCriarSorteio").click(function () {
+    $("#btnCriarCampanha").click(function () {
 
-        if ($("#NomeSorteio").val().length <= 3) {
-            erro("Nome do sorteio tem que estar entre 3 até 20 caracteres");
+        if ($("#DescCampanha").val().trim().length <= 3) {
+            erro("Descrição tem que estar entre 3 até 100 caracteres");
             return false;
         }
 
-        var dataInput = $("#DataSorteio").val() != "" ? new Date($("#DataSorteio").val()) : "";
-
+        var dataInput = $("#DataLimite").val() != "" ? new Date($("#DataLimite").val()) : "";
         if (dataInput == "" || dataInput < new Date()) {
-            erro("Data do Sorteio deve ser maior que hoje");
+            erro("Data Limite deve ser maior que hoje");
             return false;
         }
 
-        if ($("#QtdeItens").val() <= 0 || $("#QtdeItens").val() > 100) {
-            erro("A quantidade tem que ser maior que zero e menor que 100");
+        if ($("#Valor").val() <= 0) {
+            erro("O valor tem que ser válida");
             return false;
         }
 
-        $.post('@Url.Action("CreateConfirmed", "Sorteio")', {
-            Nome: $("#NomeSorteio").val(),
-            DataSorteio: $("#DataSorteio").val(),
-            QtdeItens: $("#QtdeItens").val(),
+        $.post('@Url.Action("CreateConfirmed", "Campanha")', {
+            DescCampanha: $("#DescCampanha").val().trim(),
+            DataLimite: $("#DataLimite").val(),
+            ValorCampanha: $("#Valor").val(),
             IdCriador: usuarioLogado
         }).done(function () {
             escondeModal();
-            sucesso("Sorteio cadastrado com Sucesso!");
-            buscaTabelaSorteio();
+            sucesso("Campanha cadastrada com Sucesso!");
+            buscaTabelaCampanha();
         }).fail(function (xhr) {
             erro(xhr.responseText);
         });

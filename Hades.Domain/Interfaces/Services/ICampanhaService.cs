@@ -5,7 +5,7 @@ namespace Hades.Domain.Interfaces.Services
 {
     public interface ICampanhaService
     {
-        IEnumerable<CampanhaDto> GetCampanhas();
+        IEnumerable<CampanhaDto> GetCampanhas(int idUsuario);
         CampanhaDto GetCampanha(int idCampanha);
         void Post(CampanhaDto campanha);
         void Put(CampanhaDto campanha);

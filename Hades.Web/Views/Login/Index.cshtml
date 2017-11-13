@@ -8,7 +8,7 @@
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
     @using (Html.BeginForm("VerificarLogin", "Login", FormMethod.Post,
         new { @class = "card", @style = "width: auto; border-radius: 60px; position: absolute; border-style: initial; margin-left: 25.6%; height: 545px; " +
-                                        "background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%; " }))
+                                        "background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; " }))
     {
         <div style="width: 244px; margin-left: auto;">
             <div class="card-image">
@@ -27,10 +27,10 @@
 
             <div style="margin-top: 20px; margin-bottom: 10px; align-items: center;">
                 <div>
-                    <input type="submit" value="EFETUAR LOGIN" class="btn btn-success" style="height: 40px; margin-left: 30px; width: 75%; border-radius: 20px; 
+                    <input type="submit" value="EFETUAR LOGIN" class="btn btn-confirm" style="height: 40px; margin-left: 30px; width: 75%; border-radius: 20px; 
                         font-size: 15px; background-color: #1976d2; " />
                     <p></p>
-                    <button type="button" id="Novo" class="btn btn-primary" style="border-radius: 20px; margin-left: 30px; width: 75%; height: 40px; font-size: 15px; 
+                    <button type="button" id="Novo" class="btn btn-default" style="border-radius: 20px; margin-left: 30px; width: 75%; height: 40px; font-size: 15px; 
                         background-color: #b71c1c; ">NOVO USUARIO</button>
                 </div>
             </div>

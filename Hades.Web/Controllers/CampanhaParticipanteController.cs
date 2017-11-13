@@ -1,11 +1,8 @@
 ﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
+using Hades.Web.ViewModels;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
@@ -21,11 +18,12 @@ namespace Hades.Web.Controllers
 
         public ActionResult Participar(int idCampanha, int idUsuario)
         {
-            var response = _campanhaParticipanteAppService.Post(idUsuario, idCampanha);
-            if (!response.IsSuccessStatusCode)
-                return ErrorMessage("Erro ao ativar participante, tente novamente");
+            var campanha = new CampanhaDto { IdCampanha = idCampanha, IdCriador = idUsuario };
 
-            return Json("Sucesso, participante incluido com sucesso!", JsonRequestBehavior.AllowGet);
+            var response = _campanhaParticipanteAppService.Post(campanha);
+            return !response.IsSuccessStatusCode 
+                ? ErrorMessage("Erro ao ativar participante, tente novamente") 
+                : Json("Sucesso, participante incluido com sucesso!", JsonRequestBehavior.AllowGet);
         }
 
         public IEnumerable<CampanhaParticipanteViewModel> Get(int idCampanha)
@@ -39,9 +37,9 @@ namespace Hades.Web.Controllers
         public ActionResult DeletarParticipante(int idCampanha, int idUsuario)
         {
             var response = _campanhaParticipanteAppService.Delete(idUsuario, idCampanha);
-            if (!response.IsSuccessStatusCode)
-                return ErrorMessage("Erro ao alterar o usuario");
-            return Json("Sucesso, participante excluido com sucesso!", JsonRequestBehavior.AllowGet);
+            return !response.IsSuccessStatusCode 
+                ? ErrorMessage("Erro ao alterar o usuario") 
+                : Json("Sucesso, participante excluido com sucesso!", JsonRequestBehavior.AllowGet);
         }
     }
 }

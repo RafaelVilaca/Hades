@@ -5,7 +5,7 @@ namespace Hades.Domain.Entities
     public class CampanhaParticipantesDto
     {
         public int IdUsuario { get; set; }
+        public string NomParticipante { get; set; }
         public int IdCampanha { get; set; }
-        public DateTime DataCadastro { get; set; }
     }
 }

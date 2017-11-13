@@ -17,6 +17,8 @@ namespace Hades.Domain.Entities
         public decimal ValorCampanha { get; set; }
         public bool IndAtivo { get; set; }
         public int IdCriador { get; set; }
+        public int NumeroParticipantes { get; set; }
+        public string IndParticipante { get; set; }
 
         public List<CampanhaParticipantesDto> Participantes { get; set; } 
     }

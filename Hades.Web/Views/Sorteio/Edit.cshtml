@@ -68,14 +68,7 @@
             format: 'dd/mm/yyyy'
         });
     });
-
-    var currentTime = new Date();
-    var month = currentTime.getMonth() + 1;
-    var day = currentTime.getDate();
-    var year = currentTime.getFullYear();
-
-    var dataHoje = day + "/" + month + "/" + year;
-
+    
     var IdSorteio = '@Model.Id';
 
     $("#btnSalvarEdicao").click(function () {
@@ -86,7 +79,7 @@
 
         var dataInput = $("#DataSorteio").val() != "" ? new Date($("#DataSorteio").val()) : "";
 
-        if (dataInput == "" || dataInput < dataHoje) {
+        if (dataInput == "" || dataInput < new Date()) {
             erro("Data do Sorteio deve ser maior que hoje");
             return false;
         }

@@ -35,7 +35,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-2" style="color: black; font-weight: bold;">DATA ENQUETE</label>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.DataEnquete, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
+                                @Html.EditorFor(model => model.DataEnquete, 
+                                    new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "DataCadastro" } })
                             </div>
                         </div>
 

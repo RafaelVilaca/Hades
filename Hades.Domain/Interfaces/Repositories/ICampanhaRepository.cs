@@ -5,7 +5,7 @@ namespace Hades.Domain.Interfaces.Repositories
 {
     public interface ICampanhaRepository
     {
-        IEnumerable<CampanhaDto> GetCampanhas();
+        IEnumerable<CampanhaDto> GetCampanhas(int idUsuario);
         CampanhaDto GetCampanha(int idCampanha);
         void InsCampanha(CampanhaDto campanha);
         void UpdCampanha(CampanhaDto campanha);

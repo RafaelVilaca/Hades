@@ -17,3 +17,4 @@ C:\Users\user\Desktop\Eng-Hades\Hades\Hades.Domain\bin\Debug\Hades.Domain.dll
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.Domain\bin\Debug\Hades.Domain.pdb
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.Domain\obj\Debug\Hades.Domain.dll
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.Domain\obj\Debug\Hades.Domain.pdb
+C:\Users\user\Desktop\Eng-Hades\Hades\Hades.Domain\obj\Debug\Hades.Domain.csprojResolveAssemblyReference.cache

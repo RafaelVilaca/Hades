@@ -15,10 +15,10 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("campanhas")]
-        public IHttpActionResult Get()
+        [Route("campanhas/{idUsuario}")]
+        public IHttpActionResult GetCampanhas(int idUsuario)
         {
-            return Ok(_campanhaService.GetCampanhas());
+            return Ok(_campanhaService.GetCampanhas(idUsuario));
         }
 
         [HttpGet]

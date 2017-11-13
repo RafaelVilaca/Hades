@@ -235,6 +235,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Campanha\Index.cshtml" />
     <Content Include="Views\Campanha\_TabelaCampanha.cshtml" />
+    <Content Include="Views\Campanha\Details.cshtml" />
+    <Content Include="Views\Campanha\Create.cshtml" />
+    <Content Include="Views\Campanha\Edit.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -265,7 +268,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CampanhaParticipante\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

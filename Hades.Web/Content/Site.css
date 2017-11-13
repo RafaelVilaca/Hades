@@ -40,11 +40,15 @@ h4 {
 }
 
 .btn-default {
+    border: outset;
+    height: 40px;
     border-radius: 20px;
     background-color: #b71c1c;
 }
 
 .btn-confirm {
+    border: outset;
+    height: 40px;
     border-radius: 20px;
     background-color: #1976d2;
     width: 135px;

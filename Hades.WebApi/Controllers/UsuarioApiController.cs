@@ -16,7 +16,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpGet]
         [Route("usuarios")]
-        // GET: api/UsuarioApi
         public IHttpActionResult GetAll()
         {
             var usuarios = _usuarioService.GetAll();
@@ -27,7 +26,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpGet]
         [Route("usuario/{id}")]
-        // GET: api/UsuarioApi/5
         public IHttpActionResult GetById(int id)
         {
             var usuarios = _usuarioService.GetById(id);
@@ -36,9 +34,6 @@ namespace Hades.WebApi.Controllers
             return BadRequest("Erro ao trazer Lista de Usuarios");
         }
 
-        //[HttpGet]
-        //[Route("usuarioLogin/GetByName")]
-        // GET: api/UsuarioApi/5
         public IHttpActionResult GetByName(string nome)
         {
             return Ok(_usuarioService.GetByName(nome));
@@ -46,7 +41,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpGet]
         [Route("usuarioSenha/{senha}")]
-        // GET: api/UsuarioApi/5
         public IHttpActionResult SenhaFormatada(string senha)
         {
             return Ok(_usuarioService.SenhaFormatada(senha));
@@ -54,7 +48,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpPost]
         [Route("usuario")]
-        // POST: api/UsuarioApi
         public void Post(Usuario usuario) => _usuarioService.Post(usuario);
 
         [HttpPut]

@@ -6,14 +6,17 @@
     Layout = null;
     var adm = (bool)Session["Administrador"];
     var usuarioLogado = Session["Nome"].ToString() != "" ? Session["Nome"].ToString() : "";
+    var idUsuarioLogado = (int)Session["IdUsuario"];
 }
 
 <table class="striped responsive-table">
     <thead>
         <tr>
             <th style="text-align: center; text-align: center;">Descrição:</th>
-            <th style="text-align: center; text-align: center;">Data Limite:</th>
-            <th style="text-align: center; text-align: center;">Valor R$</th>
+            <th style="text-align: center; text-align: center; width: 220px;">Data Limite:</th>
+            <th style="text-align: center; text-align: center; width: 220px;">Valor R$:</th>
+            <th style="text-align: center; text-align: center; width: 100px;">Participantes:</th>
+            <th style="text-align: center; text-align: center; width: 140px;">Ações:</th>
         </tr>
     </thead>
     <tbody>
@@ -23,8 +26,51 @@
             {
                 <tr>
                     <td> @Html.DisplayFor(modelItem => campanha.DescCampanha) </td>
-                    <td> @Html.DisplayFor(modelItem => campanha.DataLimite) </td>
-                    <td style="text-align: center;"> @Html.DisplayFor(modelItem => campanha.Valor) </td>                    
+                    <td style="text-align: center; width: 220px;"> @Html.DisplayFor(modelItem => campanha.DataFormatada) </td>
+                    <td style="text-align: center; width: 220px;"> @Html.DisplayFor(modelItem => campanha.ValorCampanha) </td>
+                    <td style="text-align: center; width: 220px;"> @Html.DisplayFor(modelItem => campanha.NumeroParticipantes) </td>
+                    @if (usuarioLogado != "")
+                    {
+                        <td style="padding: 0; text-align: center;">
+                            <div>
+                                <ul>
+                                    <li>
+                                        @if (campanha.DataLimite >= DateTime.Today)
+                                        {
+                                            if (campanha.IndParticipante == "N")
+                                            {
+                                                <a class="btn-floating green darken-3">
+                                                    <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar"
+                                                       onclick="participar('@campanha.IdCampanha', '@idUsuarioLogado')">add_circle_outline</i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn-floating red darken-3">
+                                                    <i class="material-icons tooltipped" data-position="bottom" data-delay="50"
+                                                       data-tooltip="Sair Campanha" onclick="sairCampanha('@campanha.IdCampanha', '@idUsuarioLogado')">remove_circle_outline</i>
+                                                </a>
+                                            }
+                                        }
+                                        <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar">
+                                            <i class="material-icons" onclick="detalhar('@campanha.IdCampanha')">description</i>
+                                        </a>
+                                        @if (adm || campanha.IdCriador == idUsuarioLogado)
+                                        {
+                                            <a class="btn-floating red darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar">
+                                                <i class="material-icons" onclick="desativar('@campanha.IdCampanha')">delete</i>
+                                            </a>
+                                            if (campanha.Participantes.Count == 0)
+                                            {
+                                                <a class="btn-floating orange tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar">
+                                                    <i class="material-icons" onclick="editar(@campanha.IdCampanha)">mode_edit</i>
+                                                </a>
+                                            }
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
                     }
                 </tr>
             }

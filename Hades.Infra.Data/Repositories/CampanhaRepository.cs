@@ -16,22 +16,25 @@ namespace Hades.Infra.Data.Repositories
             SP_DelCampanha
         }
 
-        public IEnumerable<CampanhaDto> GetCampanhas()
+        public IEnumerable<CampanhaDto> GetCampanhas(int idUsuario)
         {
             ExecuteProcedure(Procedures.SP_ListarCampanhas);
+            AddParameter("@CodUsua", idUsuario);
             var campanhas = new List<CampanhaDto>();
             using (var r = ExecuteReader())
                 while (r.Read())
-                campanhas.Add(new CampanhaDto
-                {
-                    //IdCampanha
-                    DescCampanha = r["DescCampanha"].ToString(),
-                    DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro")),
-                    DataLimite = r.GetDateTime(r.GetOrdinal("DataLimite")),
-                    ValorCampanha = r.GetDecimal(r.GetOrdinal("ValorCampanha")),
-                    IndAtivo  = r.GetBoolean(r.GetOrdinal("IndAtivo")),
-                    IdCriador = r.GetInt32(r.GetOrdinal("IdCriador"))
-                });
+                    campanhas.Add(new CampanhaDto
+                    {
+                        IdCampanha = r.GetInt32(r.GetOrdinal("IdCampanha")),
+                        DescCampanha = r["DescCampanha"].ToString(),
+                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro")),
+                        DataLimite = r.GetDateTime(r.GetOrdinal("DataLimite")),
+                        ValorCampanha = r.GetDecimal(r.GetOrdinal("ValorCampanha")),
+                        IndAtivo = r.GetBoolean(r.GetOrdinal("IndAtivo")),
+                        IdCriador = r.GetInt32(r.GetOrdinal("IdCriador")),
+                        IndParticipante = r["IndParticipante"].ToString(),
+                        NumeroParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes"))
+                    });
             return campanhas;
         }
 
@@ -42,7 +45,7 @@ namespace Hades.Infra.Data.Repositories
             var campanha = new CampanhaDto();
             using (var r = ExecuteReader())
             {
-                while (r.Read())
+                if (r.Read())
                     campanha = new CampanhaDto
                     {
                         IdCampanha = r.GetInt32(r.GetOrdinal("IdCampanha")),
@@ -53,16 +56,16 @@ namespace Hades.Infra.Data.Repositories
                         IndAtivo = r.GetBoolean(r.GetOrdinal("IndAtivo")),
                         IdCriador = r.GetInt32(r.GetOrdinal("IdCriador"))
                     };
-                if (!r.NextResult()) return campanha;
-                while (r.NextResult())
-                {
-                    campanha.Participantes.Add(new CampanhaParticipantesDto
+                if (r.NextResult())
+                    while (r.Read())
                     {
-                        IdUsuario = r.GetInt32(r.GetOrdinal("IdUsuario")),
-                        IdCampanha = r.GetInt32(r.GetOrdinal("IdCampanha")),
-                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro"))
-                    });
-                }
+                        campanha.Participantes.Add(new CampanhaParticipantesDto
+                        {
+                            NomParticipante = r["NomeUsuario"].ToString(),
+                            IdCampanha = r.GetInt32(r.GetOrdinal("IdCampanha")),
+                            IdUsuario = r.GetInt32(r.GetOrdinal("IdUsuario"))
+                        });
+                    }
             }
             return campanha;
         }
@@ -84,7 +87,7 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@DescCampanha", campanha.DescCampanha);
             AddParameter("@DataLimite", campanha.DataLimite);
             AddParameter("@ValorCampanha", campanha.ValorCampanha);
-            AddParameter("@IdCriador", campanha.IdCriador);
+            AddParameter("@IndAtivo", campanha.IndAtivo);
             ExecuteNonQuery();
         }
 

@@ -1024,13 +1024,15 @@ GO
 
 CREATE PROCEDURE [dbo].[SP_ListarCampanhas]
 
+	@CodUsua int = null
+
 	/*
 		Documentação
 		Arquivo Fonte.....: Procedures.sql
 		Objetivo..........: Lista todas as campanhas existentes ativas
 		Autor.............: Rafael Vilaça
  		Data..............: 10/11/2017
-		Ex................: EXEC [dbo].[SP_ListarCampanhas]
+		Ex................: EXEC [dbo].[SP_ListarCampanhas] 1
 	*/
 	
 	AS 	
@@ -1052,10 +1054,24 @@ CREATE PROCEDURE [dbo].[SP_ListarCampanhas]
 			   c.ValorCampanha,
 			   c.IndAtivo,
 			   c.IdCriador,
-			   u.Nome AS NomeUsuario
+			   u.Nome AS NomeUsuario,
+			   (
+					SELECT COUNT(*) 
+						FROM CampanhaParticipante cp 
+						WHERE cp.IdCampanha = c.IdCampanha
+			   ) AS NumeroParticipantes,
+			   (CASE 
+					WHEN x.IdCampanha IS NULL THEN 'N'
+					ELSE 'S' END) IndParticipante
 			FROM [dbo].[Campanha] c WITH(NOLOCK)
 			INNER JOIN Usuario u
-				ON c.IdCriador = u.Id								
+				ON c.IdCriador = u.Id	
+			OUTER APPLY(
+				SELECT TOP 1 cp.IdCampanha
+					FROM CampanhaParticipante cp
+					WHERE cp.IdUsuario = @CodUsua	
+						AND cp.IdCampanha = c.IdCampanha
+			)x							
 			WHERE c.IndAtivo = 1
 			ORDER BY c.DescCampanha
 	END
@@ -1076,7 +1092,7 @@ CREATE PROCEDURE [dbo].[SP_ListarCampanha]
 		Objetivo..........: Lista todas as campanha existente ativa
 		Autor.............: Rafael Vilaça
  		Data..............: 10/11/2017
-		Ex................: EXEC [dbo].[SP_ListarCampanha] 1
+		Ex................: EXEC [dbo].[SP_ListarCampanha] 2
 	*/
 	
 	AS 
@@ -1095,9 +1111,9 @@ CREATE PROCEDURE [dbo].[SP_ListarCampanha]
 				ON c.IdCriador = u.Id								
 			WHERE c.IdCampanha = @idCampanha
 
-		SELECT u.Nome AS Nom_Vencedor,
+		SELECT u.Nome AS NomeUsuario,
 			   c.IdCampanha,
-			   c.DescCampanha
+			   u.Id AS IdUsuario
 			FROM Usuario u
 			INNER JOIN CampanhaParticipante cp
 				ON cp.IdUsuario = u.Id
@@ -1217,9 +1233,9 @@ CREATE PROCEDURE [dbo].[SP_GetParticipantesCampanha]
 
 	AS 
 	BEGIN
-		SELECT u.Nome AS Nom_Vencedor,
-			   c.IdCampanha,
-			   c.DescCampanha
+		SELECT u.Id AS IdUsuario,
+			   u.Nome AS NomParticipante,
+			   c.IdCampanha
 			FROM Usuario u
 			INNER JOIN CampanhaParticipante cp
 				ON cp.IdUsuario = u.Id

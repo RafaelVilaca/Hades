@@ -5,7 +5,7 @@ namespace Hades.Application.Interface
 {
     public interface ICampanhaAppService
     {
-        HttpResponseMessage GetCampanhas();
+        HttpResponseMessage GetCampanhas(int idUsuario);
         HttpResponseMessage GetCampanha(int idCampanha);
         HttpResponseMessage Post(CampanhaDto campanha);
         HttpResponseMessage Put(CampanhaDto campanha);

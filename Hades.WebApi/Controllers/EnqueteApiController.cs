@@ -16,7 +16,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpGet]
         [Route("enquete")]
-        // GET: api/EnqueteApi
         public IHttpActionResult GetAll()
         {
             return Ok(_enqueteService.GetAll());
@@ -24,7 +23,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpGet]
         [Route("enquete/{id}")]
-        // GET: api/EnqueteApi/5
         public IHttpActionResult GetById(int id)
         {
             return Ok(_enqueteService.GetById(id));
@@ -32,7 +30,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpPost]
         [Route("enquete")]
-        // POST: api/EnqueteApi
         public void Post(EnqueteDto enquete)
         {
             _enqueteService.Post(enquete);
@@ -40,7 +37,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpPut]
         [Route("enquete")]
-        // PUT: api/EnqueteApi/5
         public void Put(EnqueteDto enquete)
         {
             _enqueteService.Put(enquete);

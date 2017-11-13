@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Hades.Domain.Entities
+namespace Hades.Web.ViewModels
 {
     public class CampanhaParticipanteViewModel
     {
         public int IdUsuario { get; set; }
+        public string NomParticipante { get; set; }
         public int IdCampanha { get; set; }
-        public DateTime DataCadastro { get; set; }
     }
 }

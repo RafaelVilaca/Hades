@@ -14,9 +14,9 @@ namespace Hades.Domain.Services
             _campanhaRepository = campanhaRepository;
         }
         
-        public IEnumerable<CampanhaDto> GetCampanhas()
+        public IEnumerable<CampanhaDto> GetCampanhas(int idUsuario)
         {
-            return _campanhaRepository.GetCampanhas();
+            return _campanhaRepository.GetCampanhas(idUsuario);
         }
 
         public CampanhaDto GetCampanha(int idCampanha)

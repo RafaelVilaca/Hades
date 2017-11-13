@@ -115,7 +115,7 @@
         });
     };
 
-    function sairSorteioParticipante(idSorteio, idUsuario) {
+    function deletarSorteioParticipante(idSorteio, idUsuario) {
         if (!confirm("Deseja realmente deixar de participar deste sorteio?")) return;
 
         $.post('@Url.Action("DeletarParticipante","SorteioParticipantes")', {

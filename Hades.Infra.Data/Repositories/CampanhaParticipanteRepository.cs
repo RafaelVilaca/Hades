@@ -26,7 +26,7 @@ namespace Hades.Infra.Data.Repositories
                     {
                         IdUsuario = r.GetInt32(r.GetOrdinal("IdUsuario")),
                         IdCampanha = r.GetInt32(r.GetOrdinal("IdCampanha")),
-                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro"))
+                        NomParticipante = r["NomParticipante"].ToString()
                     });
             return participantes;
         }

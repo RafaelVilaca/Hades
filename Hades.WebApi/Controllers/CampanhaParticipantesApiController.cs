@@ -1,5 +1,6 @@
 ﻿using Hades.Domain.Interfaces.Services;
 using System.Web.Http;
+using Hades.Domain.Entities;
 
 namespace Hades.WebApi.Controllers
 {
@@ -15,7 +16,6 @@ namespace Hades.WebApi.Controllers
 
         [HttpGet]
         [Route("campanhaParticipante/{idCampanha}")]
-        // GET: api/EnqueteApi
         public IHttpActionResult Get(int idCampanha)
         {
             return Ok(_campanhaParticipanteService.Get(idCampanha));
@@ -23,12 +23,10 @@ namespace Hades.WebApi.Controllers
 
         [HttpPost]
         [Route("campanhaParticipante")]
-        // POST: api/EnqueteApi
-        public void Post(int idUsuario, int idCampanha) => _campanhaParticipanteService.Post(idUsuario, idCampanha);
+        public void Post(CampanhaDto campanha) => _campanhaParticipanteService.Post(campanha.IdCriador, campanha.IdCampanha);
 
         [HttpDelete]
         [Route("campanhaParticipante/{idUsuario}/{idCampanha}")]
-        // PUT: api/EnqueteApi/5
         public void Delete(int idUsuario, int idCampanha) => _campanhaParticipanteService.Delete(idUsuario, idCampanha);
     }
 }

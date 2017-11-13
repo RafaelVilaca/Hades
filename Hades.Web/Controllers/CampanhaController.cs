@@ -1,10 +1,8 @@
 ﻿using Hades.Application.Interface;
 using Hades.Domain.Entities;
+using Hades.Web.ViewModels;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Hades.Web.Controllers
@@ -30,16 +28,16 @@ namespace Hades.Web.Controllers
 
         public ActionResult BuscaGridCampanhas()
         {
-            var campanhaViewModel = _campanhaAppService.GetCampanhas();
+            var campanhaViewModel = _campanhaAppService.GetCampanhas((int)Session["IdUsuario"]);
             if (!campanhaViewModel.IsSuccessStatusCode)
                 return ErrorMessage("Erro ao trazer campanhas");
             var campanha = JsonConvert.DeserializeObject<IEnumerable<CampanhaViewModel>>(campanhaViewModel.Content.ReadAsStringAsync().Result);
             return View("_TabelaCampanha", campanha);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int idCampanha)
         {
-            var campanha = _campanhaAppService.GetCampanha(id);
+            var campanha = _campanhaAppService.GetCampanha(idCampanha);
             if (!campanha.IsSuccessStatusCode)
                 return ErrorMessage("Erro ao trazer Campanha");
             var mostraCampanha =
@@ -56,14 +54,12 @@ namespace Hades.Web.Controllers
         public ActionResult CreateConfirmed(CampanhaDto campanha)
         {
             var response = _campanhaAppService.Post(campanha);
-            if (response.IsSuccessStatusCode)
-                return Json("OK");
-            return ErrorMessage("Erro ao criar Campanha");
+            return response.IsSuccessStatusCode ? Json("OK") : ErrorMessage("Erro ao criar Campanha");
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int idCampanha)
         {
-            var response = _campanhaAppService.GetCampanha(id);
+            var response = _campanhaAppService.GetCampanha(idCampanha);
             if (!response.IsSuccessStatusCode)
                 return ErrorMessage("Erro ao trazer campanha");
             var campanha = JsonConvert.DeserializeObject<CampanhaViewModel>(response.Content.ReadAsStringAsync().Result);
@@ -74,19 +70,13 @@ namespace Hades.Web.Controllers
         public ActionResult EditConfirmed(CampanhaDto campanha)
         {
             var response = _campanhaAppService.Put(campanha);
-            if (response.IsSuccessStatusCode)
-                return RedirectToAction("Index");
-            return ErrorMessage("Erro ao editar campanha");
+            return response.IsSuccessStatusCode ? Json("OK") : ErrorMessage("Erro ao editar campanha");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int idCampanha)
         {
-            var retorno = _campanhaAppService.Delete(id);
-            if (!retorno.IsSuccessStatusCode)
-                return ErrorMessage("Erro ao deletar campanha");
-            var response = _campanhaAppService.GetCampanhas();
-            var campanha = JsonConvert.DeserializeObject<IEnumerable<CampanhaViewModel>>(response.Content.ReadAsStringAsync().Result);
-            return View("_TabelaCampanha", campanha);
+            var retorno = _campanhaAppService.Delete(idCampanha);
+            return !retorno.IsSuccessStatusCode ? ErrorMessage("Erro ao deletar campanha") : Json("OK");
         }
     }
 }

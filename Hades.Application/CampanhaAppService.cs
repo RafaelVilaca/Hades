@@ -1,9 +1,8 @@
 ﻿using Hades.Application.Interface;
-using System;
 using Hades.Domain.Entities;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Formatting;
-using Newtonsoft.Json;
 
 namespace Hades.Application
 {
@@ -26,9 +25,9 @@ namespace Hades.Application
             return _httpClient.GetAsync($"http://localhost:2002/api/campanha/{idCampanha}").Result;
         }
 
-        public HttpResponseMessage GetCampanhas()
+        public HttpResponseMessage GetCampanhas(int idUsuario)
         {
-            return _httpClient.GetAsync("http://localhost:2002/api/campanhas").Result;
+            return _httpClient.GetAsync($"http://localhost:2002/api/campanhas/{idUsuario}").Result;
         }
 
         public HttpResponseMessage Post(CampanhaDto campanha)

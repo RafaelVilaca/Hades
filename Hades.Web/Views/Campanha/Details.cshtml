@@ -1,5 +1,5 @@
 ﻿@using Hades.Web.ViewModels
-@model Hades.Web.ViewModels.SorteioViewModel
+@model Hades.Web.ViewModels.CampanhaViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,9 +11,11 @@
     <div class="col s12">
         <div class="row">
             <div>
-                <h4>SORTEIO</h4>
+                <h4>CAMPANHA</h4>
                 <dl class="dl-horizontal">
-                    <dt style="text-align: center;">NOME: @Html.DisplayFor(model => model.Nome) </dt>
+                    <dt style="text-align: center;">NOME: @Html.DisplayFor(model => model.DescCampanha) </dt>
+                    <dt style="text-align: center;">DATA LIMITE: @Html.DisplayFor(model => model.DataFormatada) </dt>
+                    <dt style="text-align: center;">VALOR R$: @Html.DisplayFor(model => model.ValorCampanha) </dt>
                 </dl>
             </div>
             <div>
@@ -22,19 +24,20 @@
                     <tr>
                         <th style="text-align: center;">NOME USUÁRIO</th>
                     </tr>
-                    @if (Model.SorteioParticipantes != null)
+                    @if (Model.Participantes != null)
                     {
-                        foreach (var participante in Model.SorteioParticipantes)
+                        foreach (var participante in Model.Participantes)
                         {
                             <tr>
                                 <td style="text-align: center;">
-                                    @if (adm || participante.Sorteio.NomeCriador == usuarioLogado)
+                                    @if (adm || participante.NomParticipante == usuarioLogado)
                                     {
                                         <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar" style="width: 24px; height: 24px;">
-                                            <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="deletarSorteioParticipante('@Model.Id', '@participante.Id_Participante')">perm_identity</i>
+                                            <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;"
+                                               onclick="deletarParticipanteCampanha('@Model.IdCampanha', '@participante.IdUsuario')">perm_identity</i>
                                         </a>
                                     }
-                                    @Html.DisplayFor(modelItem => participante.Nome_Participante)
+                                    @Html.DisplayFor(modelItem => participante.NomParticipante)
                                 </td>
                             </tr>
                         }
@@ -53,3 +56,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    function deletarParticipanteCampanha(idCampanha, idUsuario) {
+        if (!confirm("Deseja realmente deletar participante desta campanha?")) return;
+
+        $.post('@Url.Action("DeletarParticipante","CampanhaParticipante")', {
+            idCampanha: idCampanha,
+            idUsuario: idUsuario
+        }).done(function (data) {
+            sucesso(data);
+            buscaTabelaCampanha();
+            setTimeout(function () { detalhar(idCampanha); }, 100);
+        }).fail(function (xhr) {
+            erro(xhr.responseText);
+        });
+    };
+</script>
