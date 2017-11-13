@@ -72,7 +72,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CampanhaAppService.cs" />
+    <Compile Include="CampanhaParticipanteAppService.cs" />
     <Compile Include="EnqueteAppService.cs" />
+    <Compile Include="Interface\ICampanhaAppService.cs" />
+    <Compile Include="Interface\ICampanhaParticipanteAppService.cs" />
     <Compile Include="Interface\IEnqueteAppService.cs" />
     <Compile Include="Interface\ISorteioAppService.cs" />
     <Compile Include="Interface\ISorteioParticipanteAppService.cs" />

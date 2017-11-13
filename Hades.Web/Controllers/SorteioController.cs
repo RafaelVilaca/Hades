@@ -35,7 +35,8 @@ namespace Hades.Web.Controllers
             var sorteioViewModel = _sorteioAppService.GetAll((int)Session["IdUsuario"]);
             if (!sorteioViewModel.IsSuccessStatusCode)
                 return ErrorMessage("Erro ao trazer sorteios");
-            var sorteio = JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(sorteioViewModel.Content.ReadAsStringAsync().Result);
+            var sorteio = 
+                JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(sorteioViewModel.Content.ReadAsStringAsync().Result);
             return View("_TabelaSorteio", sorteio);
         }
 

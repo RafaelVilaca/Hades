@@ -15,7 +15,7 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("campanha")]
+        [Route("campanhas")]
         public IHttpActionResult Get()
         {
             return Ok(_campanhaService.GetCampanhas());

@@ -175,12 +175,16 @@
     <Compile Include="App_Start\SimpleInjectorContainer.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CampanhaController.cs" />
+    <Compile Include="Controllers\CampanhaParticipanteController.cs" />
     <Compile Include="Controllers\EnqueteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\SorteioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VotacaoController.cs" />
+    <Compile Include="ViewModels\CampanhaParticipanteViewModel.cs" />
+    <Compile Include="ViewModels\CampanhaViewModel.cs" />
     <Compile Include="ViewModels\EnqueteViewModel.cs" />
     <Compile Include="Controllers\SorteioParticipantesController.cs" />
     <Compile Include="ViewModels\SorteioParticipanteViewModel.cs" />
@@ -229,6 +233,8 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Campanha\Index.cshtml" />
+    <Content Include="Views\Campanha\_TabelaCampanha.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -259,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\CampanhaParticipante\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

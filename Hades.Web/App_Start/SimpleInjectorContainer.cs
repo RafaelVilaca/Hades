@@ -10,6 +10,8 @@ namespace Hades.Web
         {
             var container = new Container();
 
+            container.Register<ICampanhaAppService, CampanhaAppService>();
+            container.Register<ICampanhaParticipanteAppService, CampanhaParticipanteAppService>();
             container.Register<IUsuarioAppService, UsuarioAppService>();
             container.Register<IEnqueteAppService, EnqueteAppService>();
             container.Register<ISorteioAppService, SorteioAppService>();
