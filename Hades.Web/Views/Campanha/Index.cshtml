@@ -9,21 +9,17 @@
 
 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
     <div style="background-color: white; padding: 10px; border-radius: 15px; box-shadow: 0 0 30px black; margin-top: 2%;">
+        <div style="float: left;">
+            <a class="btn-floating red tooltipped waves-effect" data-position="bottom" data-delay="50" data-tooltip="Criar Sorteio" style="top: 15px;">
+                <i class="material-icons" id="Novo">playlist_add</i>
+            </a>
+
+            <a class="btn-floating blue-grey tooltipped" id="MudarTabela" data-position="bottom" data-delay="50" data-tooltip="Todas Campanhas" style="top: 15px;">
+                <i class="material-icons waves-effect">format_align_justify</i>
+            </a>
+        </div>
         <h4>LISTA DE COMPANHAS</h4>
         <div id="tabela">
-            <ul>
-                <li>
-                    <p>
-                        <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Criar Campanha">
-                            <i class="material-icons waves-effect" id="Novo">playlist_add</i>
-                        </a>
-                    
-                        <a class="btn-floating blue-grey tooltipped" data-position="bottom" data-delay="50" data-tooltip="Mudar Tabela">
-                            <i class="material-icons waves-effect" id="MudarTabela">format_align_justify</i>
-                        </a>
-                    </p>
-                </li>
-            </ul>
             <div id="tabelaCampanha"></div>
         </div>
     </div>
@@ -82,8 +78,10 @@
     $("#MudarTabela").click(function() {
         if (verificaTodasCampanhas) {
             verificaTodasCampanhas = false;
+            $("#MudarTabela").attr("data-tooltip", "Todas Campanhas");
         } else {
             verificaTodasCampanhas = true;
+            $("#MudarTabela").attr("data-tooltip", "Ativos");
         }
         $("#tabelaCampanha").fadeOut();
         buscaTabelaCampanha();
