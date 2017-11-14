@@ -30,6 +30,11 @@ namespace Hades.Domain.Services
             return _sorteioRepository.GetAll(idUsuario);
         }
 
+        public IEnumerable<SorteioDto> GetTodosSorteios(int idUsuario)
+        {
+            return _sorteioRepository.GetTodosSorteios(idUsuario);
+        }
+
         public string Put(SorteioDto sorteio)
         {
             _sorteioRepository.Put(sorteio);

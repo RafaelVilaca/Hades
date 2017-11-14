@@ -668,7 +668,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 			   (CASE 
 					WHEN x.IdSorteio IS NULL THEN 'N'
 					ELSE 'S' END) IndParticipa,
-			   s.FoiSorteado
+			   s.FoiSorteado,
+			   s.Ativo
 			FROM Sorteio s
 				INNER JOIN Usuario u
 					ON u.Id = s.IdCriador
@@ -688,7 +689,8 @@ CREATE PROCEDURE [dbo].[SP_ListarSorteio]
 					 u.Nome,
 					 u.Id,
 					 x.IdSorteio,
-					 s.FoiSorteado
+					 s.FoiSorteado,
+					 s.Ativo
 	
 	END
 GO
@@ -1117,7 +1119,7 @@ CREATE PROCEDURE [dbo].[SP_ListarCampanha]
 			FROM Usuario u
 			INNER JOIN CampanhaParticipante cp
 				ON cp.IdUsuario = u.Id
-			RIGHT JOIN Campanha c
+			INNER JOIN Campanha c
 				ON c.IdCampanha = cp.IdCampanha
 			WHERE c.IdCampanha = @idCampanha
 			ORDER BY u.Nome
@@ -1138,7 +1140,7 @@ CREATE PROCEDURE [dbo].[SP_InsCampanha]
 		Objetivo..........: Insere a campanha
 		Autor.............: Rafael Vilaça
  		Data..............: 10/11/2017
-		Ex................: EXEC [dbo].[SP_InsCampanha] 1 , 'Açucar para ONG', '01/12/2018', '11,82', 1
+		Ex................: EXEC [dbo].[SP_InsCampanha] 'Açucar para ONG', '01/12/2018', '11,82', 1
 	*/
 
 	@DescCampanha VARCHAR(100), 
@@ -1295,5 +1297,193 @@ CREATE PROCEDURE [dbo].[SP_DelParticipanteCampanha]
 	BEGIN
 		DELETE FROM [dbo].[CampanhaParticipante] 
 			WHERE IdUsuario = @IdUsuario AND IdCampanha = @IdCampanha
+	END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarTodasEnquetes]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_ListarTodasEnquetes]
+GO
+
+CREATE PROCEDURE [dbo].[SP_ListarTodasEnquetes]
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Listar todas as enquetes
+		Autor.............: Rafael Vilaça
+ 		Data..............: 09/10/2017
+		Ex................: EXEC [dbo].[SP_ListarTodasEnquetes]
+	*/
+
+	AS 
+	BEGIN
+
+		DECLARE @VerificaDatas DateTime = GETDATE()
+
+		UPDATE Enquete
+			SET Ativo = 0
+			WHERE Id IN (SELECT e.Id
+							FROM  Enquete e
+							WHERE DATEDIFF(MONTH, e.DataEnquete, @VerificaDatas) >= 2)
+
+
+		SELECT e.Id,
+			   e.Titulo,
+			   e.Descricao,
+			   e.IdUsuario,
+			   e.DataEnquete,
+			   e.Ativo,	
+			   e.Valor,
+			   e.LocalCotado,
+			   u.Nome AS Criador,
+			   SUM(CASE WHEN v.TipoVoto = 1 THEN 1 ELSE 0 END) AS VotoFavor,
+			   SUM(CASE WHEN v.TipoVoto = 0 THEN 1 ELSE 0 END) AS VotoContra
+		FROM Enquete e
+			INNER JOIN Usuario u 
+				ON u.Id = e.IdUsuario
+			LEFT JOIN Votacao v 
+				ON e.Id = v.IdEnquete
+		GROUP BY e.Id, 
+				 e.Titulo, 
+				 e.Descricao, 
+				 e.IdUsuario, 
+				 e.DataEnquete, 
+				 e.Ativo,	
+				 e.Valor,
+			     e.LocalCotado,
+				 u.Nome
+		ORDER BY e.DataEnquete DESC
+	END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarTodosSorteios]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_ListarTodosSorteios]
+GO
+
+CREATE PROCEDURE [dbo].[SP_ListarTodosSorteios]
+	@CodUsua int = null
+	
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Listar Sorteios
+		Autor.............: Rafael Vilaça
+ 		Data..............: 09/10/2017
+		Ex................: EXEC [dbo].[SP_ListarTodosSorteios] 1
+	*/
+
+	AS 
+	BEGIN
+
+		DECLARE @VerificaDatas DateTime = GETDATE();
+
+		UPDATE Sorteio
+			SET Ativo = 0
+			WHERE Id IN (SELECT s.Id
+							FROM  Sorteio s
+							WHERE DATEDIFF(DAY, s.DataSorteio, @VerificaDatas) > 1)
+
+		SELECT u.Id as usua,
+			   s.Id,
+			   s.Nome,
+			   s.QtdItens,
+			   s.DataSorteio, 
+			   s.DataCadastro, 
+			   (
+					SELECT COUNT(*) 
+						FROM SorteioParticipante sp 
+						WHERE sp.IdSorteio = s.Id
+			   ) AS NumeroParticipantes,
+			   s.IdCriador,
+			   u.Nome AS NomeCriador,
+			   (CASE 
+					WHEN x.IdSorteio IS NULL THEN 'N'
+					ELSE 'S' END) IndParticipa,
+			   s.FoiSorteado,
+			   s.Ativo
+			FROM Sorteio s
+				INNER JOIN Usuario u
+					ON u.Id = s.IdCriador
+				OUTER APPLY(
+					SELECT TOP 1 sp.IdSorteio
+						FROM SorteioParticipante sp
+						WHERE sp.IdUsuario = @CodUsua	
+							AND sp.IdSorteio = s.Id
+				)x
+			GROUP BY s.Id, 
+					 s.Nome,
+					 s.DataSorteio,
+					 s.QtdItens,
+					 s.DataCadastro,
+					 s.IdCriador,
+					 u.Nome,
+					 u.Id,
+					 x.IdSorteio,
+					 s.FoiSorteado,
+					 s.Ativo
+	END
+GO
+
+
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[SP_ListarTodasCampanhas]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[SP_ListarTodasCampanhas]
+GO
+
+CREATE PROCEDURE [dbo].[SP_ListarTodasCampanhas]
+
+	@CodUsua int = null
+
+	/*
+		Documentação
+		Arquivo Fonte.....: Procedures.sql
+		Objetivo..........: Lista todas as campanhas existentes ativas
+		Autor.............: Rafael Vilaça
+ 		Data..............: 10/11/2017
+		Ex................: EXEC [dbo].[SP_ListarTodasCampanhas] 1
+	*/
+	
+	AS 	
+
+	BEGIN
+		
+		DECLARE @VerificaDatas DateTime = GETDATE()
+
+		UPDATE [dbo].[Campanha]
+			SET IndAtivo = 0
+			WHERE IdCampanha IN (SELECT c.IdCampanha
+									FROM  Campanha c
+									WHERE DATEDIFF(Day, c.DataLimite, @VerificaDatas) >= 1)
+
+		SELECT c.DescCampanha,
+			   c.IdCampanha,
+			   c.DataCadastro,
+			   c.DataLimite,
+			   c.ValorCampanha,
+			   c.IndAtivo,
+			   c.IdCriador,
+			   u.Nome AS NomeUsuario,
+			   (
+					SELECT COUNT(*) 
+						FROM CampanhaParticipante cp 
+						WHERE cp.IdCampanha = c.IdCampanha
+			   ) AS NumeroParticipantes,
+			   (CASE 
+					WHEN x.IdCampanha IS NULL THEN 'N'
+					ELSE 'S' END) IndParticipante
+			FROM [dbo].[Campanha] c WITH(NOLOCK)
+			INNER JOIN Usuario u
+				ON c.IdCriador = u.Id	
+			OUTER APPLY(
+				SELECT TOP 1 cp.IdCampanha
+					FROM CampanhaParticipante cp
+					WHERE cp.IdUsuario = @CodUsua	
+						AND cp.IdCampanha = c.IdCampanha
+			)x							
+			ORDER BY c.DescCampanha
 	END
 GO

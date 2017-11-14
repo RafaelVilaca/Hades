@@ -1,5 +1,5 @@
-﻿using System.Net.Http;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
+using System.Net.Http;
 
 namespace Hades.Application.Interface
 {
@@ -8,6 +8,7 @@ namespace Hades.Application.Interface
         HttpResponseMessage Post(SorteioDto sorteio);
         HttpResponseMessage GetById(int id);
         HttpResponseMessage GetAll(int idUsuario);
+        HttpResponseMessage GetTodosSorteios(int idUsuario);
         HttpResponseMessage Put(SorteioDto sorteio);
         HttpResponseMessage Delete(int id);
     }

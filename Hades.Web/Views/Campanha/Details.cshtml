@@ -33,7 +33,7 @@
                                     @if (adm || participante.NomParticipante == usuarioLogado)
                                     {
                                         <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar" style="width: 24px; height: 24px;">
-                                            <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;"
+                                            <i class="material-icons waves-effect" style="line-height: 25px; display: block; font-size: 1.1rem;"
                                                onclick="deletarParticipanteCampanha('@Model.IdCampanha', '@participante.IdUsuario')">perm_identity</i>
                                         </a>
                                     }
@@ -51,7 +51,7 @@
             </div>
             <p></p>
             <div>
-                <button class="btn btn-default" style="width: -webkit-fill-available;" onclick="escondeModal()">Fechar</button>
+                <button class="btn btn-default waves-effect" style="width: -webkit-fill-available;" onclick="escondeModal()">Fechar</button>
             </div>
         </div>
     </div>

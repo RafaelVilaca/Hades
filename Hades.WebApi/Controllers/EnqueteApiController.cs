@@ -22,6 +22,13 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("todasEnquetes")]
+        public IHttpActionResult GetTodasEnquetes()
+        {
+            return Ok(_enqueteService.GetTodasEnquetes());
+        }
+
+        [HttpGet]
         [Route("enquete/{id}")]
         public IHttpActionResult GetById(int id)
         {

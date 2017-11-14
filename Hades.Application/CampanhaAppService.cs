@@ -20,6 +20,11 @@ namespace Hades.Application
             return _httpClient.DeleteAsync($"http://localhost:2002/api/campanha/{idCampanha}").Result;
         }
 
+        public HttpResponseMessage GetTodasCampanhas(int idUsuario)
+        {
+            return _httpClient.GetAsync($"http://localhost:2002/api/todasCampanhas/{idUsuario}").Result;
+        }
+
         public HttpResponseMessage GetCampanha(int idCampanha)
         {
             return _httpClient.GetAsync($"http://localhost:2002/api/campanha/{idCampanha}").Result;

@@ -14,8 +14,12 @@
             <ul>
                 <li>
                     <p>
-                        <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Criar Sorteio">
+                        <a class="btn-floating red tooltipped waves-effect" data-position="bottom" data-delay="50" data-tooltip="Criar Sorteio">
                             <i class="material-icons" id="Novo">playlist_add</i>
+                        </a>
+
+                        <a class="btn-floating blue-grey tooltipped" data-position="bottom" data-delay="50" data-tooltip="Mudar Tabela">
+                            <i class="material-icons waves-effect" id="MudarTabela">format_align_justify</i>
                         </a>
                     </p>
                 </li>
@@ -27,6 +31,8 @@
 <div id="divContentSorteio" class="modal modal-formatada"></div>
 
 <script>
+
+    var verificaTodasSorteios = false;
 
     $(".modal-overlay").on("click", function () {
         $(this).hide();
@@ -48,7 +54,8 @@
         Delete: '@Url.Action("Delete", "Sorteio")',
         Drawlots: '@Url.Action("Drawlots", "Sorteio")',
         Create: '@Url.Action("Create", "Sorteio")',
-        BuscaGrid: '@Url.Action("BuscaGridSorteios", "Sorteio")',
+        BuscaGridSorteios: '@Url.Action("BuscaGridSorteios", "Sorteio")',
+        BuscaGridTodosSorteios: '@Url.Action("BuscaGridTodosSorteios", "Sorteio")',
         Vencedores: '@Url.Action("Winners", "Sorteio")',
         VencedoresUsuarios: '@Url.Action("WinnersUsuarios", "Sorteio")'
     }
@@ -64,12 +71,31 @@
     }
 
     var buscaTabelaSorteio = (function tabelaSorteio() {
-        $.get(urlsSorteio.BuscaGrid)
-            .done(function (data) {
-                $("#tabelaSorteios").html(data);
-            }).fail(function (xhr) { erro(xhr.responseText) });
+
+        if (!verificaTodasSorteios) {
+            $.get(urlsSorteio.BuscaGridSorteios)
+                .done(function (data) {
+                    $("#tabelaSorteios").html(data);
+                }).fail(function (xhr) { erro(xhr.responseText) });
+        } else {
+            $.get(urlsSorteio.BuscaGridTodosSorteios)
+                .done(function (data) {
+                    $("#tabelaSorteios").html(data);
+                }).fail(function (xhr) { erro(xhr.responseText) });
+        }
         return tabelaSorteio;
     })();
+
+    $("#MudarTabela").click(function () {
+        if (verificaTodasSorteios) {
+            verificaTodasSorteios = false;
+        } else {
+            verificaTodasSorteios = true;
+        }
+        $("#tabelaSorteios").fadeOut();
+        buscaTabelaSorteio();
+        $("#tabelaSorteios").fadeIn();
+    });
 
     function editar(id) {
         $.post(urlsSorteio.Edit, {

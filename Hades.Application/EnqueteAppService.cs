@@ -30,6 +30,11 @@ namespace Hades.Application
             return _httpClient.GetAsync("http://localhost:2002/api/enquete").Result;
         }
 
+        public HttpResponseMessage GetTodasEnquetes()
+        {
+            return _httpClient.GetAsync("http://localhost:2002/api/todasEnquetes").Result;
+        }
+
         public HttpResponseMessage Put(EnqueteDto enquete)
         {
             return _httpClient.PutAsync("http://localhost:2002/api/enquete", enquete, JsonMediaTypeFormatter).Result;

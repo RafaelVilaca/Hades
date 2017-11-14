@@ -25,6 +25,16 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("todosSorteios/{idUsuario}")]
+        public IHttpActionResult GetTodosSorteios(int idUsuario)
+        {
+            var sorteios = _sorteioService.GetTodosSorteios(idUsuario);
+            if (sorteios != null)
+                return Ok(sorteios);
+            return BadRequest("Erro ao trazer Sorteios");
+        }
+
+        [HttpGet]
         [Route("sorteio")]
         public IHttpActionResult GetById(int id)
         {

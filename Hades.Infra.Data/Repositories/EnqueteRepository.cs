@@ -13,7 +13,8 @@ namespace Hades.Infra.Data.Repositories
             SP_ListarEnquetePorId,
             SP_AddEnquete,
             SP_UpdEnquete,
-            SP_AlteraStatusEnquete
+            SP_AlteraStatusEnquete,
+            SP_ListarTodasEnquetes
         }
 
         public void Post(EnqueteDto enquete)
@@ -107,6 +108,31 @@ namespace Hades.Infra.Data.Repositories
             AddParameter("@Id", id);
             AddParameter("@Ativo", false);//status?1:0);
             ExecuteNonQuery();
+        }
+
+        public IEnumerable<EnqueteDto> GetTodasEnquetes()
+        {
+            ExecuteProcedure(Procedures.SP_ListarTodasEnquetes);
+            var enquetes = new List<EnqueteDto>();
+            using (var r = ExecuteReader())
+            {
+                while (r.Read())
+                    enquetes.Add(new EnqueteDto
+                    {
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
+                        Titulo = r.GetString(r.GetOrdinal("Titulo")),
+                        Assunto = r.GetString(r.GetOrdinal("Descricao")),
+                        Ativo = r.GetBoolean(r.GetOrdinal("Ativo")),
+                        DataEnquete = r.GetDateTime(r.GetOrdinal("DataEnquete")),
+                        Criador = r.GetString(r.GetOrdinal("Criador")),
+                        Valor = r.GetDecimal(r.GetOrdinal("Valor")),
+                        Nom_LocalCotado = r.GetString(r.GetOrdinal("LocalCotado")),
+                        ////Votos
+                        VotoFavor = r.GetInt32(r.GetOrdinal("VotoFavor")),
+                        VotoContra = r.GetInt32(r.GetOrdinal("VotoContra"))
+                    });
+            }
+            return enquetes;
         }
     }
 }

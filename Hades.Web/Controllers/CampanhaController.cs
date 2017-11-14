@@ -35,6 +35,15 @@ namespace Hades.Web.Controllers
             return View("_TabelaCampanha", campanha);
         }
 
+        public ActionResult BuscaGridTodasCampanhas()
+        {
+            var campanhaViewModel = _campanhaAppService.GetTodasCampanhas((int)Session["IdUsuario"]);
+            if (!campanhaViewModel.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao trazer campanhas");
+            var campanha = JsonConvert.DeserializeObject<IEnumerable<CampanhaViewModel>>(campanhaViewModel.Content.ReadAsStringAsync().Result);
+            return View("_TabelaCampanha", campanha);
+        }
+
         public ActionResult Details(int idCampanha)
         {
             var campanha = _campanhaAppService.GetCampanha(idCampanha);

@@ -30,6 +30,11 @@ namespace Hades.Domain.Services
             return _enqueteRepository.GetAll();
         }
 
+        public IEnumerable<EnqueteDto> GetTodasEnquetes()
+        {
+            return _enqueteRepository.GetTodasEnquetes();
+        }
+
         public string Put(EnqueteDto enquete)
         {
             _enqueteRepository.Put(enquete);

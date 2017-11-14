@@ -40,6 +40,16 @@ namespace Hades.Web.Controllers
             return View("_TabelaSorteio", sorteio);
         }
 
+        public ActionResult BuscaGridTodosSorteios()
+        {
+            var sorteioViewModel = _sorteioAppService.GetTodosSorteios((int)Session["IdUsuario"]);
+            if (!sorteioViewModel.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao trazer sorteios");
+            var sorteio =
+                JsonConvert.DeserializeObject<IEnumerable<SorteioViewModel>>(sorteioViewModel.Content.ReadAsStringAsync().Result);
+            return View("_TabelaSorteio", sorteio);
+        }
+
         public ActionResult Details(int id)
         {
             var sorteio = _sorteioAppService.GetById(id);

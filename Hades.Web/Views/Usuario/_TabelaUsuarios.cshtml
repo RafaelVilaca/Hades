@@ -26,13 +26,15 @@
                                 @if (@usuario.Ativo == false)
                                 {
                                     <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativado" style="width: 24px; height: 24px;">
-                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="ativar('@usuario.Id')">perm_identity</i>
+                                        <i class="material-icons waves-effect" style="line-height: 25px; display: block; font-size: 1.1rem;" 
+                                           onclick="ativar('@usuario.Id')">perm_identity</i>
                                     </a>
                                 }
                                 else
                                 {
                                     <a class="btn-floating green tooltipped" data-position="bottom" data-delay="50" data-tooltip="Ativo" style="width: 24px; height: 24px;">
-                                        <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="desativar('@usuario.Id')">perm_identity</i>
+                                        <i class="material-icons waves-effect" style="line-height: 25px; display: block; font-size: 1.1rem;" 
+                                           onclick="desativar('@usuario.Id')">perm_identity</i>
                                     </a>
                                 }
                                 @Html.DisplayFor(modelItem => usuario.Nome)
@@ -57,10 +59,12 @@
                         <ul>
                             <li>
                                 <a class="btn-floating red tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar" style="width: 24px; height: 24px;">
-                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="editar('@usuario.Id')">mode_edit</i>
+                                    <i class="material-icons waves-effect" style="line-height: 25px; display: block; font-size: 1.1rem;" 
+                                       onclick="editar('@usuario.Id')">mode_edit</i>
                                 </a>
                                 <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar" style="width: 24px; height: 24px;">
-                                    <i class="material-icons" style="line-height: 25px; display: block; font-size: 1.1rem;" onclick="detalhar('@usuario.Id')">description</i>
+                                    <i class="material-icons waves-effect" style="line-height: 25px; display: block; font-size: 1.1rem;" 
+                                       onclick="detalhar('@usuario.Id')">description</i>
                                 </a>
                             </li>
                         </ul>

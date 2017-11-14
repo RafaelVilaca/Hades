@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Hades.Domain.Entities;
+﻿using Hades.Domain.Entities;
+using System.Collections.Generic;
 
 namespace Hades.Domain.Interfaces.Services
 {
@@ -8,6 +8,7 @@ namespace Hades.Domain.Interfaces.Services
         string Post(EnqueteDto enquete);
         EnqueteDto GetById(int id);
         IEnumerable<EnqueteDto> GetAll();
+        IEnumerable<EnqueteDto> GetTodasEnquetes();
         string Put(EnqueteDto enquete);
         void StatusEnquete(int id);
     }

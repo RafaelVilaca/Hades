@@ -13,7 +13,8 @@ namespace Hades.Infra.Data.Repositories
             SP_ListarCampanha,
             SP_InsCampanha,
             SP_UpdCampanha,
-            SP_DelCampanha
+            SP_DelCampanha,
+            SP_ListarTodasCampanhas
         }
 
         public IEnumerable<CampanhaDto> GetCampanhas(int idUsuario)
@@ -94,8 +95,30 @@ namespace Hades.Infra.Data.Repositories
         public void DelCampanha(int idCampanha)
         {
             ExecuteProcedure(Procedures.SP_DelCampanha);
-            AddParameter("@idCampanha", idCampanha);
+            AddParameter("@IdCampanha", idCampanha);
             ExecuteNonQuery();
+        }
+
+        public IEnumerable<CampanhaDto> GetTodasCampanhas(int idUsuario)
+        {
+            ExecuteProcedure(Procedures.SP_ListarTodasCampanhas);
+            AddParameter("@CodUsua", idUsuario);
+            var campanhas = new List<CampanhaDto>();
+            using (var r = ExecuteReader())
+                while (r.Read())
+                    campanhas.Add(new CampanhaDto
+                    {
+                        IdCampanha = r.GetInt32(r.GetOrdinal("IdCampanha")),
+                        DescCampanha = r["DescCampanha"].ToString(),
+                        DataCadastro = r.GetDateTime(r.GetOrdinal("DataCadastro")),
+                        DataLimite = r.GetDateTime(r.GetOrdinal("DataLimite")),
+                        ValorCampanha = r.GetDecimal(r.GetOrdinal("ValorCampanha")),
+                        IndAtivo = r.GetBoolean(r.GetOrdinal("IndAtivo")),
+                        IdCriador = r.GetInt32(r.GetOrdinal("IdCriador")),
+                        IndParticipante = r["IndParticipante"].ToString(),
+                        NumeroParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes"))
+                    });
+            return campanhas;
         }
     }
 }

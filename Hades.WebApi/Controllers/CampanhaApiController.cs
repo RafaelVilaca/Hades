@@ -22,6 +22,13 @@ namespace Hades.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("todasCampanhas/{idUsuario}")]
+        public IHttpActionResult GetTodasCampanhas(int idUsuario)
+        {
+            return Ok(_campanhaService.GetTodasCampanhas(idUsuario));
+        }
+
+        [HttpGet]
         [Route("campanha/{id}")]
         public IHttpActionResult Get(int id)
         {
@@ -30,15 +37,27 @@ namespace Hades.WebApi.Controllers
 
         [HttpPost]
         [Route("campanha")]
-        public void Post(CampanhaDto campanha) => _campanhaService.Post(campanha);
+        public IHttpActionResult Post(CampanhaDto campanha)
+        {
+            _campanhaService.Post(campanha);
+            return Ok();
+        }
 
         [HttpPut]
         [Route("campanha")]
-        public void Put(CampanhaDto campanha) => _campanhaService.Put(campanha);
+        public IHttpActionResult Put(CampanhaDto campanha)
+        {
+            _campanhaService.Put(campanha);
+            return Ok();
+        }
 
         [HttpPut]
         [Route("campanha/{id}")]
-        public void StatusCampanha(int id) => _campanhaService.Delete(id);
+        public IHttpActionResult StatusCampanha(int id)
+        {
+            _campanhaService.Delete(id);
+            return Ok();
+        }
 
     }
 }

@@ -13,7 +13,8 @@ namespace Hades.Infra.Data.Repositories
             SP_UpdSorteio,
             SP_ListarSorteio,
             SP_ListarSorteioPorId,
-            SP_DelSorteio
+            SP_DelSorteio,
+            SP_ListarTodosSorteios
         }
 
         public void Post(SorteioDto sorteio)
@@ -78,7 +79,8 @@ namespace Hades.Infra.Data.Repositories
                         DataSorteio = r.GetDateTime(r.GetOrdinal("DataSorteio")),
                         NomeCriador = r["NomeCriador"].ToString(),
                         IndParticipante = r["IndParticipa"].ToString(),
-                        FoiSorteado = r.GetBoolean(r.GetOrdinal("FoiSorteado"))
+                        FoiSorteado = r.GetBoolean(r.GetOrdinal("FoiSorteado")),
+                        Ativo = r.GetBoolean(r.GetOrdinal("Ativo"))
                     });
             }
             return listaCompleta;
@@ -100,6 +102,32 @@ namespace Hades.Infra.Data.Repositories
             ExecuteProcedure(Procedures.SP_DelSorteio);
             AddParameter("@Id", id);
             ExecuteNonQuery();
+        }
+
+        public IEnumerable<SorteioDto> GetTodosSorteios(int idUsuario)
+        {
+            var listaCompleta = new List<SorteioDto>();
+
+            ExecuteProcedure(Procedures.SP_ListarTodosSorteios);
+            AddParameter("@CodUsua", idUsuario);
+            using (var r = ExecuteReader())
+            {
+                while (r.Read())
+                    listaCompleta.Add(new SorteioDto
+                    {
+                        Id = r.GetInt32(r.GetOrdinal("Id")),
+                        Nome = r["Nome"].ToString(),
+                        QtdeItens = r.GetInt32(r.GetOrdinal("QtdItens")),
+                        QtdParticipantes = r.GetInt32(r.GetOrdinal("NumeroParticipantes")),
+                        IdCriador = r.GetInt32(r.GetOrdinal("IdCriador")),
+                        DataSorteio = r.GetDateTime(r.GetOrdinal("DataSorteio")),
+                        NomeCriador = r["NomeCriador"].ToString(),
+                        IndParticipante = r["IndParticipa"].ToString(),
+                        FoiSorteado = r.GetBoolean(r.GetOrdinal("FoiSorteado")),
+                        Ativo = r.GetBoolean(r.GetOrdinal("Ativo"))
+                    });
+            }
+            return listaCompleta;
         }
     }
 }

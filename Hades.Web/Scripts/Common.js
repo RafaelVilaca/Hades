@@ -32,7 +32,7 @@ function erro(message) {
 
 function startLoading() {
     $("body").prepend(getHtmlLoading());
-    $('.preloader-background, .preloader-wrapper').fadeIn();
+    $('.preloader-background, .preloader-wrapper').fadeIn('slow');
 }
 
 function stopLoading() {

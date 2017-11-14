@@ -24,7 +24,7 @@
         {
             foreach (var campanha in Model)
             {
-                <tr>
+                <tr @(campanha.IndAtivo == false ? "style=color:#f00" : "")>
                     <td> @Html.DisplayFor(modelItem => campanha.DescCampanha) </td>
                     <td style="text-align: center; width: 220px;"> @Html.DisplayFor(modelItem => campanha.DataFormatada) </td>
                     <td style="text-align: center; width: 220px;"> @Html.DisplayFor(modelItem => campanha.ValorCampanha) </td>
@@ -35,37 +35,40 @@
                             <div>
                                 <ul>
                                     <li>
-                                        @if (campanha.DataLimite >= DateTime.Today)
-                                        {
-                                            if (campanha.IndParticipante == "N")
-                                            {
-                                                <a class="btn-floating green darken-3">
-                                                    <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Participar"
-                                                       onclick="participar('@campanha.IdCampanha', '@idUsuarioLogado')">add_circle_outline</i>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="btn-floating red darken-3">
-                                                    <i class="material-icons tooltipped" data-position="bottom" data-delay="50"
-                                                       data-tooltip="Sair Campanha" onclick="sairCampanha('@campanha.IdCampanha', '@idUsuarioLogado')">remove_circle_outline</i>
-                                                </a>
-                                            }
-                                        }
                                         <a class="btn-floating grey darken-3 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Detalhar">
-                                            <i class="material-icons" onclick="detalhar('@campanha.IdCampanha')">description</i>
+                                            <i class="material-icons waves-effect" onclick="detalhar('@campanha.IdCampanha')">description</i>
                                         </a>
-                                        @if (adm || campanha.IdCriador == idUsuarioLogado)
+                                        @if (campanha.IndAtivo)
                                         {
-                                            <a class="btn-floating red darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar">
-                                                <i class="material-icons" onclick="desativar('@campanha.IdCampanha')">delete</i>
-                                            </a>
-                                            if (campanha.Participantes.Count == 0)
+                                            if (campanha.DataLimite >= DateTime.Today)
                                             {
-                                                <a class="btn-floating orange tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar">
-                                                    <i class="material-icons" onclick="editar(@campanha.IdCampanha)">mode_edit</i>
-                                                </a>
+                                                if (campanha.IndParticipante == "N")
+                                                {
+                                                    <a class="btn-floating green darken-3">
+                                                        <i class="material-icons tooltipped waves-effect" data-position="bottom" data-delay="50" data-tooltip="Participar"
+                                                           onclick="participar('@campanha.IdCampanha', '@idUsuarioLogado')">add_circle_outline</i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn-floating red darken-3">
+                                                        <i class="material-icons tooltipped waves-effect" data-position="bottom" data-delay="50"
+                                                           data-tooltip="Sair Campanha" onclick="sairCampanha('@campanha.IdCampanha', '@idUsuarioLogado')">remove_circle_outline</i>
+                                                    </a>
+                                                }
                                             }
+                                            if (adm || campanha.IdCriador == idUsuarioLogado)
+                                             {
+                                                 <a class="btn-floating red darken-4 tooltipped" data-position="bottom" data-delay="50" data-tooltip="Desativar">
+                                                     <i class="material-icons waves-effect" onclick="desativar('@campanha.IdCampanha')">delete</i>
+                                                 </a>
+                                                 if (campanha.NumeroParticipantes == 0)
+                                                 {
+                                                     <a class="btn-floating orange tooltipped" data-position="bottom" data-delay="50" data-tooltip="Editar">
+                                                         <i class="material-icons waves-effect" onclick="editar(@campanha.IdCampanha)">mode_edit</i>
+                                                     </a>
+                                                 }
+                                             }
                                         }
                                     </li>
                                 </ul>

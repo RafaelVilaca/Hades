@@ -208,6 +208,7 @@ C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.WebApi\bin\Micr
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.csprojResolveAssemblyReference.cache
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.dll
 C:\Users\usuario\Documents\GitHub\Repositorios\Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.pdb
+C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.csprojResolveAssemblyReference.cache
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\roslyn\csc.exe
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -274,6 +275,5 @@ C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\System.Web.WebPages.xml
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\System.Web.WebPages.Deployment.xml
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\System.Web.WebPages.Razor.xml
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\bin\Microsoft.AspNet.Identity.Core.xml
-C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.csprojResolveAssemblyReference.cache
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.dll
 C:\Users\user\Desktop\Eng-Hades\Hades\Hades.WebApi\obj\Debug\Hades.WebApi.pdb

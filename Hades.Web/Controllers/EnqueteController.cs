@@ -38,6 +38,17 @@ namespace Hades.Web.Controllers
             return View("_TabelaEnquetes", enquetes);
         }
 
+        public ActionResult BuscaGridTodasEnquetes()
+        {
+            var usuarioViewModel = _enqueteAppService.GetTodasEnquetes();
+            if (!usuarioViewModel.IsSuccessStatusCode)
+                return ErrorMessage("Erro ao trazer lista de enquetes.");
+
+            var enquetes = JsonConvert.DeserializeObject<IEnumerable<EnqueteViewModel>>(usuarioViewModel.Content.ReadAsStringAsync().Result);
+
+            return View("_TabelaEnquetes", enquetes);
+        }
+
         // GET: Enquete/Details/5
         public ActionResult Details(int id)
         {

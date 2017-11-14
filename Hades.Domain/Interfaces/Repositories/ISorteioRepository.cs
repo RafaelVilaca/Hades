@@ -8,6 +8,7 @@ namespace Hades.Domain.Interfaces.Repositories
         void Post(SorteioDto sorteio);
         SorteioDto GetById(int id);
         IEnumerable<SorteioDto> GetAll(int idUsuario);
+        IEnumerable<SorteioDto> GetTodosSorteios(int idUsuario);
         void Put(SorteioDto sorteio);
         void Delete(int id);
     }
